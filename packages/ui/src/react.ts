@@ -1,9 +1,13 @@
 /**
- * React-idiomatic wrappers around every `p-*` element, built with Lit's
- * official `createComponent()` (@lit/react). Prefer importing from here
- * over the raw tags: event props (`onClick`) behave like normal React
- * event handlers instead of raw `addEventListener` wiring, and complex
- * prop values are set as JS properties rather than stringified attributes.
+ * React-idiomatic wrappers around every `p-*` element, built with the
+ * `@lit/react` package's `createComponent()` utility — a generic custom-
+ * element-to-React-component adapter, agnostic to what renders the
+ * element internally (our `p-*` elements use Preact, not Lit; `@lit/react`
+ * doesn't care either way, it just works off DOM properties/events).
+ * Prefer importing from here over the raw tags: event props (`onClick`)
+ * behave like normal React event handlers instead of raw
+ * `addEventListener` wiring, and complex prop values are set as JS
+ * properties rather than stringified attributes.
  *
  *   import { Button } from "@parselab/ui/react";
  *   <Button variant="primary" onClick={() => save()}>Save</Button>

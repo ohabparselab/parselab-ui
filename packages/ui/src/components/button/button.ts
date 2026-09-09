@@ -1,6 +1,10 @@
-import "../../internal/dom-shim.js";
-import { LitElement, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { h, type ComponentChild } from "preact";
+import {
+  PreactCustomElement,
+  reflect,
+  customElement,
+  booleanConverter,
+} from "../../internal/preact-custom-element.js";
 import styles from "./button.styles.js";
 import type { ButtonProps } from "./button.types.js";
 
@@ -9,8 +13,16 @@ export const tagName = "p-button";
 /**
  * `<p-button>` — Parselab UI's Button.
  *
- * Mirrors Shopify's `<s-button>` prop surface (variant/tone/loading/href)
- * but is a real, framework-agnostic custom element built with Lit.
+ * Mirrors Shopify's `<s-button>` prop surface (variant/tone/loading/href/
+ * command/commandFor/interestFor/lang), built with Preact rendering into
+ * a shadow root and `accessor`-based property reflection — the same
+ * architecture @shopify/ui-extensions uses internally, reimplemented from
+ * scratch for `p-*` elements (see internal/preact-custom-element.ts).
+ *
+ * `.onclick` / `.onblur` / `.onfocus` work out of the box via the
+ * inherited native `HTMLElement.GlobalEventHandlers` — not reimplemented
+ * here; only the React-facing `onClick`/`onFocus`/`onBlur` callback shape
+ * is a `@parselab/ui` addition (see button.types.ts).
  *
  * @element p-button
  *
@@ -20,74 +32,104 @@ export const tagName = "p-button";
  * @prop {boolean} loading - Shows a spinner and disables interaction.
  * @prop {string} href - Renders the button as a link when set.
  * @prop {string} accessibilityLabel - Accessible label, maps to aria-label.
+ * @prop {string} lang - BCP 47 language tag.
+ * @prop {string} command - Invoker Commands action for the element referenced by commandFor.
+ * @prop {string} commandFor - id of the component this button controls (e.g. a future Modal).
+ * @prop {string} interestFor - id of the component to signal interest in.
  *
  * @fires click - Standard click event; not fired while disabled or loading.
  *
  * @csspart base - The internal <button> or <a> element.
+ * @csspart spinner - The loading spinner, present only while `loading`.
  *
  * @cssprop --p-color-primary - Background color for variant="primary".
  * @cssprop --p-radius-md - Corner radius.
  */
 @customElement(tagName)
-export class PButton extends LitElement implements ButtonProps {
+export class PButton extends PreactCustomElement implements ButtonProps {
   static styles = styles;
 
-  @property({ reflect: true }) variant: ButtonProps["variant"] = "secondary";
+  @reflect() accessor variant: ButtonProps["variant"] = "secondary";
 
-  @property({ reflect: true }) tone: ButtonProps["tone"] = "auto";
+  @reflect() accessor tone: ButtonProps["tone"] = "auto";
 
-  @property() icon?: string;
+  @reflect() accessor icon = "";
 
-  @property({ type: Boolean, reflect: true }) disabled = false;
+  @reflect({ converter: booleanConverter }) accessor disabled = false;
 
-  @property({ type: Boolean, reflect: true }) loading = false;
+  @reflect({ converter: booleanConverter }) accessor loading = false;
 
-  @property() href?: string;
+  @reflect() accessor href = "";
 
-  @property() target?: ButtonProps["target"];
+  @reflect() accessor target: ButtonProps["target"] = "";
 
-  @property() download?: string;
+  @reflect() accessor download = "";
 
-  @property() type: ButtonProps["type"] = "button";
+  @reflect() accessor type: ButtonProps["type"] = "button";
 
-  @property({ attribute: "accessibility-label" }) accessibilityLabel?: string;
+  @reflect({ attribute: "accessibility-label" }) accessor accessibilityLabel = "";
 
-  private handleClick(event: MouseEvent) {
+  @reflect() accessor lang = "";
+
+  @reflect() accessor command: ButtonProps["command"] = "--auto";
+
+  @reflect({ attribute: "commandfor" }) accessor commandFor = "";
+
+  @reflect({ attribute: "interestfor" }) accessor interestFor = "";
+
+  #handleClick = (event: MouseEvent) => {
     if (this.disabled || this.loading) {
       event.preventDefault();
       event.stopImmediatePropagation();
     }
-  }
+  };
 
-  render() {
-    const label = this.accessibilityLabel ?? nothing;
+  render(): ComponentChild {
+    const label = this.accessibilityLabel || undefined;
     const spinner = this.loading
-      ? html`<span class="spinner" part="spinner" aria-hidden="true"></span>`
-      : nothing;
+      ? h("span", { class: "spinner", part: "spinner", "aria-hidden": "true" })
+      : null;
+
+    // Forwarded onto the rendered element as raw HTML attributes so that,
+    // once a component implementing the receiving end (e.g. Modal) exists,
+    // this works via the browser's native Invoker Commands API with no
+    // extra glue code on our side — see internal/shared.ts.
+    const commandAttrs = this.commandFor
+      ? { command: this.command, commandfor: this.commandFor }
+      : {};
+    const interestAttrs = this.interestFor ? { interestfor: this.interestFor } : {};
 
     if (this.href && !this.disabled) {
-      return html`<a
-        part="base"
-        href=${this.href}
-        target=${this.target || nothing}
-        download=${this.download || nothing}
-        aria-label=${label}
-        @click=${this.handleClick}
-      >
-        ${spinner}<slot></slot>
-      </a>`;
+      return h(
+        "a",
+        {
+          part: "base",
+          href: this.href,
+          target: this.target || undefined,
+          download: this.download || undefined,
+          "aria-label": label,
+          onClick: this.#handleClick,
+        },
+        spinner,
+        h("slot", null),
+      );
     }
 
-    return html`<button
-      part="base"
-      type=${this.type}
-      ?disabled=${this.disabled || this.loading}
-      aria-label=${label}
-      aria-busy=${this.loading ? "true" : nothing}
-      @click=${this.handleClick}
-    >
-      ${spinner}<slot></slot>
-    </button>`;
+    return h(
+      "button",
+      {
+        part: "base",
+        type: this.type,
+        disabled: this.disabled || this.loading,
+        "aria-label": label,
+        "aria-busy": this.loading ? "true" : undefined,
+        onClick: this.#handleClick,
+        ...commandAttrs,
+        ...interestAttrs,
+      },
+      spinner,
+      h("slot", null),
+    );
   }
 }
 

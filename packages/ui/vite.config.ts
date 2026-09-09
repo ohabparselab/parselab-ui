@@ -2,6 +2,15 @@ import { defineConfig } from "vite";
 import { resolve } from "node:path";
 
 export default defineConfig({
+  // Vite's per-file TS transform (strips types, downlevels decorators/
+  // accessor fields) is a SEPARATE esbuild pass from `build.target`
+  // below (which only governs the final bundle's minify/downlevel
+  // target) — without this, esbuild parses `accessor` as a plain
+  // identifier instead of the ES2022 keyword, and chokes on decorated
+  // accessor fields like `@reflect() accessor variant = ...`.
+  esbuild: {
+    target: "es2022",
+  },
   build: {
     outDir: "dist",
     emptyOutDir: false,
@@ -15,7 +24,7 @@ export default defineConfig({
         format === "es" ? `esm/${entryName}.js` : `cjs/${entryName}.cjs`,
     },
     rollupOptions: {
-      external: ["react", "react-dom", "lit", "@lit/react"],
+      external: ["react", "react-dom", "@lit/react"],
       output: {
         preserveModules: false,
       },

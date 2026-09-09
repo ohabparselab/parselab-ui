@@ -1,6 +1,6 @@
 # Button — `<p-button>`
 
-`Button` is used to trigger an action or navigate to a new location. It's built as a real Web Component (`<p-button>`, powered by [Lit](https://lit.dev)), registered globally once you import `@parselab/ui`, and works in any HTML page or JSX-based framework (React, Next.js, Remix) without a build-time compiler.
+`Button` is used to trigger an action or navigate to a new location. It's built as a real Web Component (`<p-button>`, powered by [Preact](https://preactjs.com) rendering into a shadow root), registered globally once you import `@parselab/ui`, and works in any HTML page or JSX-based framework (React, Next.js, Remix) without a build-time compiler.
 
 Use `Button` for the primary and secondary actions on a page or inside a form. For a button that only shows an icon, always set `accessibilityLabel`.
 
@@ -31,11 +31,17 @@ function SaveBar() {
 }
 ```
 
-`@parselab/ui/react` wraps the element with Lit's `createComponent()`, so `onClick` behaves like a normal React event handler. You can also use the raw tag directly (`<p-button onClick={...}>`) once you `import "@parselab/ui"` — a `jsx.d.ts` type augmentation ships with the package so the tag type-checks — but the DOM `click` event won't get React's synthetic-event ergonomics that way.
+`@parselab/ui/react` wraps the element with the `@lit/react` package's `createComponent()` utility (a generic custom-element-to-React adapter, unrelated to what renders the element internally), so `onClick` behaves like a normal React event handler. You can also use the raw tag directly (`<p-button onClick={...}>`) once you `import "@parselab/ui"` — a type augmentation ships with the package so the tag type-checks — but the DOM `click` event won't get React's synthetic-event ergonomics that way.
+
+**Plain DOM / vanilla JS**: `<p-button>` also just works with the native `onclick`/`onblur`/`onfocus` properties every element already has, and with `addEventListener`. Nothing custom needed:
+
+```js
+document.querySelector('p-button').onclick = () => save();
+```
 
 ### Next.js (App Router) — import it client-only
 
-`<p-button>` is a Lit custom element, which extends `HTMLElement` at module scope. Next.js evaluates "use client" modules on the server too (to produce the initial HTML), and in that server pass `lit` resolves to a build that expects a real browser `HTMLElement` — importing it directly at the top of a "use client" file throws. Load it with `next/dynamic` and `ssr: false` instead, which is the standard Next.js pattern for browser-only libraries:
+`<p-button>` is a custom element, which extends `HTMLElement` at module scope — true of every Web Component library, not specific to how `@parselab/ui` renders internally. Next.js evaluates "use client" modules on the server too (to produce the initial HTML), and Node has no real `HTMLElement` global — importing it directly at the top of a "use client" file throws. Load it with `next/dynamic` and `ssr: false` instead, which is the standard Next.js pattern for browser-only libraries:
 
 ```tsx
 "use client";
@@ -46,7 +52,7 @@ const Button = dynamic(() => import("@parselab/ui/react").then((m) => m.Button),
 });
 ```
 
-This is a tested, confirmed-working pattern (verified in this session against Next.js 16 / Turbopack). Full SSR — `<p-button>` rendering real markup in the server-generated HTML, no client-only gate needed — is tracked in `PLAN.md`'s SSR section as a follow-up (`@lit-labs/ssr` + `@lit-labs/nextjs`). Remix and other Vite-based SSR frameworks may not need this workaround, since Vite's SSR dev/build pipeline generally resolves Node-safe conditional exports correctly — not yet verified in this repo.
+This is a tested, confirmed-working pattern (verified twice against Next.js 16 / Turbopack — once on an earlier Lit-based build, and again after the component was rewritten on Preact, same result both times). Full SSR — `<p-button>` rendering real markup in the server-generated HTML, no client-only gate needed — is tracked in `PLAN.md`'s SSR section as a follow-up. Remix and other Vite-based SSR frameworks may not need this workaround, since Vite's SSR dev/build pipeline generally resolves Node-safe conditional exports correctly — not yet verified in this repo.
 
 ## Props
 
@@ -60,8 +66,14 @@ This is a tested, confirmed-working pattern (verified in this session against Ne
 | `target` | `'' \| '_blank' \| '_self' \| '_parent' \| '_top'` | — | Anchor `target`, only applies when `href` is set. |
 | `download` | `string` | — | Anchor `download`, only applies when `href` is set. |
 | `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | Native button `type`, ignored when `href` is set. |
-| `accessibilityLabel` | `string` | — | Accessible label (maps to `aria-label`). Required for icon-only buttons. |
-| `icon` | `string` | — | Reserved for `<p-icon>` integration once that component ships. |
+| `accessibilityLabel` | `string` | `''` | Accessible label (maps to `aria-label`). Required for icon-only buttons. |
+| `icon` | `string` | `''` | Reserved for `<p-icon>` integration once that component ships — typed and reflected today, not yet rendered. |
+| `lang` | `string` | `''` | BCP 47 language tag (e.g. `'en'`, `'fr'`), for correct assistive-technology pronunciation. |
+| `command` | `'--auto' \| '--show' \| '--hide' \| '--toggle'` | `'--auto'` | Declarative action to take on the element referenced by `commandFor`, via the [Invoker Commands API](https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement/command). Only meaningful when `commandFor` is set. |
+| `commandFor` | `string` | `''` | The `id` of another component this button controls (e.g. a future Modal) — forwarded onto the native rendered element as `commandfor`, no custom event wiring needed. |
+| `interestFor` | `string` | `''` | The `id` of a component to signal "interest" in (Open UI interest-invokers proposal) — forwarded as `interestfor`. |
+
+Every prop above always has a real value at runtime (no `undefined`) — an empty string / `false` / the default enum value, matching the table's Default column. This mirrors Shopify's own `<s-button>` contract, where the underlying `ButtonProps` type is fully `Required`, not optional.
 
 ## Events
 
@@ -70,6 +82,8 @@ This is a tested, confirmed-working pattern (verified in this session against Ne
 | `click` (`onClick` via `@parselab/ui/react`) | `CustomEvent<undefined>` | The button is activated by mouse, touch, or keyboard — never fires while `disabled` or `loading`. |
 | `focus` (`onFocus`) | `CustomEvent<undefined>` | The button receives focus. |
 | `blur` (`onBlur`) | `CustomEvent<undefined>` | The button loses focus. |
+
+These are also available as plain, native `onclick`/`onblur`/`onfocus` properties (every `HTMLElement` has them) and via `addEventListener` — nothing `@parselab/ui`-specific is needed for those; `onClick`/`onFocus`/`onBlur` above are only the React-facing callback shape.
 
 ## CSS custom properties
 

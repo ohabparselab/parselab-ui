@@ -1,6 +1,7 @@
-import { css } from "lit";
-
-export default css`
+// Plain CSS text, applied via a constructable stylesheet in
+// PreactCustomElement (see internal/preact-custom-element.ts) — no Lit
+// `css` tagged template needed since components no longer use Lit.
+export default `
   :host {
     display: inline-block;
     font-family: var(--p-font-family, sans-serif);
@@ -11,7 +12,8 @@ export default css`
     display: none;
   }
 
-  button {
+  [part="base"] {
+    text-decoration: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -30,16 +32,16 @@ export default css`
       border-color var(--p-transition-fast, 120ms ease);
   }
 
-  button:hover:not(:disabled) {
+  [part="base"]:hover:not(:disabled) {
     background: var(--_bg-hover);
   }
 
-  button:focus-visible {
+  [part="base"]:focus-visible {
     outline: 2px solid var(--p-color-primary, #4f46e5);
     outline-offset: 2px;
   }
 
-  button:disabled {
+  [part="base"]:disabled {
     cursor: not-allowed;
     opacity: 0.6;
   }
@@ -83,7 +85,7 @@ export default css`
     --_color: var(--p-color-primary, #4f46e5);
     --_border-color: transparent;
   }
-  :host([variant="plain"]) button {
+  :host([variant="plain"]) [part="base"] {
     padding-inline: 0;
     text-decoration: underline;
   }

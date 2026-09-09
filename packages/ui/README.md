@@ -1,6 +1,6 @@
 # @parselab/ui
 
-Parselab's own UI component library — real Web Components (`<p-button>`, ...), built with [Lit](https://lit.dev), usable from any React-based framework (Next.js, Remix) or plain HTML.
+Parselab's own UI component library — real Web Components (`<p-button>`, ...), built with [Preact](https://preactjs.com) rendering into a shadow root, usable from any React-based framework (Next.js, Remix) or plain HTML.
 
 > **Status**: early. Only `<p-button>` exists today; more components are being added following the same pattern. Full source, docs, and roadmap: https://github.com/parselab/parselab-ui
 

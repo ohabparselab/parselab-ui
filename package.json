@@ -1,0 +1,23 @@
+{
+  "name": "parselab-ui",
+  "private": true,
+  "description": "Monorepo root for @parselab/ui — Parselab's Web Component UI library.",
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace=@parselab/ui",
+    "dev": "npm run dev --workspace=@parselab/ui",
+    "typecheck": "npm run typecheck --workspace=@parselab/ui",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "npm run build && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.10"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "@parselabllc/ui",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Parselab's Web Component UI library — <p-button> and friends, usable from any React-based framework (Next.js, Remix) and beyond.",
   "type": "module",
   "license": "MIT",

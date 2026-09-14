@@ -10,8 +10,11 @@
   --inline-code-bg: #eef0f2;
 }
 
+/* Dark palette: applied by system preference (unless the user picked
+   "light" explicitly via the theme toggle) and, unconditionally, when the
+   toggle has set data-theme="dark" regardless of system preference. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #0f1115;
     --bg-subtle: #14161c;
     --fg: #e5e7eb;
@@ -21,6 +24,22 @@
     --accent-bg: #1f2333;
     --inline-code-bg: #1f2333;
   }
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0f1115;
+  --bg-subtle: #14161c;
+  --fg: #e5e7eb;
+  --fg-muted: #9ca3af;
+  --border: #262a33;
+  --accent: #a5b4fc;
+  --accent-bg: #1f2333;
+  --inline-code-bg: #1f2333;
 }
 
 * {
@@ -105,6 +124,30 @@ a {
 
 .nav-toggle:hover {
   background: var(--bg-subtle);
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  flex: none;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--fg-muted);
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.theme-toggle:hover {
+  background: var(--bg-subtle);
+  color: var(--fg);
+}
+
+.theme-toggle:disabled {
+  cursor: default;
 }
 
 /* Body: sidebar + main */
@@ -296,14 +339,23 @@ a {
 }
 
 @media (prefers-color-scheme: dark) {
-  .code-block .shiki {
+  :root:not([data-theme="light"]) .code-block .shiki {
     background-color: var(--shiki-dark-bg);
   }
 
-  .code-block .shiki,
-  .code-block .shiki span {
+  :root:not([data-theme="light"]) .code-block .shiki,
+  :root:not([data-theme="light"]) .code-block .shiki span {
     color: var(--shiki-dark);
   }
+}
+
+:root[data-theme="dark"] .code-block .shiki {
+  background-color: var(--shiki-dark-bg);
+}
+
+:root[data-theme="dark"] .code-block .shiki,
+:root[data-theme="dark"] .code-block .shiki span {
+  color: var(--shiki-dark);
 }
 
 .content table {

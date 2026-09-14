@@ -5,6 +5,7 @@ import { NAV } from "~/nav";
 import { NEXT_VERSION } from "~/lib/version-constants";
 import { listVersions } from "~/lib/versions.server";
 import { VersionSwitcher } from "~/components/VersionSwitcher";
+import { ThemeToggle } from "~/components/ThemeToggle";
 
 export async function loader() {
   return json({ versions: await listVersions() });
@@ -34,6 +35,7 @@ export default function DocsLayout() {
           @parselabllc/ui
         </NavLink>
         <VersionSwitcher versions={versions} />
+        <ThemeToggle />
         <a className="topbar-link" href="https://github.com/parselab/parselab-ui" target="_blank" rel="noreferrer">
           GitHub
         </a>

@@ -10,6 +10,8 @@
     "build": "npm run build --workspace=@parselabllc/ui",
     "dev": "npm run dev --workspace=@parselabllc/ui",
     "typecheck": "npm run typecheck --workspace=@parselabllc/ui",
+    "docs": "npm run dev --workspace=@parselabllc/docs",
+    "docs:version": "node scripts/snapshot-docs.mjs",
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release": "npm run build && changeset publish"

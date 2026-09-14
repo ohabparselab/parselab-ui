@@ -1,3 +1,3 @@
 import { redirect } from "@remix-run/node";
 
-export const loader = () => redirect("/admin/button");
+export const loader = () => redirect("/docs");

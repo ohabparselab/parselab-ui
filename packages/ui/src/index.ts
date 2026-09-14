@@ -1,10 +1,10 @@
 /**
- * @parselab/ui — importing this module registers every `p-*` custom
+ * @parselabllc/ui — importing this module registers every `p-*` custom
  * element as a side effect (customElements.define(...)), so a plain
- * `import "@parselab/ui"` is enough to use `<p-button>` in any HTML/JSX.
+ * `import "@parselabllc/ui"` is enough to use `<p-button>` in any HTML/JSX.
  *
  * For React-idiomatic wrappers (onClick that behaves like React's own
- * synthetic events, etc.) prefer `@parselab/ui/react` instead.
+ * synthetic events, etc.) prefer `@parselabllc/ui/react` instead.
  */
 import "./internal/dom-shim.js";
 

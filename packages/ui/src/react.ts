@@ -9,7 +9,7 @@
  * `addEventListener` wiring, and complex prop values are set as JS
  * properties rather than stringified attributes.
  *
- *   import { Button } from "@parselab/ui/react";
+ *   import { Button } from "@parselabllc/ui/react";
  *   <Button variant="primary" onClick={() => save()}>Save</Button>
  */
 import "./internal/dom-shim.js";

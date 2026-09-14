@@ -4,7 +4,7 @@
  * `preact`'s `createElement.JSX.IntrinsicElements` for `<s-button>` — same
  * pattern, targeting `react` instead of `preact`.
  *
- * Importing "@parselab/ui" (or "@parselab/ui/react") pulls this in
+ * Importing "@parselabllc/ui" (or "@parselabllc/ui/react") pulls this in
  * automatically; nothing further to import for raw-tag JSX support.
  */
 import type { DetailedHTMLProps, HTMLAttributes } from "react";

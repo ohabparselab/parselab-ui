@@ -1,10 +1,10 @@
-# `@parselab/ui` — Parselab Web Component Library
+# `@parselabllc/ui` — Parselab Web Component Library
 
 ## Context
 
 The Parselab team wants its own reusable UI component library, architecturally modeled on `@shopify/ui-extensions` (confirmed via direct inspection of `node_modules/@shopify/ui-extensions` in this repo): real **Web Components** (custom elements) registered globally and consumed directly as JSX tags — e.g. `<p-button>` instead of Shopify's `<s-button>` — rather than a conventional React component library like `@shopify/polaris`.
 
-This is **not** part of the `optionia-shopify-app` monorepo. It's a brand-new, standalone project at `/Users/abdulohab/projects/packages/parselab/parselab-ui`, published publicly to **npmjs.com** under the `@parselab` scope so anyone — the team, or any external Next.js/Remix project — can `npm install @parselab/ui`.
+This is **not** part of the `optionia-shopify-app` monorepo. It's a brand-new, standalone project at `/Users/abdulohab/projects/packages/parselab/parselab-ui`, published publicly to **npmjs.com** under the `@parselabllc` scope so anyone — the team, or any external Next.js/Remix project — can `npm install @parselabllc/ui`. (Originally planned as `@parselab`, but that scope turned out to already be registered on npm by an unrelated account/org — see the "Publishing" section below for how this was discovered and resolved.)
 
 Decisions already made with the user:
 - **Architecture**: Web Components under the hood (not plain React components).
@@ -12,7 +12,7 @@ Decisions already made with the user:
 - **Initial scope (revised)**: publish **only `<p-button>`** first — prove the entire chain (component → types → docs → build → npm publish → real-world install) on one component before extending. Full parity with Shopify's 62 admin-surface components is the long-term roadmap, added one component at a time after Button ships successfully, each following the exact same file/type/doc template Button establishes.
 - **Documentation**: every component needs proper docs (description, props, slots, events, CSS custom properties, usage examples in both raw-tag and React form) written so both humans and AI coding agents can understand the library without this conversation. Docs content lives at a path matching the eventual docs site structure — `docs/admin/<component>.md` — anticipating a future site at `parselab.dev/docs/admin/...`.
 - **Location**: `/Users/abdulohab/projects/packages/parselab/parselab-ui`.
-- **Publishing**: public npm registry (registry.npmjs.org), scoped package `@parselab/ui`, published with `--access public` (scoped packages default to private otherwise).
+- **Publishing**: public npm registry (registry.npmjs.org), scoped package `@parselabllc/ui`, published with `--access public` (scoped packages default to private otherwise).
 - **This plan itself gets copied into the new repo as `PLAN.md`** at initial setup, so any AI/dev opening that repo cold understands its goal and architecture without this conversation.
 
 ---
@@ -26,7 +26,7 @@ parselab-ui/                     # /Users/abdulohab/projects/packages/parselab/p
     admin/
       button.md                  # component doc, path anticipates parselab.dev/docs/admin/button
   packages/
-    ui/                         # @parselab/ui — publishable package
+    ui/                         # @parselabllc/ui — publishable package
       src/
         components/
           button/
@@ -186,8 +186,8 @@ Every other component in the core set (Text, TextField, Select, Checkbox, Switch
 
 Two consumption paths, both shipped from the same package (mirrors Shopify's own `./preact` subpath pattern):
 
-1. **Raw tags** — `jsx.ts` augments `react`'s JSX namespace so `<p-button variant="primary">` type-checks in any `.tsx` file once `@parselab/ui` is imported for its registration side effects.
-2. **`@parselab/ui/react`** — thin wrappers generated with the `@lit/react` package's `createComponent()` utility, one per element, mapping DOM CustomEvents to normal-feeling `onClick`/`onChange` props. `@lit/react` is a generic custom-element-to-React adapter — it doesn't care that our elements use Preact internally rather than Lit, it just works off DOM properties/events. This is what most consumers should actually import (`import { Button } from '@parselab/ui/react'`), since raw custom elements don't get React's synthetic-event ergonomics for custom events even on React 19.
+1. **Raw tags** — `jsx.ts` augments `react`'s JSX namespace so `<p-button variant="primary">` type-checks in any `.tsx` file once `@parselabllc/ui` is imported for its registration side effects.
+2. **`@parselabllc/ui/react`** — thin wrappers generated with the `@lit/react` package's `createComponent()` utility, one per element, mapping DOM CustomEvents to normal-feeling `onClick`/`onChange` props. `@lit/react` is a generic custom-element-to-React adapter — it doesn't care that our elements use Preact internally rather than Lit, it just works off DOM properties/events. This is what most consumers should actually import (`import { Button } from '@parselabllc/ui/react'`), since raw custom elements don't get React's synthetic-event ergonomics for custom events even on React 19.
 
 ## Documentation template
 
@@ -207,7 +207,7 @@ One-paragraph description: what it's for, when to use it vs. alternatives (e.g. 
 
 ### React
 ​```tsx
-import { Button } from '@parselab/ui/react';
+import { Button } from '@parselabllc/ui/react';
 
 <Button variant="primary" onClick={() => save()}>Save</Button>
 ​```
@@ -251,12 +251,12 @@ This template is the reusable unit — component #2 onward means writing `button
 - **Vite (library mode)** for `dist/esm` + `dist/cjs`, entries: `index`, `react` (per-component subpath exports can follow later for finer tree-shaking — not needed for a 17-component v1).
 - **`tsc --emitDeclarationOnly`** for `dist/types`.
 - **`@custom-elements-manifest/analyzer`** (`cem analyze`, default plain-class + JSDoc analysis — the `--litelement` plugin flag was dropped along with Lit itself; JSDoc `@prop`/`@fires`/`@csspart`/`@cssprop` tags on the class doc comment feed the manifest correctly without it, confirmed by inspecting the generated `custom-elements.json`) to generate `dist/custom-elements.json` — powers editor autocomplete for the raw tags and can feed the Storybook docs app.
-- `package.json` `exports` map with `types`/`import`/`require` per subpath, `sideEffects` array covering the component files (needed since importing `@parselab/ui` must run `customElements.define(...)`).
+- `package.json` `exports` map with `types`/`import`/`require` per subpath, `sideEffects` array covering the component files (needed since importing `@parselabllc/ui` must run `customElements.define(...)`).
 - **Vite/esbuild gotcha**: `build.target` (bundle minify/downlevel target) and the top-level `esbuild: { target }` (per-file TS-transform target) are separate knobs — without the latter set to `es2022`, esbuild parses the `accessor` keyword as a plain identifier and fails on decorated accessor fields. See `vite.config.ts`.
 
 ## SSR
 
-**Tested finding, re-confirmed after the Lit→Preact switch (Next.js 16 / Turbopack, `<p-button>`)**: importing `@parselab/ui`/`@parselab/ui/react` directly at the top of a `"use client"` file **crashes** the server render (`ReferenceError: HTMLElement is not defined`), not just a cosmetic flash — same error, same root cause, verified again on the Preact-based build (not just assumed to carry over). Root cause is **generic to the Custom Elements platform API, not Lit- or Preact-specific**: any base class extending `HTMLElement` at module scope (Lit's `ReactiveElement`, or our own `PreactCustomElement`) throws the moment the module is evaluated in Node, and Next.js evaluates `"use client"` modules on the server too (to produce the initial HTML) — Turbopack resolves the module graph without a real `HTMLElement` global in that pass. Switching rendering engines does not change this.
+**Tested finding, re-confirmed after the Lit→Preact switch (Next.js 16 / Turbopack, `<p-button>`)**: importing `@parselabllc/ui`/`@parselabllc/ui/react` directly at the top of a `"use client"` file **crashes** the server render (`ReferenceError: HTMLElement is not defined`), not just a cosmetic flash — same error, same root cause, verified again on the Preact-based build (not just assumed to carry over). Root cause is **generic to the Custom Elements platform API, not Lit- or Preact-specific**: any base class extending `HTMLElement` at module scope (Lit's `ReactiveElement`, or our own `PreactCustomElement`) throws the moment the module is evaluated in Node, and Next.js evaluates `"use client"` modules on the server too (to produce the initial HTML) — Turbopack resolves the module graph without a real `HTMLElement` global in that pass. Switching rendering engines does not change this.
 
 A same-module fix (statically importing `@lit-labs/ssr-dom-shim` before the custom-element base class) does **not** work — ES module imports are hoisted and always evaluate in the order they're *encountered by the module graph*, not the order written in one file, so a shim import can't reliably run first once bundled. The dependency is kept anyway (`@lit-labs/ssr-dom-shim`, wired as the first import in `index.ts`/`react.ts`) since it's harmless and may help in bundlers (plain Node SSR, Vite/Remix) that correctly resolve the "node" condition — not yet verified for Remix in this repo.
 
@@ -269,18 +269,18 @@ A same-module fix (statically importing `@lit-labs/ssr-dom-shim` before the cust
 ```jsonc
 // packages/ui/package.json
 {
-  "name": "@parselab/ui",
+  "name": "@parselabllc/ui",
   "version": "0.1.0",
   "publishConfig": { "access": "public" },
   "repository": { "type": "git", "url": "git+https://github.com/parselab/parselab-ui.git" }
 }
 ```
-Scoped packages (`@parselab/...`) publish **private by default** on npmjs.com — `publishConfig.access: "public"` (or `npm publish --access public` on the first publish) is required, otherwise `npm publish` will fail/attempt a paid-private publish. No custom `.npmrc` registry override is needed since the target is the default registry (`registry.npmjs.org`); consumers install with a plain `npm install @parselab/ui`, no auth required.
+Scoped packages (`@parselab/...`) publish **private by default** on npmjs.com — `publishConfig.access: "public"` (or `npm publish --access public` on the first publish) is required, otherwise `npm publish` will fail/attempt a paid-private publish. No custom `.npmrc` registry override is needed since the target is the default registry (`registry.npmjs.org`); consumers install with a plain `npm install @parselabllc/ui`, no auth required.
 
 Standard-practice setup at scaffold time (this is the "just create the package.json and other setup now" step):
 - `package.json` with `name`, `version`, `description`, `license` (MIT is typical for a public OSS-style library), `type: module`, `main`/`module`/`types`/`exports`, `publishConfig.access: public`, `sideEffects`, `files: ["dist"]` (don't publish `src/`).
 - `.gitignore` (`node_modules`, `dist`, `.turbo` if added later).
-- `README.md` with install/usage (`npm install @parselab/ui`, `import { Button } from '@parselab/ui/react'`).
+- `README.md` with install/usage (`npm install @parselabllc/ui`, `import { Button } from '@parselabllc/ui/react'`).
 - `LICENSE`.
 - `tsconfig.json` (strict mode, matching the team's existing convention from `optionia-app`).
 - `PLAN.md` = this plan document, so the repo is self-describing.
@@ -291,15 +291,15 @@ Use **Changesets** (`@changesets/cli`) for version bumps + changelog generation 
 
 ## Initial component set (v1)
 
-**Button only** (`<p-button>` / `@parselab/ui/react`'s `Button`). Everything else on Shopify's 62-component admin-surface list (Text, TextField, Select, Checkbox, Switch, Card, Badge, Banner, Modal, Spinner, Icon, Divider, Stack, Box, Grid, Avatar, ...) is the roadmap, added one at a time after Button is live on npm, each following the exact template Button establishes (component + styles + types + doc).
+**Button only** (`<p-button>` / `@parselabllc/ui/react`'s `Button`). Everything else on Shopify's 62-component admin-surface list (Text, TextField, Select, Checkbox, Switch, Card, Badge, Banner, Modal, Spinner, Icon, Divider, Stack, Box, Grid, Avatar, ...) is the roadmap, added one at a time after Button is live on npm, each following the exact template Button establishes (component + styles + types + doc).
 
 ## Delivery phases
 
 1. **Scaffold** (immediate first step): create the repo at `/Users/abdulohab/projects/packages/parselab/parselab-ui` — root `package.json`, `packages/ui/package.json` + `tsconfig.json` + `.gitignore` + `README.md` + `LICENSE`, this document as `PLAN.md`, and the build pipeline (Vite + tsc + CEM analyzer) config.
 2. **Build `<p-button>` end to end**: `button.ts` / `button.styles.ts` / `button.types.ts`, `index.ts` + `react.ts` + `jsx.ts` wiring it up, and `docs/admin/button.md` following the documentation template. Confirm `npm run build` produces `dist/esm`, `dist/cjs`, `dist/types`, `dist/custom-elements.json` cleanly.
    - **Revised mid-flight** (this session, after closer comparison against Shopify's real `Button.d.ts`): rebuilt on Preact instead of Lit, with a from-scratch `internal/preact-custom-element.ts` (`reflect()`/`customElement()` standard decorators) replacing Lit's `@property()`/`@customElement()`, plus `internal/shared.ts` (the shared prop palette), and closed the real prop gaps found (`lang`, `command`/`commandFor`/`interestFor`, the `ButtonProps` required-vs-`Partial<ButtonJSXProps>` split). See "Component pattern" above for the full rationale and the bugs this surfaced (an esbuild/`accessor` build gotcha, a CSS selector bug on the `href` render path) — both fixed and verified.
-3. **Publish v0.1.0** to npmjs.com (`@parselab/ui`, `--access public`). Note: publishing under the `@parselab` scope requires that scope to actually be registered/owned on npmjs.com — confirm access to that account before the first real `npm publish`.
-4. **Validate**: install `@parselab/ui` fresh into a throwaway Next.js (or Remix) app and confirm `<p-button>` / `<Button>` renders, handles `onClick`, and responds to `--p-color-primary` token overrides — this is the real proof the architecture works before extending further.
+3. **Publish v0.1.0** to npmjs.com (`@parselabllc/ui`, `--access public`). `@parselab` (the originally planned scope) turned out to already be a registered npm org owned by an unrelated account — confirmed via `GET https://registry.npmjs.org/-/org/parselab/user`, which returned an existing owner, and a first real `npm publish` attempt failed with a 404 ("not found or you do not have permission"), npm's deliberately vague error for a scope you don't have access to. `@parselabllc` was unclaimed (`GET .../-/org/parselabllc/user` → `{"error":"Scope not found"}`) and used instead; the whole repo was renamed to match. Also note: npm requires either an OTP (2FA) or a granular access token with "bypass 2FA" enabled to actually publish — plain `npm publish` without one gets a 403.
+4. **Validate**: install `@parselabllc/ui` fresh into a throwaway Next.js (or Remix) app and confirm `<p-button>` / `<Button>` renders, handles `onClick`, and responds to `--p-color-primary` token overrides — this is the real proof the architecture works before extending further.
 5. **Extend component-by-component** toward the full 62-component set, in whatever priority order the team hits real needs for (e.g. mirror `optionia-app-admin`'s existing `pf-*` hand-rolled elements first, since those are known, live replacement targets).
 6. **Later**: a real docs site at `parselab.dev/docs/admin` serving the `docs/admin/*.md` content once there's enough surface area to justify it; SSR via `@lit-labs/ssr`/`@lit-labs/nextjs`.
 
@@ -307,7 +307,7 @@ Use **Changesets** (`@changesets/cli`) for version bumps + changelog generation 
 
 - [x] `npm run build` in `packages/ui` produces `dist/esm`, `dist/cjs`, `dist/types`, `dist/custom-elements.json` with no type errors. Confirmed twice this session (Lit build, then again after the Preact rewrite).
 - [x] `docs/admin/button.md` exists and matches the documentation template (usage, props table, events, CSS custom properties, slots/parts, accessibility). Confirmed this session, including a Next.js-specific usage caveat (see SSR section).
-- [x] A throwaway Next.js 16/Turbopack app installing the packed tarball, importing `@parselab/ui/react`'s `Button` via `next/dynamic({ ssr: false })`, renders all variants/tones/states, responds to `onClick` (click counter incremented correctly), and reflects a `--p-color-primary` token override (green vs. default indigo) — confirmed visually in the Browser pane, twice (Lit build, then re-confirmed after the Preact rewrite, including the `href` anchor path). Direct (non-dynamic) import crashes SSR both times — see SSR section for why and the workaround.
+- [x] A throwaway Next.js 16/Turbopack app installing the packed tarball, importing `@parselabllc/ui/react`'s `Button` via `next/dynamic({ ssr: false })`, renders all variants/tones/states, responds to `onClick` (click counter incremented correctly), and reflects a `--p-color-primary` token override (green vs. default indigo) — confirmed visually in the Browser pane, twice (Lit build, then re-confirmed after the Preact rewrite, including the `href` anchor path). Direct (non-dynamic) import crashes SSR both times — see SSR section for why and the workaround.
 - [x] Plain-HTML custom-element checks (no React/Next.js involved), against the Preact rewrite specifically: property→attribute reflection (`el.variant = 'primary'` → `variant="primary"` attribute, confirmed via `outerHTML`), attribute→property sync after connection (`setAttribute('variant', ...)` → `.variant` updates and re-renders), boolean reflection (`.disabled = true` → attribute *presence*, not `"true"`/`"false"`), static-HTML-attribute-wins-over-class-default on first connect, native inherited `.onclick` firing without any code of ours, and `command`/`commandFor` forwarding onto the rendered native element as raw attributes — all confirmed working in the Browser pane this session.
 - [x] `npm publish --dry-run --access public` succeeds against the public npm registry, tarball contents verified correct (README, LICENSE, dist/* all present) — confirmed this session.
 - [ ] CI workflow (`publish.yml`) runs green on a tagged pre-release before cutting `v0.1.0` — not yet run; requires `NPM_TOKEN` secret to be configured on the GitHub repo first (repo doesn't exist on GitHub yet either — local only so far).

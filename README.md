@@ -1,4 +1,4 @@
-# @parselab/ui
+# @parselabllc/ui
 
 Parselab's own UI component library — real **Web Components** (`<p-button>`, ...), built with [Preact](https://preactjs.com) rendering into a shadow root, usable from any React-based framework (Next.js, Remix) or plain HTML, with no framework lock-in.
 
@@ -9,7 +9,7 @@ Architecturally modeled on Shopify's [`@shopify/ui-extensions`](https://shopify.
 ## Install
 
 ```bash
-npm install @parselab/ui
+npm install @parselabllc/ui
 ```
 
 ## Usage
@@ -17,7 +17,7 @@ npm install @parselab/ui
 ### React / Next.js / Remix (recommended)
 
 ```tsx
-import { Button } from "@parselab/ui/react";
+import { Button } from "@parselabllc/ui/react";
 
 <Button variant="primary" onClick={() => save()}>
   Save
@@ -27,14 +27,14 @@ import { Button } from "@parselab/ui/react";
 ### Raw custom element (any framework, or plain HTML)
 
 ```tsx
-import "@parselab/ui";
+import "@parselabllc/ui";
 
 <p-button variant="primary" onClick={() => save()}>
   Save
 </p-button>;
 ```
 
-> **Next.js (App Router)**: import `@parselab/ui`/`@parselab/ui/react` via `next/dynamic` with `ssr: false` — Next evaluates "use client" modules on the server too, and custom elements need a real browser `HTMLElement` at import time (true of any Web Component library, not specific to how this one renders). See [`docs/admin/button.md`](./docs/admin/button.md#nextjs-app-router--import-it-client-only) for the tested pattern. Full SSR is on the roadmap.
+> **Next.js (App Router)**: import `@parselabllc/ui`/`@parselabllc/ui/react` via `next/dynamic` with `ssr: false` — Next evaluates "use client" modules on the server too, and custom elements need a real browser `HTMLElement` at import time (true of any Web Component library, not specific to how this one renders). See [`docs/admin/button.md`](./docs/admin/button.md#nextjs-app-router--import-it-client-only) for the tested pattern. Full SSR is on the roadmap.
 
 ### Theming
 
@@ -47,7 +47,7 @@ import "@parselab/ui";
 Or import the default token sheet and override from there:
 
 ```ts
-import "@parselab/ui/tokens.css";
+import "@parselabllc/ui/tokens.css";
 ```
 
 ## Documentation
@@ -60,7 +60,7 @@ Per-component docs live in [`docs/admin/`](./docs/admin) (e.g. [`docs/admin/butt
 parselab-ui/
   PLAN.md              # architecture, decisions, and roadmap — read this first
   docs/admin/           # per-component documentation
-  packages/ui/          # the @parselab/ui package itself
+  packages/ui/          # the @parselabllc/ui package itself
     src/
       components/       # one folder per component: <name>.ts, .styles.ts, .types.ts
       internal/          # preact-custom-element.ts (base class + reflect() decorator), shared.ts (shared prop palette)
@@ -74,7 +74,7 @@ parselab-ui/
 
 ```bash
 npm install
-npm run build            # builds @parselab/ui: JS (esm+cjs), types, custom-elements.json
+npm run build            # builds @parselabllc/ui: JS (esm+cjs), types, custom-elements.json
 npm run typecheck
 ```
 

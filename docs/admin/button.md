@@ -1,6 +1,6 @@
 # Button — `<p-button>`
 
-`Button` is used to trigger an action or navigate to a new location. It's built as a real Web Component (`<p-button>`, powered by [Preact](https://preactjs.com) rendering into a shadow root), registered globally once you import `@parselab/ui`, and works in any HTML page or JSX-based framework (React, Next.js, Remix) without a build-time compiler.
+`Button` is used to trigger an action or navigate to a new location. It's built as a real Web Component (`<p-button>`, powered by [Preact](https://preactjs.com) rendering into a shadow root), registered globally once you import `@parselabllc/ui`, and works in any HTML page or JSX-based framework (React, Next.js, Remix) without a build-time compiler.
 
 Use `Button` for the primary and secondary actions on a page or inside a form. For a button that only shows an icon, always set `accessibilityLabel`.
 
@@ -10,7 +10,7 @@ Use `Button` for the primary and secondary actions on a page or inside a form. F
 
 ```html
 <script type="module">
-  import "@parselab/ui";
+  import "@parselabllc/ui";
 </script>
 
 <p-button variant="primary">Save</p-button>
@@ -20,7 +20,7 @@ Use `Button` for the primary and secondary actions on a page or inside a form. F
 ### React / Next.js / Remix
 
 ```tsx
-import { Button } from "@parselab/ui/react";
+import { Button } from "@parselabllc/ui/react";
 
 function SaveBar() {
   return (
@@ -31,7 +31,7 @@ function SaveBar() {
 }
 ```
 
-`@parselab/ui/react` wraps the element with the `@lit/react` package's `createComponent()` utility (a generic custom-element-to-React adapter, unrelated to what renders the element internally), so `onClick` behaves like a normal React event handler. You can also use the raw tag directly (`<p-button onClick={...}>`) once you `import "@parselab/ui"` — a type augmentation ships with the package so the tag type-checks — but the DOM `click` event won't get React's synthetic-event ergonomics that way.
+`@parselabllc/ui/react` wraps the element with the `@lit/react` package's `createComponent()` utility (a generic custom-element-to-React adapter, unrelated to what renders the element internally), so `onClick` behaves like a normal React event handler. You can also use the raw tag directly (`<p-button onClick={...}>`) once you `import "@parselabllc/ui"` — a type augmentation ships with the package so the tag type-checks — but the DOM `click` event won't get React's synthetic-event ergonomics that way.
 
 **Plain DOM / vanilla JS**: `<p-button>` also just works with the native `onclick`/`onblur`/`onfocus` properties every element already has, and with `addEventListener`. Nothing custom needed:
 
@@ -41,13 +41,13 @@ document.querySelector('p-button').onclick = () => save();
 
 ### Next.js (App Router) — import it client-only
 
-`<p-button>` is a custom element, which extends `HTMLElement` at module scope — true of every Web Component library, not specific to how `@parselab/ui` renders internally. Next.js evaluates "use client" modules on the server too (to produce the initial HTML), and Node has no real `HTMLElement` global — importing it directly at the top of a "use client" file throws. Load it with `next/dynamic` and `ssr: false` instead, which is the standard Next.js pattern for browser-only libraries:
+`<p-button>` is a custom element, which extends `HTMLElement` at module scope — true of every Web Component library, not specific to how `@parselabllc/ui` renders internally. Next.js evaluates "use client" modules on the server too (to produce the initial HTML), and Node has no real `HTMLElement` global — importing it directly at the top of a "use client" file throws. Load it with `next/dynamic` and `ssr: false` instead, which is the standard Next.js pattern for browser-only libraries:
 
 ```tsx
 "use client";
 import dynamic from "next/dynamic";
 
-const Button = dynamic(() => import("@parselab/ui/react").then((m) => m.Button), {
+const Button = dynamic(() => import("@parselabllc/ui/react").then((m) => m.Button), {
   ssr: false,
 });
 ```
@@ -79,15 +79,15 @@ Every prop above always has a real value at runtime (no `undefined`) — an empt
 
 | Event | Detail | Fires when |
 |---|---|---|
-| `click` (`onClick` via `@parselab/ui/react`) | `CustomEvent<undefined>` | The button is activated by mouse, touch, or keyboard — never fires while `disabled` or `loading`. |
+| `click` (`onClick` via `@parselabllc/ui/react`) | `CustomEvent<undefined>` | The button is activated by mouse, touch, or keyboard — never fires while `disabled` or `loading`. |
 | `focus` (`onFocus`) | `CustomEvent<undefined>` | The button receives focus. |
 | `blur` (`onBlur`) | `CustomEvent<undefined>` | The button loses focus. |
 
-These are also available as plain, native `onclick`/`onblur`/`onfocus` properties (every `HTMLElement` has them) and via `addEventListener` — nothing `@parselab/ui`-specific is needed for those; `onClick`/`onFocus`/`onBlur` above are only the React-facing callback shape.
+These are also available as plain, native `onclick`/`onblur`/`onfocus` properties (every `HTMLElement` has them) and via `addEventListener` — nothing `@parselabllc/ui`-specific is needed for those; `onClick`/`onFocus`/`onBlur` above are only the React-facing callback shape.
 
 ## CSS custom properties
 
-`Button` reads from the shared `@parselab/ui` token sheet (`@parselab/ui/tokens.css`), with hard-coded fallbacks if you never load it:
+`Button` reads from the shared `@parselabllc/ui` token sheet (`@parselabllc/ui/tokens.css`), with hard-coded fallbacks if you never load it:
 
 | Property | Default | Description |
 |---|---|---|

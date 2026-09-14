@@ -22,7 +22,7 @@ export const tagName = "p-button";
  * `.onclick` / `.onblur` / `.onfocus` work out of the box via the
  * inherited native `HTMLElement.GlobalEventHandlers` — not reimplemented
  * here; only the React-facing `onClick`/`onFocus`/`onBlur` callback shape
- * is a `@parselab/ui` addition (see button.types.ts).
+ * is a `@parselabllc/ui` addition (see button.types.ts).
  *
  * @element p-button
  *

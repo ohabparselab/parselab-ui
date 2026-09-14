@@ -14,5 +14,5 @@ jobs:
         with:
           node-version: 20
       - run: npm ci
-      - run: npm run typecheck --workspace=@parselab/ui
-      - run: npm run build --workspace=@parselab/ui
+      - run: npm run typecheck --workspace=@parselabllc/ui
+      - run: npm run build --workspace=@parselabllc/ui

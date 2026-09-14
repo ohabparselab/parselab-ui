@@ -1,4 +1,4 @@
-# @parselab/ui
+# @parselabllc/ui
 
 Parselab's own UI component library — real Web Components (`<p-button>`, ...), built with [Preact](https://preactjs.com) rendering into a shadow root, usable from any React-based framework (Next.js, Remix) or plain HTML.
 
@@ -7,13 +7,13 @@ Parselab's own UI component library — real Web Components (`<p-button>`, ...),
 ## Install
 
 ```bash
-npm install @parselab/ui
+npm install @parselabllc/ui
 ```
 
 ## Usage
 
 ```tsx
-import { Button } from "@parselab/ui/react";
+import { Button } from "@parselabllc/ui/react";
 
 <Button variant="primary" onClick={() => save()}>
   Save
@@ -23,7 +23,7 @@ import { Button } from "@parselab/ui/react";
 Or the raw custom element in any framework:
 
 ```tsx
-import "@parselab/ui";
+import "@parselabllc/ui";
 
 <p-button variant="primary" onClick={() => save()}>
   Save

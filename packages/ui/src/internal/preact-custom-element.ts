@@ -2,7 +2,7 @@ import "./dom-shim.js";
 import { render as preactRender, type ComponentChild } from "preact";
 
 /**
- * Base class for @parselab/ui custom elements: renders Preact into a
+ * Base class for @parselabllc/ui custom elements: renders Preact into a
  * shadow root and defines properties as native `accessor` class fields
  * via `reflect()` below — the same architecture @shopify/ui-extensions
  * describes for its own components (Preact rendering into shadow DOM,

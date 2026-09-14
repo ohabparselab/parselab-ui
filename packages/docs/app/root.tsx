@@ -1,8 +1,16 @@
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
 
 import styles from "./styles/docs.css?url";
+// The published package's default token sheet — without this, every
+// `<p-button>` falls back to the hardcoded light-mode defaults baked into
+// its own styles (its shadow DOM never sees `--p-*` overrides that were
+// never actually defined anywhere in the page).
+import tokens from "@parselabllc/ui/tokens.css?url";
 
-export const links = () => [{ rel: "stylesheet", href: styles }];
+export const links = () => [
+  { rel: "stylesheet", href: tokens },
+  { rel: "stylesheet", href: styles },
+];
 
 export default function App() {
   return (

@@ -62,16 +62,21 @@ export function DocPage({
   html,
   headings,
   children,
+  after,
 }: {
   html: string;
   headings: Heading[];
+  /** Rendered before the Markdown content (e.g. a live demo strip). */
   children?: ReactNode;
+  /** Rendered after the Markdown content (e.g. an Examples gallery). */
+  after?: ReactNode;
 }) {
   return (
     <div className="doc-page">
       <article className="content" onClick={handleContentClick}>
         {children}
         <div dangerouslySetInnerHTML={{ __html: html }} />
+        {after}
       </article>
       {headings.length > 0 && <TableOfContents headings={headings} />}
     </div>

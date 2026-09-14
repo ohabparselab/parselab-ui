@@ -119,17 +119,22 @@ These are also available as plain, native `onclick`/`onblur`/`onfocus` propertie
 
 ## CSS custom properties
 
-`Button` reads from the shared `@parselabllc/ui` token sheet (`@parselabllc/ui/tokens.css`), with hard-coded fallbacks if you never load it:
+`Button`'s default look matches Shopify Polaris's own default button (light-mode values below are Polaris's actual tokens, verbatim from `@shopify/polaris-tokens`; dark-mode is this package's own adaptation — Polaris itself has no official dark theme). It reads from the shared `@parselabllc/ui` token sheet (`@parselabllc/ui/tokens.css`), with hard-coded fallbacks if you never load it:
 
-| Property | Default | Description |
+| Property | Default (light) | Description |
 |---|---|---|
-| `--p-color-primary` | `#4f46e5` | Background for `variant="primary"`; text color for `variant="plain"`. |
-| `--p-color-primary-hover` | `#4338ca` | Hover background for `variant="primary"`. |
-| `--p-color-critical` | `#dc2626` | Background/text for `tone="critical"`. |
-| `--p-color-neutral` | `#e5e7eb` | Background for `variant="secondary"` (default). |
-| `--p-radius-md` | `6px` | Corner radius. |
-| `--p-space-small` / `--p-space-large` | `0.5rem` / `1.25rem` | Vertical / horizontal padding. |
-| `--p-font-family`, `--p-font-size-base`, `--p-font-weight-medium` | — | Typography. |
+| `--p-color-primary` / `-hover` / `-active` | `#303030` / `#1a1a1a` / `#1a1a1a` | Background for `variant="primary"`; also `variant="plain"`'s text color. |
+| `--p-color-critical` / `-hover` / `-active` | `#c70a24` / `#a30a24` / `#8e0b21` | Background for `variant="primary" tone="critical"`. |
+| `--p-color-critical-text` / `-hover` / `-active` | `#8e0b21` / `#5f0716` / `#2f040b` | Text color for `tone="critical"` on non-primary variants. |
+| `--p-color-neutral` / `-hover` / `-active` | `#ffffff` / `#fafafa` / `#f7f7f7` | Background for `variant="secondary"` (default). |
+| `--p-color-surface-hover` / `-active` | `rgba(0,0,0,.06)` / `rgba(0,0,0,.1)` | Hover/active fill for `variant="tertiary"`. |
+| `--p-color-text` | `#303030` | Text color for `secondary`/`tertiary` variants. |
+| `--p-color-text-on-primary` | `#ffffff` | Text color for `variant="primary"`. |
+| `--p-color-border` / `-hover` | `#e3e3e3` / `#cccccc` | Border for `secondary`/`tertiary` variants. |
+| `--p-color-focus-ring` | `#005bd3` | `:focus-visible` outline color, independent of variant/tone. |
+| `--p-radius-md` | `8px` | Corner radius. |
+| `--p-space-small` / `--p-space-large` | `0.375rem` / `0.75rem` | Vertical / horizontal padding. |
+| `--p-font-family`, `--p-font-size-base`, `--p-font-weight-medium` | `'Inter', ...` / `0.75rem` / `550` | Typography. |
 
 ## Slots / parts
 

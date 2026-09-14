@@ -1,6 +1,6 @@
 export interface NavItem {
   title: string;
-  /** Path within a version, e.g. "" for the version's index, "/components/button". Joined as `/docs/${version}${path}`. */
+  /** Path within a version prefix, e.g. "/getting-started", "/components/button". Joined as `${versionPrefix}${path}`. */
   path: string;
 }
 
@@ -12,7 +12,7 @@ export interface NavSection {
 export const NAV: NavSection[] = [
   {
     title: "Getting started",
-    items: [{ title: "Setup", path: "" }],
+    items: [{ title: "Setup", path: "/getting-started" }],
   },
   {
     title: "Components",

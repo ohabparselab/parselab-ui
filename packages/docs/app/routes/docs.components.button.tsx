@@ -1,20 +1,16 @@
 import { json } from "@remix-run/node";
-import type { LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { loadButtonDoc } from "~/lib/button-doc.server";
-import { isValidVersion } from "~/lib/versions.server";
+import { getCurrentVersion } from "~/lib/versions.server";
 import { DocPage } from "~/components/DocPage";
 import { Example } from "~/components/Example";
 import { BUTTON_EXAMPLES } from "~/content/button-examples";
 
 export const meta = () => [{ title: "Button — @parselabllc/ui docs" }];
 
-export async function loader({ params }: LoaderFunctionArgs) {
-  const version = params.version!;
-  if (!(await isValidVersion(version))) {
-    throw new Response("Not Found", { status: 404 });
-  }
-
+// Canonical, always-current URL — see docs.getting-started.tsx.
+export async function loader() {
+  const version = await getCurrentVersion();
   return json(await loadButtonDoc(version));
 }
 

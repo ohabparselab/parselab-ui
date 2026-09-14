@@ -2,7 +2,6 @@ import { useState } from "react";
 import { json } from "@remix-run/node";
 import { NavLink, Outlet, useLoaderData, useParams } from "@remix-run/react";
 import { NAV } from "~/nav";
-import { NEXT_VERSION } from "~/lib/version-constants";
 import { listVersions } from "~/lib/versions.server";
 import { VersionSwitcher } from "~/components/VersionSwitcher";
 import { ThemeToggle } from "~/components/ThemeToggle";
@@ -14,7 +13,11 @@ export async function loader() {
 export default function DocsLayout() {
   const { versions } = useLoaderData<typeof loader>();
   const { version } = useParams();
-  const currentVersion = version ?? NEXT_VERSION;
+  // Browsing latest (no :version in the URL) keeps links unversioned too;
+  // only an explicit version in the URL carries that version through the
+  // nav/brand links, so switching to an old version doesn't strand you on
+  // pages that no longer match the version you're reading.
+  const versionPrefix = version ? `/docs/${version}` : "/docs";
   const [navOpen, setNavOpen] = useState(false);
 
   return (
@@ -32,7 +35,7 @@ export default function DocsLayout() {
               <path d="M2 4.5h14M2 9h14M2 13.5h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
           </button>
-          <NavLink to={`/docs/${currentVersion}`} className="brand">
+          <NavLink to={`${versionPrefix}/getting-started`} className="brand">
             @parselabllc/ui
           </NavLink>
           <VersionSwitcher versions={versions} />
@@ -52,7 +55,7 @@ export default function DocsLayout() {
               {section.items.map((item) => (
                 <NavLink
                   key={item.path}
-                  to={`/docs/${currentVersion}${item.path}`}
+                  to={`${versionPrefix}${item.path}`}
                   end
                   onClick={() => setNavOpen(false)}
                   className={({ isActive }) => (isActive ? "active" : undefined)}

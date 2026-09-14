@@ -6,13 +6,19 @@ export function VersionSwitcher({ versions }: { versions: string[] }) {
   const { version } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  const current = version ?? NEXT_VERSION;
+
+  // No :version in the URL means "latest" — shown pre-selected as the
+  // newest released version (falling back to Next if none has been cut).
+  const current = version ?? versions[0] ?? NEXT_VERSION;
+  const versionPrefix = version ? `/docs/${version}` : "/docs";
 
   function onChange(event: ChangeEvent<HTMLSelectElement>) {
     const nextVersion = event.target.value;
-    // Everything after "/docs/<version>" — preserved so switching versions
-    // keeps you on the same page (e.g. .../components/button) when possible.
-    const rest = location.pathname.replace(/^\/docs\/[^/]+/, "");
+    // Everything after the current version prefix — preserved so switching
+    // versions keeps you on the same page (e.g. .../components/button) when
+    // possible. Picking a version always lands on its explicit /docs/<version>
+    // URL, even when that version happens to be the latest one.
+    const rest = location.pathname.slice(versionPrefix.length);
     navigate(`/docs/${nextVersion}${rest}`);
   }
 

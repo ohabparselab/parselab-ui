@@ -29,7 +29,9 @@
   ],
   "sideEffects": [
     "./dist/esm/index.js",
-    "./dist/esm/components/**/*.js"
+    "./dist/esm/react.js",
+    "./dist/esm/components/**/*.js",
+    "./src/**/*.ts"
   ],
   "main": "./dist/cjs/index.cjs",
   "module": "./dist/esm/index.js",

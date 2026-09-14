@@ -52,7 +52,39 @@ const Button = dynamic(() => import("@parselabllc/ui/react").then((m) => m.Butto
 });
 ```
 
-This is a tested, confirmed-working pattern (verified twice against Next.js 16 / Turbopack — once on an earlier Lit-based build, and again after the component was rewritten on Preact, same result both times). Full SSR — `<p-button>` rendering real markup in the server-generated HTML, no client-only gate needed — is tracked in `PLAN.md`'s SSR section as a follow-up. Remix and other Vite-based SSR frameworks may not need this workaround, since Vite's SSR dev/build pipeline generally resolves Node-safe conditional exports correctly — not yet verified in this repo.
+This is a tested, confirmed-working pattern (verified twice against Next.js 16 / Turbopack — once on an earlier Lit-based build, and again after the component was rewritten on Preact, same result both times). Full SSR — `<p-button>` rendering real markup in the server-generated HTML, no client-only gate needed — is tracked in `PLAN.md`'s SSR section as a follow-up.
+
+### Remix
+
+Unlike Next.js, Remix does **not** need the `ssr: false` client-only gate — `import { Button } from "@parselabllc/ui/react"` works directly in a route module, server-evaluated and all:
+
+```tsx
+import { Button } from "@parselabllc/ui/react";
+
+export default function SaveBar() {
+  return (
+    <Button variant="primary" onClick={() => save()}>
+      Save
+    </Button>
+  );
+}
+```
+
+Verified against a Remix 2 (Vite plugin) app in `packages/docs` of this repo. Two things are required for this to work, both already handled inside `@parselabllc/ui` / this repo — worth knowing if you hit either in your own Vite-based SSR setup:
+
+- **`HTMLElement` in Node.** `@lit-labs/ssr-dom-shim` only auto-patches `globalThis.Event`/`CustomEvent`; `HTMLElement` and `customElements` are exported for the caller to assign itself. `@parselabllc/ui`'s internal `dom-shim.ts` does that assignment explicitly.
+- **React deduping for workspace-linked packages.** If you consume `@parselabllc/ui` from a monorepo via an npm/pnpm workspace link (as `packages/docs` does here), Vite's dependency optimizer skips linked packages by default, which can load a second `react` module instance and throw `Invalid hook call` during hydration. Add it to `optimizeDeps.include` in the consuming app's `vite.config.ts`:
+
+  ```ts
+  export default defineConfig({
+    optimizeDeps: { include: ["@parselabllc/ui/react"] },
+    resolve: { dedupe: ["react", "react-dom"] },
+  });
+  ```
+
+  Not needed when installing `@parselabllc/ui` as a normal (non-linked) npm dependency.
+
+Like Next.js, this is still client-side-only rendering — no server-rendered `<p-button>` markup yet (see the SSR follow-up in `PLAN.md`).
 
 ## Props
 

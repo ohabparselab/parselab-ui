@@ -99,6 +99,15 @@ export class PButton extends PreactCustomElement implements ButtonProps {
       : {};
     const interestAttrs = this.interestFor ? { interestfor: this.interestFor } : {};
 
+    // The label lives in its own `.content` element, separate from the
+    // spinner, for two reasons (matching Shopify's own `<s-button>`
+    // structure): the `:active` press-shift animates `.content` alone,
+    // not `[part=base]` itself, so it doesn't also drag the border/shadow
+    // along with it — and while `loading`, `.content` turns transparent
+    // (not `display:none`) so the button's width doesn't change, while the
+    // absolutely-positioned spinner sits centered on top of it.
+    const content = h("span", { class: "content" }, h("slot", null));
+
     if (this.href && !this.disabled) {
       return h(
         "a",
@@ -111,7 +120,7 @@ export class PButton extends PreactCustomElement implements ButtonProps {
           onClick: this.#handleClick,
         },
         spinner,
-        h("slot", null),
+        content,
       );
     }
 
@@ -128,7 +137,7 @@ export class PButton extends PreactCustomElement implements ButtonProps {
         ...interestAttrs,
       },
       spinner,
-      h("slot", null),
+      content,
     );
   }
 }

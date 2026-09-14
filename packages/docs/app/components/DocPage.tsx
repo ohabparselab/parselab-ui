@@ -62,21 +62,24 @@ export function DocPage({
   html,
   headings,
   children,
-  after,
 }: {
-  html: string;
+  /**
+   * The Markdown body. Pass a plain string to render it as one block, or
+   * `{ intro, rest }` (see `button-doc.server.ts`) to render `intro`, then
+   * `children`, then `rest` — e.g. an Examples gallery between the page's
+   * intro and its "Usage" section, rather than only before/after everything.
+   */
+  html: string | { intro: string; rest: string };
   headings: Heading[];
-  /** Rendered before the Markdown content (e.g. a live demo strip). */
   children?: ReactNode;
-  /** Rendered after the Markdown content (e.g. an Examples gallery). */
-  after?: ReactNode;
 }) {
+  const blocks = typeof html === "string" ? { intro: html, rest: "" } : html;
   return (
     <div className="doc-page">
       <article className="content" onClick={handleContentClick}>
+        <div dangerouslySetInnerHTML={{ __html: blocks.intro }} />
         {children}
-        <div dangerouslySetInnerHTML={{ __html: html }} />
-        {after}
+        {blocks.rest && <div dangerouslySetInnerHTML={{ __html: blocks.rest }} />}
       </article>
       {headings.length > 0 && <TableOfContents headings={headings} />}
     </div>

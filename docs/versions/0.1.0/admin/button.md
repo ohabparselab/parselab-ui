@@ -125,12 +125,11 @@ These are also available as plain, native `onclick`/`onblur`/`onfocus` propertie
 |---|---|---|
 | `--p-color-primary` / `-hover` / `-active` | `#303030` / `#1a1a1a` / `#1a1a1a` | Background for `variant="primary"`; also `variant="plain"`'s text color. |
 | `--p-color-critical` / `-hover` / `-active` | `#c70a24` / `#a30a24` / `#8e0b21` | Background for `variant="primary" tone="critical"`. |
-| `--p-color-critical-text` / `-hover` / `-active` | `#8e0b21` / `#5f0716` / `#2f040b` | Text color for `tone="critical"` on non-primary variants. |
+| `--p-color-critical-text` | `#8e0b21` | Text color for `tone="critical"` on non-primary variants (same color at every state). |
 | `--p-color-neutral` / `-hover` / `-active` | `#ffffff` / `#fafafa` / `#f7f7f7` | Background for `variant="secondary"` (default). |
-| `--p-color-surface-hover` / `-active` | `rgba(0,0,0,.06)` / `rgba(0,0,0,.1)` | Hover/active fill for `variant="tertiary"`. |
+| `--p-color-surface-hover` / `-active` | `rgba(0,0,0,.05)` / `rgba(0,0,0,.08)` | Hover/active fill for `variant="tertiary"`. |
 | `--p-color-text` | `#303030` | Text color for `secondary`/`tertiary` variants. |
 | `--p-color-text-on-primary` | `#ffffff` | Text color for `variant="primary"`. |
-| `--p-color-border` / `-hover` | `#e3e3e3` / `#cccccc` | Border for `secondary`/`tertiary` variants. |
 | `--p-color-focus-ring` | `#005bd3` | `:focus-visible` outline color, independent of variant/tone. |
 | `--p-radius-md` | `8px` | Corner radius. |
 | `--p-space-small` / `--p-space-large` | `0.375rem` / `0.75rem` | Vertical / horizontal padding. |

@@ -5,7 +5,7 @@ import tsconfigPaths from "vite-tsconfig-paths";
 export default defineConfig({
   plugins: [remix(), tsconfigPaths()],
   server: {
-    port: 4322,
+    port: 4326,
   },
   // `@parselabllc/ui` is npm-workspace-linked (a symlink into packages/ui),
   // so Vite treats it as source rather than a pre-bundled dependency —
@@ -20,5 +20,14 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ["@parselabllc/ui/react"],
+    // `@parselabllc/ui` is workspace-linked, so its dist output can change
+    // (during local `ui` package development) without the lockfile/config
+    // inputs Vite normally hashes ever changing — without forcing this,
+    // the pre-bundled `@parselabllc/ui/react` chunk keeps the same
+    // `?v=` hash across rebuilds, and browsers then cache it as
+    // `immutable` forever, silently serving stale component code. `force`
+    // makes every dev-server start re-bundle from scratch instead of
+    // reusing `node_modules/.vite`.
+    force: true,
   },
 });

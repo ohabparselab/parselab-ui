@@ -21,21 +21,18 @@ export default function ButtonDocs() {
     <DocPage
       html={html}
       headings={headings}
-      after={
-        <>
-          <h2 id="examples">Examples</h2>
-          {BUTTON_EXAMPLES.map((example, i) => (
-            <Example
-              key={example.id}
-              id={example.id}
-              title={example.title}
-              description={example.description}
-              preview={example.render()}
-              codeHtml={exampleCodeHtml[i]}
-            />
-          ))}
-        </>
-      }
-    />
+    >
+      <h2 id="examples">Examples</h2>
+      {BUTTON_EXAMPLES.map((example, i) => (
+        <Example
+          key={example.id}
+          id={example.id}
+          title={example.title}
+          description={example.description}
+          preview={example.render()}
+          codeHtml={exampleCodeHtml[i]}
+        />
+      ))}
+    </DocPage>
   );
 }

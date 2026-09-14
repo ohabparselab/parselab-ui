@@ -8,6 +8,7 @@ import styles from "./styles/docs.css?url";
 import tokens from "@parselabllc/ui/tokens.css?url";
 
 export const links = () => [
+  { rel: "icon", href: "/favicon.ico", sizes: "any" },
   { rel: "stylesheet", href: tokens },
   { rel: "stylesheet", href: styles },
 ];

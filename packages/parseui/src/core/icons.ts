@@ -4,7 +4,9 @@
  *      set from `@parseui/icons`, so npm users make no network requests;
  *   2. the icon CDN: `${iconBaseUrl}${name}.svg`, fetched once per name.
  */
-let baseUrl = `https://cdn.parseui.com/icons/${__PARSEUI_ICONS_VERSION__}/`;
+// The icons channel (newest release of this @parseui/icons major), so a redrawn
+// icon reaches every site at once.
+let baseUrl = `https://cdn.parseui.com/icons/v${__PARSEUI_ICONS_VERSION__.split(".")[0]}/`;
 const registered = new Map<string, string>();
 const fetched = new Map<string, Promise<SVGSVGElement | null>>();
 

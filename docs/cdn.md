@@ -4,13 +4,13 @@ Load ParseUI with a single script tag. No build step, no framework, no package m
 
 ## Add the script
 
-Put it in your page's `<head>`. Always pin an exact version, so a new release never changes your site without you knowing:
+Put it in your page's `<head>`:
 
 ```html
 <!doctype html>
 <html>
   <head>
-    <script src="https://cdn.parseui.com/1.0.0/parseui.min.js"></script>
+    <script src="https://cdn.parseui.com/v1/parseui.min.js"></script>
   </head>
   <body>
     <parse-ui>
@@ -20,7 +20,19 @@ Put it in your page's `<head>`. Always pin an exact version, so a new release ne
 </html>
 ```
 
-The script is about 5 KB gzipped and registers `<parse-ui>` as soon as it loads.
+The script is about 9 KB gzipped and registers `<parse-ui>` as soon as it loads.
+
+## Versions
+
+`/v1/` is the **v1 channel**: it always serves the newest 1.x release. Every fix and improvement reaches your site automatically — for every site using the channel, at once. Breaking changes only ever ship in a new major version (`/v2/`), so the channel never breaks your markup.
+
+To freeze a site on one exact release instead, use its version number:
+
+```html
+<script src="https://cdn.parseui.com/1.0.0/parseui.min.js"></script>
+```
+
+A pinned file never changes. Icons follow the same scheme: `https://cdn.parseui.com/icons/v1/<name>.svg` (channel) or `/icons/1.0.0/…` (pinned).
 
 ## The `<parseui>` tag
 
@@ -96,4 +108,4 @@ The CDN build exposes `window.ParseUI`:
 | `ParseUI.version` | The loaded version, e.g. `"1.0.0"`. |
 | `ParseUI.registerComponent(definition)` | Adds a component's CSS (and optional setup) to every `<parse-ui>`. |
 | `ParseUI.registerIcons(icons)` | Makes icons available by name without a network request: `{ name: innerSvgMarkup }`. |
-| `ParseUI.setIconBaseUrl(url)` | Where `<i icon>` loads SVGs from. Default `https://cdn.parseui.com/icons/1.0.0/`. |
+| `ParseUI.setIconBaseUrl(url)` | Where `<i icon>` loads SVGs from. Default `https://cdn.parseui.com/icons/v1/`. |

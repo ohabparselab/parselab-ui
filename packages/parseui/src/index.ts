@@ -1,5 +1,6 @@
 /**
- * The CDN build — https://cdn.parseui.com/<version>/parseui.min.js, exposed
+ * The CDN build — https://cdn.parseui.com/v<major>/parseui.min.js (channel)
+ * and /<version>/parseui.min.js (pinned), exposed
  * as `window.ParseUI`. This is the only place the library's code ships; the
  * npm package (src/loader.ts) loads this file.
  */

@@ -26,7 +26,7 @@ import "parseui";
 
 ## How it loads
 
-The npm package doesn't contain ParseUI's code. Importing it adds the CDN script for the exact version you installed — `parseui@1.0.0` loads `https://cdn.parseui.com/1.0.0/parseui.min.js` — so npm and plain-HTML sites run the very same file, and your bundle grows by under 1 KB.
+The npm package doesn't contain ParseUI's code. Importing it adds the CDN script for your major version's channel — `parseui@1.x` loads `https://cdn.parseui.com/v1/parseui.min.js` — so npm and plain-HTML sites run the very same file, and your bundle grows by under 1 KB. Fixes released to the CDN reach your app without reinstalling anything.
 
 - It loads once, in the background. `<parse-ui>` elements already on the page render as soon as it arrives.
 - `registerIcons()`, `setIconBaseUrl()`, and `registerComponent()` work right away — calls made before the script arrives are queued and applied before the first `<parse-ui>` renders.
@@ -39,7 +39,8 @@ To wait for it, or to load from somewhere else, call `load()` yourself — synch
 import { load } from "parseui";
 
 const ParseUI = await load(); // resolves with window.ParseUI
-// load({ src: "https://…/parseui.min.js" }) picks another URL
+// load({ pin: true })  — the exact installed version instead of the channel
+// load({ src: "https://…/parseui.min.js" }) — any other URL
 ```
 
 ## Use it

@@ -6,7 +6,10 @@
 import { version } from "parseui";
 
 export const PARSEUI_VERSION: string = version;
-export const CDN_URL = `https://cdn.parseui.com/${PARSEUI_VERSION}/parseui.min.js`;
+/** The v<major> channel — always the newest release of this major version. */
+export const CDN_URL = `https://cdn.parseui.com/v${PARSEUI_VERSION.split(".")[0]}/parseui.min.js`;
+/** One exact release, frozen. */
+export const CDN_PINNED_URL = `https://cdn.parseui.com/${PARSEUI_VERSION}/parseui.min.js`;
 
 export interface CodeVariant {
   label: string;

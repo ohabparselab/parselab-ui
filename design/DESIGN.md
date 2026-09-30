@@ -82,7 +82,7 @@ Tokens are `--p-*` custom properties on `:host`, defined as typed data in `packa
 
 ## Building a component, step by step
 
-1. Read its shadcn source (`shadcn-base-nova.md` or the registry JSON) and open its docs page.
+1. Pull shadcn's real source: `npm run shadcn -- <name>` writes the component (`<name>.tsx`), **every docs example** (`examples.tsx`), its registry dependencies and docs link into `.shadcn/<name>/` (git-ignored). Read those (and `shadcn-base-nova.md` for the classes), and open its docs page. Do this whenever a component's structure or behavior is unclear — don't guess.
 2. Map each `data-slot` part to a native element or an attribute; keep states on native attributes (`aria-*`, `disabled`, `open`, `checked`).
 3. Translate classes with the scales above; measure the live docs page to confirm (height, padding, radius, colors in light and dark).
 4. Cover every shared convention: focus, invalid, disabled, dark fills, icon sizes.

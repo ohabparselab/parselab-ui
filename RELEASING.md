@@ -3,16 +3,30 @@
 Code goes to GitHub; the server pulls it, builds, puts the library on the CDN, then publishes to npm. The npm package is only a loader for the CDN file, so **the CDN always comes first** — `scripts/release.sh` enforces that order.
 
 ```
-your machine ──git push──▶ GitHub ──git pull──▶ server ──▶ cdn.parseui.com/<version>/parseui.min.js
+your machine ──git push──▶ GitHub ──git pull──▶ server ──▶ cdn.parseui.com/<version>/  (pinned, frozen)
+                                                       ├─▶ cdn.parseui.com/v<major>/ (channel: every site updates)
                                                        └─▶ npm: @parseui/icons, parseui
 ```
+
+## How one change reaches every site
+
+Sites and npm apps load the **channel** (`/v1/`) by default — the npm package is only a loader for it. So a fix is one release away from every site:
+
+1. Bump the **patch** (or minor) version — `1.0.0` → `1.0.1` — and push.
+2. Run the release on the server. It writes the pinned `1.0.1/` folder and replaces `v1/` with 1.0.1.
+3. Every site on `/v1/` — plain HTML and npm alike — runs 1.0.1 within the channel's cache time (5 minutes below). No site has to change anything, and npm apps don't reinstall.
+
+A **breaking** change bumps the **major** version (`2.0.0`): it starts a new `/v2/` channel, and sites on `/v1/` keep working untouched until they choose to move. Sites that want no automatic updates at all use a pinned URL (`/1.0.1/…`, or `load({ pin: true })` with npm).
+
+The npm package only needs a new publish when the loader or the TypeScript types change; `SKIP_NPM=1` releases to the CDN alone.
 
 What gets published:
 
 | Where | Path | From |
 |---|---|---|
-| CDN | `https://cdn.parseui.com/<parseui version>/parseui.min.js` (+ `.map`) | `packages/parseui/dist/cdn/` |
-| CDN | `https://cdn.parseui.com/icons/<icons version>/<name>.svg`, `icons.json` | `packages/icons/dist/` |
+| CDN, pinned | `https://cdn.parseui.com/<version>/parseui.min.js` (+ `.map`) — never changes | `packages/parseui/dist/cdn/` |
+| CDN, channel | `https://cdn.parseui.com/v<major>/parseui.min.js` — replaced by every release of that major | same |
+| CDN | `https://cdn.parseui.com/icons/<version>/…` and `/icons/v<major>/…` (`<name>.svg`, `icons.json`) | `packages/icons/dist/` |
 | npm | `parseui` (loader + types) | `packages/parseui` |
 | npm | `@parseui/icons` | `packages/icons` |
 
@@ -53,8 +67,17 @@ What gets published:
      root /var/www/cdn.parseui.com;
      # ssl_certificate … (added by certbot)
 
+     # Channels (/v1/, /icons/v1/) change with every release: cache briefly,
+     # so an update reaches every site within ~5 minutes.
+     location ~ ^/(icons/)?v[0-9]+/ {
+       add_header Cache-Control "public, max-age=300, stale-while-revalidate=3600" always;
+       add_header Access-Control-Allow-Origin "*" always;
+       add_header X-Content-Type-Options "nosniff" always;
+       try_files $uri =404;
+     }
+
+     # Pinned versions (/1.0.1/, /icons/1.0.0/) never change: cache forever.
      location / {
-       # Every path contains a version, so files never change: cache forever.
        add_header Cache-Control "public, max-age=31536000, immutable" always;
        add_header Access-Control-Allow-Origin "*" always;
        add_header X-Content-Type-Options "nosniff" always;
@@ -95,8 +118,8 @@ The script:
 1. `git pull --ff-only` (stops if the server's checkout has local changes)
 2. `npm ci`
 3. `npm run build` and `npm run typecheck`
-4. copies the files into `$CDN_ROOT/<version>/` and `$CDN_ROOT/icons/<version>/` — and **stops** if that version already exists with different files (you forgot to bump)
-5. checks `https://cdn.parseui.com/…` answers 200 for the new files — and **stops** before npm if not
+4. copies the files into the pinned `$CDN_ROOT/<version>/` and `$CDN_ROOT/icons/<version>/` — and **stops** if that version already exists with different files (you forgot to bump) — then replaces the channels `$CDN_ROOT/v<major>/` and `$CDN_ROOT/icons/v<major>/` (never with an older version than they hold)
+5. checks `https://cdn.parseui.com/…` answers 200 for the new files and that each channel's `VERSION` is the new one — and **stops** before npm if not
 6. `npm publish` for `@parseui/icons`, then `parseui` — skipping any version that's already on npm
 
 Options: `SKIP_PULL=1` releases the checked-out code as is; `SKIP_NPM=1` stops after the CDN; `CDN_URL=…` checks a different public URL.
@@ -105,10 +128,18 @@ Options: `SKIP_PULL=1` releases the checked-out code as is; `SKIP_NPM=1` stops a
 
 ```bash
 curl -I https://cdn.parseui.com/1.0.1/parseui.min.js
+curl https://cdn.parseui.com/v1/VERSION        # the channel's current release
 npm view parseui version
 ```
 
 ## If something goes wrong
 
 - **The script stopped** — nothing after the failing step ran; fix the cause and run it again. Finished steps are skipped (same files already on the CDN, versions already on npm).
-- **A bad version is live** — don't overwrite it. Release a new patch version, then `npm deprecate parseui@<bad version> "Use <new version>"`.
+- **A bad version reached the channel** — every site on `/v1/` has it, so roll the channel back first (pinned folders are never touched), then fix forward with a new patch:
+
+  ```bash
+  cp -R /var/www/cdn.parseui.com/1.0.0/. /var/www/cdn.parseui.com/v1/ && echo 1.0.0 > /var/www/cdn.parseui.com/v1/VERSION
+  ```
+
+  Sites pick the rollback up within the channel cache time. If the bad version was also published to npm: `npm deprecate parseui@<bad version> "Use <new version>"`.
+- Because a channel release reaches everyone at once, always run `--dry-run` first, and check the new build on the examples page / docs before releasing.

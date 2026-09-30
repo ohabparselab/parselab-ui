@@ -10,10 +10,18 @@
 #   SKIP_PULL=1  release the checked-out code without `git pull`
 #   SKIP_NPM=1   stop after the CDN (steps 1–5)
 #
-# The CDN step must succeed before npm: the npm package loads
-# ${CDN_URL}/<version>/parseui.min.js, so publishing first would point new
-# installs at a file that isn't there. CDN versions are immutable — the
-# script refuses to overwrite a published version with different files.
+# Two kinds of CDN folders:
+#   <version>/       pinned, immutable — the script refuses to overwrite one
+#                    with different files (bump the version instead)
+#   v<major>/        the channel — updated to every release of that major, so
+#                    a fix reaches every site on the channel at once (npm
+#                    installs included: the loader loads the channel). Holds a
+#                    VERSION file; never moved backwards to an older release.
+# Icons follow the same scheme under icons/.
+#
+# The CDN step must succeed before npm: pinned npm installs load
+# ${CDN_URL}/<version>/parseui.min.js, so publishing first would point them at
+# a file that isn't there.
 set -euo pipefail
 
 DRY_RUN=0
@@ -75,6 +83,36 @@ to_cdn() {
 to_cdn "$STAGE/$VERSION" "$CDN_ROOT/$VERSION"
 to_cdn "$STAGE/icons/$ICONS_VERSION" "$CDN_ROOT/icons/$ICONS_VERSION"
 
+# stage-dir → channel dir (v<major>/), overwritten in place.
+newer_or_equal() { # $1 >= $2 (semver, numeric parts)
+  node -e 'const [a,b]=process.argv.slice(1).map(v=>v.split(/[.-]/).map(Number));for(let i=0;i<3;i++){if((a[i]||0)!==(b[i]||0))process.exit((a[i]||0)>(b[i]||0)?0:1)}process.exit(0)' "$1" "$2"
+}
+to_channel() {
+  local src=$1 dest=$2 version=$3 current=""
+  [ -f "$dest/VERSION" ] && current=$(cat "$dest/VERSION")
+  if [ -n "$current" ] && ! newer_or_equal "$version" "$current"; then
+    echo "Channel $dest has $current (newer than $version) — left as is."
+    return
+  fi
+  if [ "$current" = "$version" ] && diff -rq -x VERSION "$src" "$dest" >/dev/null 2>&1; then
+    echo "Channel already on $version: $dest"
+    return
+  fi
+  run mkdir -p "$dest"
+  run cp -R "$src/." "$dest/"
+  if [ "$DRY_RUN" != 1 ]; then
+    # Drop files this release doesn't have (e.g. a removed icon), then mark the version.
+    for file in "$dest"/*; do
+      name=$(basename "$file")
+      [ "$name" = VERSION ] || [ -e "$src/$name" ] || rm -f "$file"
+    done
+    echo "$version" > "$dest/VERSION"
+  fi
+  echo "Channel → $dest now serves $version${current:+ (was $current)}"
+}
+to_channel "$STAGE/$VERSION" "$CDN_ROOT/v${VERSION%%.*}" "$VERSION"
+to_channel "$STAGE/icons/$ICONS_VERSION" "$CDN_ROOT/icons/v${ICONS_VERSION%%.*}" "$ICONS_VERSION"
+
 step "5/6 Check the CDN serves them"
 check() {
   local url=$1 code
@@ -82,12 +120,21 @@ check() {
   [ "$code" = 200 ] || fail "$url → HTTP $code. Fix the web server before publishing to npm."
   echo "200 $url"
 }
+check_channel() { # the channel's VERSION, bypassing caches
+  local url=$1 want=$2 got
+  got=$(curl -s "$url/VERSION?t=$(date +%s)" | tr -d '[:space:]')
+  newer_or_equal "$got" "$want" 2>/dev/null || fail "$url serves ${got:-nothing}, expected $want."
+  echo "OK  $url → $got"
+}
 if [ "$DRY_RUN" = 1 ]; then
-  echo "[dry-run] would check $CDN_URL/$VERSION/parseui.min.js and $CDN_URL/icons/$ICONS_VERSION/icons.json"
+  echo "[dry-run] would check $CDN_URL/$VERSION/, $CDN_URL/v${VERSION%%.*}/ and the icon folders"
 else
   check "$CDN_URL/$VERSION/parseui.min.js"
+  check "$CDN_URL/v${VERSION%%.*}/parseui.min.js"
+  check_channel "$CDN_URL/v${VERSION%%.*}" "$VERSION"
   check "$CDN_URL/icons/$ICONS_VERSION/icons.json"
   check "$CDN_URL/icons/$ICONS_VERSION/$(ls packages/icons/dist/svg | head -1)"
+  check_channel "$CDN_URL/icons/v${ICONS_VERSION%%.*}" "$ICONS_VERSION"
 fi
 
 if [ "${SKIP_NPM:-0}" = 1 ]; then
@@ -119,5 +166,5 @@ publish parseui parseui "$VERSION"
 
 rm -rf "$STAGE"
 step "Done"
-echo "CDN: $CDN_URL/$VERSION/parseui.min.js"
+echo "CDN: $CDN_URL/v${VERSION%%.*}/parseui.min.js (channel) · $CDN_URL/$VERSION/parseui.min.js (pinned)"
 echo "npm: https://www.npmjs.com/package/parseui/v/$VERSION"

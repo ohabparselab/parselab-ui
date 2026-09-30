@@ -9,7 +9,7 @@ A drop-in UI library: add one script, wrap your markup in `<parse-ui>`, and plai
 ### CDN (JS)
 
 ```html
-<script src="https://cdn.parseui.com/1.0.0/parseui.min.js"></script>
+<script src="https://cdn.parseui.com/v1/parseui.min.js"></script>
 
 <parse-ui>
   <button view="primary">Save changes</button>

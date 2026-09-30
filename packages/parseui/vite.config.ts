@@ -9,7 +9,8 @@ const iconsPkg = JSON.parse(readFileSync(new URL("../icons/package.json", import
  * Two builds (see package.json "build"):
  *
  *   vite build              → dist/cdn/parseui.min.js — the library itself.
- *                             Uploaded to https://cdn.parseui.com/<version>/;
+ *                             Served at https://cdn.parseui.com/v<major>/ (channel)
+ *                             and /<version>/ (pinned);
  *                             the only place ParseUI's code is served from.
  *   vite build --mode npm   → dist/npm/parseui.js — the npm package's entry:
  *                             a small loader that adds the CDN script to the

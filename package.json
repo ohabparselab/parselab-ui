@@ -15,7 +15,8 @@
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release": "bash scripts/release.sh",
-    "build:icons": "npm run build --workspace=@parseui/icons"
+    "build:icons": "npm run build --workspace=@parseui/icons",
+    "shadcn": "bash scripts/shadcn-research.sh"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.10"

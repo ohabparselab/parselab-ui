@@ -1,7 +1,7 @@
 /**
  * The npm package's entry. It contains none of ParseUI's code: importing it
- * adds the CDN script for this exact version to the page, so npm and
- * vanilla-JS sites run the very same file from the CDN.
+ * adds the CDN script to the page — the v<major> channel, so npm and
+ * vanilla-JS sites run the very same, always-current file from the CDN.
  *
  *   import "parseui";                        // loads from the CDN
  *   import { registerIcons } from "parseui"; // works before the script arrives
@@ -19,8 +19,18 @@ export type * from "./types";
 
 export const version: string = __PARSEUI_VERSION__;
 
-/** The CDN script this package loads — pinned to the installed version. */
-export const CDN_URL = `https://cdn.parseui.com/${version}/parseui.min.js`;
+const major = version.split(".")[0];
+
+/**
+ * The CDN script this package loads: the **v<major> channel** — always the
+ * newest release of this major version. A fix released to the CDN reaches
+ * every site at once, npm installs included, with no reinstall. Breaking
+ * changes only ship in a new major (a new channel), so this never breaks.
+ */
+export const CDN_URL = `https://cdn.parseui.com/v${major}/parseui.min.js`;
+
+/** This exact release, frozen forever — for sites that must never change unannounced. `load({ pin: true })`. */
+export const CDN_PINNED_URL = `https://cdn.parseui.com/${version}/parseui.min.js`;
 
 /** `window.ParseUI` once the CDN script has run. */
 export interface ParseUIGlobal extends ParseUIApi {
@@ -28,8 +38,10 @@ export interface ParseUIGlobal extends ParseUIApi {
 }
 
 export interface LoadOptions {
-  /** Script URL. Defaults to CDN_URL. Only the first load() decides. */
+  /** Script URL. Defaults to CDN_URL (the v<major> channel). Only the first load() decides. */
   src?: string;
+  /** Load the installed exact version (CDN_PINNED_URL) instead of the channel. */
+  pin?: boolean;
 }
 
 type Slot = { ParseUI?: ParseUIGlobal | Partial<ParseUIStub> };
@@ -56,7 +68,7 @@ export function load(options: LoadOptions = {}): Promise<ParseUIGlobal> {
   const ready = loaded();
   if (ready) return (loading = Promise.resolve(ready));
 
-  const src = options.src ?? CDN_URL;
+  const src = options.src ?? (options.pin ? CDN_PINNED_URL : CDN_URL);
   loading = new Promise<ParseUIGlobal>((resolve, reject) => {
     // Reuse a script already on the page (e.g. added by hand) instead of loading twice.
     let script = document.querySelector<HTMLScriptElement>('script[data-parseui], script[src$="/parseui.min.js"]');
@@ -104,7 +116,7 @@ export function registerIcons(icons: Record<string, string>): void {
   call("registerIcons", [icons]);
 }
 
-/** Where `<i icon>` loads SVGs from. Default `https://cdn.parseui.com/icons/<@parseui/icons version>/`. */
+/** Where `<i icon>` loads SVGs from. Default `https://cdn.parseui.com/icons/v<major>/` (the icons channel). */
 export function setIconBaseUrl(url: string): void {
   call("setIconBaseUrl", [url]);
 }

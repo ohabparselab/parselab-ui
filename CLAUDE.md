@@ -23,6 +23,7 @@ npm run typecheck    # parseui + docs (tsc)
 npm run docs         # docs dev server, http://localhost:4326
 npm run build:icons  # rebuild icons after editing packages/icons/svg/*.svg
 npm run docs:version # snapshot docs/ into docs/versions/<parseui version>/
+npm run shadcn -- <name…> # pull shadcn/ui's source + docs examples into .shadcn/<name>/ (research before building)
 ```
 
 There is no test suite or linter. Verify in a browser: `.claude/launch.json` defines `docs` (4326), `parseui-examples` (4330, serves `packages/` — test page at `/parseui/examples/index.html`, uses the built `dist/cdn` file and local icon SVGs), and `parseui-react-example` (4331, React-reconciliation check). Rebuild parseui (`npm run build`) before checking the example pages.
@@ -33,10 +34,12 @@ After changing a package's `package.json` exports/paths, restart the docs dev se
 
 All library code is served from the CDN only; npm ships a loader. `packages/parseui` builds twice (`vite.config.ts`, mode switch):
 
-- `src/index.ts` → `dist/cdn/parseui.min.js` (IIFE, `window.ParseUI`) — the entire library, uploaded to `https://cdn.parseui.com/<version>/`.
+- `src/index.ts` → `dist/cdn/parseui.min.js` (IIFE, `window.ParseUI`) — the entire library, served pinned at `https://cdn.parseui.com/<version>/`.
 - `src/loader.ts` → `dist/npm/parseui.js` — what `import "parseui"` runs: injects the CDN script for the *installed version* and proxies `registerComponent` / `registerIcons` / `setIconBaseUrl`. **It may only `import type` from the library**, or library code leaks into the npm bundle.
 
 Calls made before the script loads are queued on a `window.ParseUI = { q: [...] }` stub (`src/core/api.ts`); the CDN build replays the queue after registering built-ins and **before** defining `<parse-ui>`, so they apply before first render. npm `files` exclude `dist/cdn`. Release order: upload `dist/cdn/` to the CDN **before** `npm publish` (publish workflow comments say so). The CDN isn't live yet.
+
+**Version channels (user requirement: one change must reach every site):** the loader's default `CDN_URL` is the `v<major>` channel (`https://cdn.parseui.com/v1/parseui.min.js`, icons `…/icons/v1/`), which `scripts/release.sh` replaces on every release; `/<version>/` folders are pinned and immutable (`load({ pin: true })`). So fixes ship as patch/minor bumps + a CDN release and reach all sites (npm apps included, no reinstall); breaking changes need a major bump (new channel). Never overwrite a pinned folder; never move a channel to an older version.
 
 ## parseui architecture
 

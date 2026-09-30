@@ -7,7 +7,7 @@ Wrap any HTML in `<parse-ui>` and every tag inside renders in a **shadow root** 
 **CDN** — one script tag in `<head>`:
 
 ```html
-<script src="https://cdn.parseui.com/1.0.0/parseui.min.js"></script>
+<script src="https://cdn.parseui.com/v1/parseui.min.js"></script>
 ```
 
 **npm**:
@@ -17,7 +17,7 @@ npm install parseui@latest
 ```
 
 ```js
-import "parseui"; // loads https://cdn.parseui.com/<installed version>/parseui.min.js; no-op during SSR
+import "parseui"; // loads https://cdn.parseui.com/v<major>/parseui.min.js (the channel); no-op during SSR
 ```
 
 The npm package contains no library code — it's a ~1 KB loader for the CDN file, so every site runs the same `parseui.min.js`. `registerIcons()`, `setIconBaseUrl()` and `registerComponent()` can be called right away (they're queued until the script arrives); `await load()` resolves with `window.ParseUI`.
@@ -132,7 +132,7 @@ Your own layout CSS goes in a `<style>` *inside* `<parse-ui>` (it moves into the
 <i icon="star" size="24" stroke-width="1.2" style="color: #f59e0b"></i>
 ```
 
-Each `<i icon>` loads its SVG from `https://cdn.parseui.com/icons/1.0.0/<name>.svg` once, then reuses it. To skip the network, register the set from [`@parseui/icons`](../icons):
+Each `<i icon>` loads its SVG from `https://cdn.parseui.com/icons/v1/<name>.svg` once, then reuses it. To skip the network, register the set from [`@parseui/icons`](../icons):
 
 ```js
 import { registerIcons } from "parseui";
@@ -182,7 +182,7 @@ Everything inside `<parse-ui>` lives in its shadow root, so:
 
 `npm run build` writes two things:
 
-- `dist/cdn/parseui.min.js` (+ `.map`) — the library. Upload to `https://cdn.parseui.com/<version>/`.
+- `dist/cdn/parseui.min.js` (+ `.map`) — the library. Served pinned at `https://cdn.parseui.com/<version>/` and as the `v<major>/` channel, which every release replaces — so a fix reaches every site (npm apps too) at once.
 - `dist/npm/parseui.js` + `dist/types/` — what `npm publish` ships.
 
 **Upload to the CDN before publishing to npm.** The npm package loads the CDN file for its own version, so publishing first would point new installs at a file that isn't there yet. `npm run release` (see [RELEASING.md](../../RELEASING.md)) does both, in that order.

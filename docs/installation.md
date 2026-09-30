@@ -9,7 +9,7 @@ Add ParseUI to any page in under a minute — pick the CDN script for plain HTML
 One script tag, no build step. Best for plain HTML, CMS themes, and prototypes.
 
 ```html
-<script src="https://cdn.parseui.com/1.0.0/parseui.min.js"></script>
+<script src="https://cdn.parseui.com/v1/parseui.min.js"></script>
 ```
 
 See the full [CDN setup guide](/docs/cdn).

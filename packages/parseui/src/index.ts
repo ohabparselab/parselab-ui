@@ -11,6 +11,7 @@ import type { ParseUIApi, ParseUIStub } from "./core/api";
 import { tokens } from "./tokens/tokens";
 import { base } from "./base/base";
 import { button } from "./components/button/button";
+import { input } from "./components/input/input";
 import { buttonGroup } from "./components/button-group/button-group";
 import { icon } from "./components/icon/icon";
 
@@ -25,6 +26,7 @@ if (typeof window !== "undefined" && typeof customElements !== "undefined") {
   registerComponent(tokens);
   registerComponent(base);
   registerComponent(button);
+  registerComponent(input);
   registerComponent(buttonGroup);
   registerComponent(icon);
 

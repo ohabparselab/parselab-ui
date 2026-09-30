@@ -1,13 +1,5 @@
 import type { ComponentDefinition } from "../core/registry";
 
-// Text-like inputs only; checkbox/radio/range/file/color and button-type
-// inputs get their own treatment (or Button's).
-const textInput =
-  'input:not([type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"], [type="button"], [type="submit"], [type="reset"], [type="image"], [type="hidden"])';
-
-const chevron =
-  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 6.5 8 10l3.5-3.5' fill='none' stroke='%238b8b98' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")";
-
 /**
  * ParseUI's default design for plain HTML inside `<parse-ui>` — the page's
  * own CSS never reaches in here, so every tag needs a considered default.
@@ -109,56 +101,11 @@ const css = `
     background: var(--p-color-bg-muted);
   }
 
-  /* Forms */
+  /* Forms — text inputs, select, textarea and fields are components/input. */
   label {
     display: inline-block;
     margin-bottom: 0.25rem;
     font-weight: var(--p-font-weight-medium);
-  }
-
-  ${textInput}, select, textarea {
-    display: block;
-    width: 100%;
-    min-height: 2.25rem;
-    margin: 0;
-    padding: 0.4375rem 0.75rem;
-    font: inherit;
-    line-height: 1.25rem;
-    color: var(--p-color-text);
-    background-color: var(--p-color-bg);
-    border: 0.0625rem solid var(--p-color-border-strong);
-    border-radius: var(--p-radius);
-    box-shadow: var(--p-shadow-xs);
-    transition: border-color var(--p-transition-fast), box-shadow var(--p-transition-fast);
-  }
-  :is(${textInput}, select, textarea):hover:not(:disabled) {
-    border-color: var(--p-color-text-tertiary);
-  }
-  :is(${textInput}, select, textarea):focus-visible {
-    outline: none;
-    border-color: var(--p-color-primary);
-    box-shadow: 0 0 0 3px var(--p-color-ring);
-  }
-  :is(${textInput}, select, textarea):disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
-  }
-  ::placeholder {
-    color: var(--p-color-text-tertiary);
-    opacity: 1;
-  }
-
-  textarea {
-    min-height: 4rem;
-    resize: vertical;
-  }
-
-  select {
-    appearance: none;
-    padding-inline-end: 2rem;
-    background-image: ${chevron};
-    background-repeat: no-repeat;
-    background-position: right 0.5rem center;
   }
 
   input[type="checkbox"], input[type="radio"] {

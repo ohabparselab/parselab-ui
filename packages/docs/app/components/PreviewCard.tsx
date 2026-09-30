@@ -8,6 +8,7 @@ import { CodeTabs } from "./CodeTabs";
 // has to live in there too). Never part of the code users copy.
 const PREVIEW_STYLE = `<style>
   .docs-preview { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.5rem; }
+  .docs-preview > :is([field], [field-group], form, input, select, textarea) { width: 100%; max-width: 20rem; }
 </style>`;
 
 function PreviewSurface({ markup, theme }: { markup: string; theme: "light" | "dark" }) {

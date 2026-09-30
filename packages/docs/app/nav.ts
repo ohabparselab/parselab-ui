@@ -33,7 +33,8 @@ export const NAV: NavSection[] = [
     items: [
       { title: "Overview", path: COMPONENTS_OVERVIEW },
       { title: "Button", path: "/components/button" },
-      { title: "Button group", path: "/components/button-group", badge: "New" },
+      { title: "Button group", path: "/components/button-group" },
+      { title: "Input", path: "/components/input", badge: "New" },
     ],
   },
 ];

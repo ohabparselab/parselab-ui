@@ -84,6 +84,18 @@ Your own layout CSS goes in a `<style>` *inside* `<parse-ui>` (it moves into the
 </parse-ui>
 ```
 
+### Input
+
+```html
+<div field>
+  <label for="email">Email</label>
+  <input id="email" type="email" placeholder="name@example.com" required>
+  <small>We'll never share your email.</small>
+</div>
+```
+
+`<input>`, `<select>`, `<textarea>` and file inputs get the same design. `field` stacks a label, a control and a `<small>` description (`field="horizontal"` puts them in a row); `field-group` stacks fields (`field-group="horizontal"` side by side). `aria-invalid="true"`, `disabled` and `required` on the control also restyle its field's label. Inside a `group`, inputs join with buttons.
+
 ### Button group
 
 ```html

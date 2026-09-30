@@ -1,8 +1,10 @@
 import type { ComponentDefinition } from "../../core/registry";
 import { BUTTON_SELECTOR, FILLED_VIEWS } from "../button/button.css";
+import { TEXT_CONTROL } from "../input/input";
 
 /**
- * `<div group>` joins the buttons inside it into one control.
+ * `<div group>` joins the buttons (and text inputs / selects) inside it into
+ * one control — e.g. a search input with its button.
  *
  *   group               horizontal (default)
  *   group="vertical"    stacked
@@ -16,6 +18,8 @@ import { BUTTON_SELECTOR, FILLED_VIEWS } from "../button/button.css";
  */
 const g = "[group]";
 const child = `${g} > :is(${BUTTON_SELECTOR})`;
+// Everything that joins: buttons, plus inputs and selects.
+const member = `:is(${BUTTON_SELECTOR}, ${TEXT_CONTROL})`;
 const filled = `:is(${FILLED_VIEWS.map((view) => `[view="${view}"]`).join(", ")}):not([outline])`;
 const selected = ':is([aria-pressed="true"], [aria-current]:not([aria-current="false"]))';
 const none = "0 0 0 0 transparent";
@@ -28,6 +32,17 @@ const css = `
   }
   ${g}[group="vertical"] {
     flex-direction: column;
+  }
+  /* With an input inside, the group spans its container and the input takes the free space. */
+  ${g}:has(> :is(${TEXT_CONTROL})) {
+    display: flex;
+  }
+  ${g} > :is(${TEXT_CONTROL}) {
+    flex: 1 1 auto;
+    width: auto;
+  }
+  ${g} > :is(${TEXT_CONTROL}):is(:focus-visible, [aria-invalid="true"]) {
+    z-index: 2;
   }
 
   ${child} {
@@ -46,12 +61,12 @@ const css = `
   }
 
   /* Horizontal: shared borders, outer corners only. */
-  ${g}:not([group="vertical"]) > :is(${BUTTON_SELECTOR}):not(:first-child) {
+  ${g}:not([group="vertical"]) > ${member}:not(:first-child) {
     margin-inline-start: -1px;
     border-start-start-radius: 0;
     border-end-start-radius: 0;
   }
-  ${g}:not([group="vertical"]) > :is(${BUTTON_SELECTOR}):not(:last-child) {
+  ${g}:not([group="vertical"]) > ${member}:not(:last-child) {
     border-start-end-radius: 0;
     border-end-end-radius: 0;
   }
@@ -62,12 +77,12 @@ const css = `
   }
 
   /* Vertical: the same, top to bottom. */
-  ${g}[group="vertical"] > :is(${BUTTON_SELECTOR}):not(:first-child) {
+  ${g}[group="vertical"] > ${member}:not(:first-child) {
     margin-block-start: -1px;
     border-start-start-radius: 0;
     border-start-end-radius: 0;
   }
-  ${g}[group="vertical"] > :is(${BUTTON_SELECTOR}):not(:last-child) {
+  ${g}[group="vertical"] > ${member}:not(:last-child) {
     border-end-start-radius: 0;
     border-end-end-radius: 0;
   }

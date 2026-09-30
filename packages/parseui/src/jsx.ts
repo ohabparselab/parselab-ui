@@ -39,6 +39,10 @@ declare module "react" {
     icon?: string;
     /** Joins the buttons inside into a button group. */
     group?: "" | "vertical";
+    /** Lays out a label, a control and a <small> description. */
+    field?: "" | "horizontal";
+    /** Stacks fields (or puts them side by side). */
+    "field-group"?: "" | "horizontal";
   }
   interface ButtonHTMLAttributes<T> extends ParseUIButtonAttributes {}
   interface AnchorHTMLAttributes<T> extends ParseUIButtonAttributes {}

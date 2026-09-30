@@ -21,12 +21,13 @@ const indent = (text: string, spaces: number) =>
     .join("\n");
 
 /**
- * HTML → JSX: ParseUI's presence-only attributes need a value in React, and
- * SVG presentation attributes are camelCase.
+ * HTML → JSX: ParseUI's presence-only attributes need a value in React,
+ * `for` is `htmlFor`, and SVG presentation attributes are camelCase.
  */
 function toJsx(markup: string): string {
   return markup
-    .replace(/ (loading|icon-only|full-width|outline|group)(?=[\s>/])/g, ' $1=""')
+    .replace(/ (loading|icon-only|full-width|outline|group|field|field-group)(?=[\s>/])/g, ' $1=""')
+    .replace(/ for="/g, ' htmlFor="')
     .replace(/ stroke-(width|linecap|linejoin)=/g, (_, name: string) => ` stroke${name[0].toUpperCase()}${name.slice(1)}=`);
 }
 

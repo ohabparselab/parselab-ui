@@ -51,6 +51,14 @@ const dark = `
   --p-button-default-fg: oklch(0.985 0 0);
   --p-button-default-border: rgba(255, 255, 255, 0.15);
   --p-button-default-ring: oklch(0.556 0 0);
+
+  --p-input-bg: rgba(255, 255, 255, 0.045);
+  --p-input-border: rgba(255, 255, 255, 0.15);
+  --p-input-disabled-bg: rgba(255, 255, 255, 0.12);
+  --p-input-muted: oklch(0.708 0 0);
+  --p-input-ring: oklch(0.556 0 0);
+  --p-input-invalid-border: color-mix(in oklab, var(--p-color-danger) 50%, transparent);
+  --p-input-invalid-ring: color-mix(in oklab, var(--p-color-danger) 40%, transparent);
 `;
 
 const css = `
@@ -110,6 +118,16 @@ const css = `
     --p-button-default-border: oklch(0.922 0 0);
     --p-button-default-ring: oklch(0.708 0 0);
     --p-button-default-radius: 0.625rem;
+
+    /* Inputs (shadcn/ui's input): same border and ring as the default button. */
+    --p-input-bg: transparent;
+    --p-input-border: oklch(0.922 0 0);
+    --p-input-disabled-bg: color-mix(in oklab, oklch(0.922 0 0) 50%, transparent);
+    --p-input-muted: oklch(0.556 0 0);
+    --p-input-ring: oklch(0.708 0 0);
+    --p-input-invalid-border: var(--p-color-danger);
+    --p-input-invalid-ring: color-mix(in oklab, var(--p-color-danger) 20%, transparent);
+    --p-input-radius: 0.625rem;
 
     --p-radius: 0.5rem;
     --p-radius-sm: calc(var(--p-radius) * 0.75);

@@ -49,7 +49,7 @@ A `<button>` with no attributes is white with a thin border (a subtle dark surfa
 | `icon-only` | boolean — square button; add an `aria-label` | — |
 | `full-width` | boolean — stretches to its container | — |
 | `disabled` | boolean | — |
-| `loading` | boolean — spinner, label hidden (width unchanged), clicks blocked, `aria-busy="true"` | — |
+| `loading` | spinner, clicks blocked, `aria-busy="true"`. `loading` alone hides the label (width unchanged); `loading="start"` / `loading="end"` keep the label and put the spinner before / after it | — |
 
 ```html
 <button>Default</button>

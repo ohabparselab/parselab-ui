@@ -1,4 +1,3 @@
-import { CDN_URL } from "../code";
 import type { ComponentDoc } from "../types";
 
 export const buttonGroupDoc: ComponentDoc = {
@@ -7,24 +6,6 @@ export const buttonGroupDoc: ComponentDoc = {
   description:
     "Joins related buttons into one control — a toolbar, a split of actions, or a segmented control that switches a view. Add `group` to any element around your buttons.",
   badges: ["Stable", "Native <button>", "Shadow DOM"],
-
-  hero: `<div group role="group" aria-label="Range">
-  <button aria-pressed="false">Day</button>
-  <button aria-pressed="true">Week</button>
-  <button aria-pressed="false">Month</button>
-  <button aria-pressed="false">Year</button>
-</div>`,
-
-  installation: [
-    { label: "CDN (JS)", lang: "html", code: `<script src="${CDN_URL}"></script>` },
-    { label: "npm", lang: "bash", code: "npm install parseui@latest" },
-  ],
-
-  usage: `<div group role="group" aria-label="Text alignment">
-  <button>Left</button>
-  <button>Center</button>
-  <button>Right</button>
-</div>`,
 
   examples: [
     {

@@ -6,7 +6,9 @@
  *         success | warning | info | danger | link"
  *   outline     any view as an outline button: transparent fill, colored
  *               border and label, a tint of the color on hover
- *   size="xs | sm | md | lg", icon-only, full-width, disabled, loading
+ *   size="xs | sm | md | lg", icon-only, full-width, disabled,
+ *   loading (spinner replaces the label) | loading="start" | loading="end"
+ *   (spinner beside the label)
  *
  * Filled buttons rest on a soft drop shadow. Hover deepens the fill and
  * lifts the shadow a little; pressing darkens the fill, flattens the shadow
@@ -285,23 +287,36 @@ export const buttonCss: string = `
     pointer-events: none;
   }
 
-  /* Loading: label (and icons, via currentColor) hidden but still taking
-     space so the width stays stable; spinner centered on top. */
+  /* Loading. Clicks are blocked for every form (see button.ts).
+       loading          label (and icons, via currentColor) hidden but still
+                        taking space, so the width stays stable; spinner
+                        centered on top
+       loading="start"  label stays; spinner before it (left in LTR)
+       loading="end"    label stays; spinner after it (right in LTR)
+     The side spinners are flex items, so they sit in the button's gap. */
   ${b}[loading] {
-    color: transparent;
     cursor: default;
   }
-  ${b}[loading]::after {
+  ${b}[loading]:not([loading="start"], [loading="end"]) {
+    color: transparent;
+  }
+  ${b}[loading]:not([loading="start"], [loading="end"])::after,
+  ${b}[loading="start"]::before,
+  ${b}[loading="end"]::after {
     content: "";
-    position: absolute;
-    inset: 0;
+    box-sizing: border-box;
+    flex-shrink: 0;
     width: 1rem;
     height: 1rem;
-    margin: auto;
     border: 2px solid var(--_fg);
     border-right-color: transparent;
     border-radius: 50%;
     animation: parseui-spin 0.6s linear infinite;
+  }
+  ${b}[loading]:not([loading="start"], [loading="end"])::after {
+    position: absolute;
+    inset: 0;
+    margin: auto;
   }
 
   @keyframes parseui-spin {

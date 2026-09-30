@@ -4,25 +4,21 @@ import type { ComponentDoc } from "~/content/types";
 import { DocPage } from "./DocPage";
 import { PageHeader } from "./PageHeader";
 import { PreviewCard } from "./PreviewCard";
-import { CodeTabs } from "./CodeTabs";
 import { PrevNext } from "./PrevNext";
 import { Inline } from "./Inline";
 
+import { slugify } from "~/lib/slugify";
+
 export interface ComponentCode {
-  hero: HighlightedCode[];
-  installation: HighlightedCode[];
-  usage: HighlightedCode[];
   examples: HighlightedCode[][];
 }
 
-import { slugify } from "~/lib/slugify";
-
 function headingsFor(doc: ComponentDoc): Heading[] {
+  const [top, ...rest] = doc.examples;
   return [
-    { id: "installation", text: "Installation", depth: 2 },
-    { id: "usage", text: "Usage", depth: 2 },
+    { id: top.id, text: top.title, depth: 2 },
     { id: "examples", text: "Examples", depth: 2 },
-    ...doc.examples.map((example) => ({ id: example.id, text: example.title, depth: 3 })),
+    ...rest.map((example) => ({ id: example.id, text: example.title, depth: 3 })),
     { id: "api-reference", text: "API reference", depth: 2 },
     ...doc.api.map((table) => ({ id: slugify(table.title), text: table.title, depth: 3 })),
     { id: "accessibility", text: "Accessibility", depth: 2 },
@@ -30,7 +26,11 @@ function headingsFor(doc: ComponentDoc): Heading[] {
   ];
 }
 
-/** The standard component page: preview, install, usage, examples, API, a11y — same layout for every component. */
+/**
+ * The standard component page, same layout for every component: the first
+ * example (the component's default use) right under the header, then the
+ * other examples, API, accessibility and keyboard.
+ */
 export function ComponentPage({
   doc,
   code,
@@ -40,29 +40,27 @@ export function ComponentPage({
   code: ComponentCode;
   versionPrefix: string;
 }) {
+  const [top, ...rest] = doc.examples;
   return (
     <DocPage headings={headingsFor(doc)}>
       <PageHeader eyebrow="Components" title={doc.title} description={doc.description} badges={doc.badges} />
-      <PreviewCard markup={doc.hero} code={code.hero} />
 
-      <h2 id="installation">Installation</h2>
-      <p>
-        Load ParseUI once per page — with the CDN script, or from npm. See <a href={`${versionPrefix}/installation`}>Installation</a>{" "}
-        for details.
-      </p>
-      <CodeTabs items={code.installation} />
-
-      <h2 id="usage">Usage</h2>
-      <CodeTabs items={code.usage} />
+      <section className="example">
+        <h2 id={top.id}>{top.title}</h2>
+        <p>
+          <Inline text={top.description} />
+        </p>
+        <PreviewCard markup={top.markup} code={code.examples[0]} />
+      </section>
 
       <h2 id="examples">Examples</h2>
-      {doc.examples.map((example, index) => (
+      {rest.map((example, index) => (
         <section key={example.id} className="example">
           <h3 id={example.id}>{example.title}</h3>
           <p>
             <Inline text={example.description} />
           </p>
-          <PreviewCard markup={example.markup} code={code.examples[index]} />
+          <PreviewCard markup={example.markup} code={code.examples[index + 1]} />
         </section>
       ))}
 

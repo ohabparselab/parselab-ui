@@ -1,4 +1,3 @@
-import { CDN_URL } from "../code";
 import type { ComponentDoc } from "../types";
 
 export const buttonDoc: ComponentDoc = {
@@ -7,26 +6,6 @@ export const buttonDoc: ComponentDoc = {
   description:
     "Triggers an action or event, such as submitting a form, opening a dialog, or saving changes. ParseUI styles any native `<button>`, `<input type=\"submit\">`, or `<a view>` inside `<parse-ui>` — no custom tag needed.",
   badges: ["Stable", "Native <button>", "Shadow DOM"],
-
-  hero: `<button view="primary">Primary</button>
-<button view="secondary">Secondary</button>
-<button view="gray">Gray</button>
-<button view="light">Light</button>
-<button view="dark">Dark</button>
-<button view="soft">Soft</button>
-<button view="ghost">Ghost</button>
-<button view="success">Success</button>
-<button view="warning">Warning</button>
-<button view="info">Info</button>
-<button view="danger">Danger</button>
-<button view="link">Link</button>`,
-
-  installation: [
-    { label: "CDN (JS)", lang: "html", code: `<script src="${CDN_URL}"></script>` },
-    { label: "npm", lang: "bash", code: "npm install parseui@latest" },
-  ],
-
-  usage: `<button view="primary">Save changes</button>`,
 
   examples: [
     {
@@ -110,10 +89,21 @@ export const buttonDoc: ComponentDoc = {
       id: "loading",
       title: "Loading",
       description:
-        "While `loading`, the button keeps its width, shows a spinner, ignores clicks, and sets `aria-busy` for screen readers.",
+        "While `loading`, the button keeps its width, shows a spinner in place of the label, ignores clicks, and sets `aria-busy` for screen readers.",
       markup: `<button view="primary" loading>Saving</button>
 <button view="secondary" loading>Loading</button>
 <button loading>Default</button>`,
+    },
+    {
+      id: "loading-label",
+      title: "Loading with label",
+      description:
+        "`loading=\"start\"` puts the spinner before the label and `loading=\"end\"` after it, keeping the text visible — handy when the label says what's happening. Clicks are still blocked.",
+      markup: `<button view="primary" loading="start">Saving</button>
+<button view="primary" loading="end">Saving</button>
+<button view="secondary" loading="start">Uploading</button>
+<button view="success" outline loading="end">Publishing</button>
+<button loading="start">Loading</button>`,
     },
     {
       id: "disabled",
@@ -166,7 +156,7 @@ export const buttonDoc: ComponentDoc = {
         ["size", '"xs" | "sm" | "md" | "lg"', '"md"', "Height, padding, and font size."],
         ["icon-only", "boolean", "—", "Square button for a single icon. Needs an aria-label."],
         ["full-width", "boolean", "—", "Stretches to the width of its container."],
-        ["loading", "boolean", "—", "Spinner, label hidden but width kept, clicks blocked, aria-busy set."],
+        ["loading", '"" | "start" | "end"', "—", "Shows a spinner, blocks clicks, sets aria-busy. Empty: spinner replaces the label (width kept). start / end: spinner before / after the visible label."],
         ["disabled", "boolean", "—", "Native disabled state, shown at 50% opacity."],
       ],
     },

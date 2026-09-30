@@ -58,8 +58,6 @@ function componentEntries(section: string, slug: string, path: string): SearchEn
 
   return [
     { page: doc.title, section, path, text: plain(doc.description) },
-    { page: doc.title, section, heading: "Installation", path: at("installation"), text: doc.installation.map((v) => v.code).join(" ") },
-    { page: doc.title, section, heading: "Usage", path: at("usage"), text: doc.usage },
     ...doc.examples.map((example) => ({
       page: doc.title,
       section,

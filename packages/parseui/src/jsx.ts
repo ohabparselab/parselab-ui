@@ -29,7 +29,8 @@ interface ParseUIButtonAttributes {
   outline?: "";
   "icon-only"?: "";
   "full-width"?: "";
-  loading?: "";
+  /** `""`: spinner replaces the label. `"start"` / `"end"`: spinner before / after the label, which stays visible. */
+  loading?: "" | "start" | "end";
 }
 
 declare module "react" {

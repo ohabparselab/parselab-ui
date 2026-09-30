@@ -1,5 +1,3 @@
-import type { CodeVariant } from "./code";
-
 export interface ComponentExample {
   id: string;
   title: string;
@@ -23,9 +21,7 @@ export interface ComponentDoc {
   title: string;
   description: string;
   badges: string[];
-  hero: string;
-  installation: CodeVariant[];
-  usage: string;
+  /** The first example is the component's default use — shown right under the page header. */
   examples: ComponentExample[];
   api: ApiTable[];
   accessibility: string[];

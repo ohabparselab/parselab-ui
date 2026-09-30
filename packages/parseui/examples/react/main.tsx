@@ -1,4 +1,7 @@
-import "../../dist/parseui.js";
+// The npm entry, exactly as `import { load } from "parseui"` — pointed at the
+// local CDN build instead of cdn.parseui.com.
+import { load } from "../../dist/npm/parseui.js";
+load({ src: new URL("../../dist/cdn/parseui.min.js", import.meta.url).href });
 import type {} from "../../src/jsx";
 import { useState } from "react";
 import { createRoot } from "react-dom/client";

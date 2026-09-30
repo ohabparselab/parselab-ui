@@ -22,6 +22,8 @@ For projects with a bundler (Vite, Next.js, Remix, webpack).
 npm install parseui@latest
 ```
 
+The package is a tiny loader: it pulls the same `parseui.min.js` from the CDN, so both methods run identical code.
+
 ```js
 import "parseui";
 ```

@@ -1,14 +1,8 @@
-import { registerIcons } from "parseui";
 import type {} from "parseui/jsx";
-import { icons } from "@parseui/icons";
 import { useEffect, useRef, useState } from "react";
 import type { HighlightedCode } from "~/lib/pages.server";
 import { useSiteTheme } from "~/lib/use-site-theme";
 import { CodeTabs } from "./CodeTabs";
-
-// Previews use the icon set from the package instead of fetching each
-// <i icon> from the CDN — same icons, no network requests.
-registerIcons(icons);
 
 // Layout for the preview only (page CSS can't reach inside <parse-ui>, so it
 // has to live in there too). Never part of the code users copy.

@@ -17,8 +17,10 @@ npm install parseui@latest
 ```
 
 ```js
-import "parseui"; // registers <parse-ui>; safe to import during SSR (no-op on the server)
+import "parseui"; // loads https://cdn.parseui.com/<installed version>/parseui.min.js; no-op during SSR
 ```
+
+The npm package contains no library code — it's a ~1 KB loader for the CDN file, so every site runs the same `parseui.min.js`. `registerIcons()`, `setIconBaseUrl()` and `registerComponent()` can be called right away (they're queued until the script arrives); `await load()` resolves with `window.ParseUI`.
 
 ## Usage
 
@@ -134,3 +136,12 @@ Everything inside `<parse-ui>` lives in its shadow root, so:
 - A `<form>` outside `<parse-ui>` won't submit inputs inside it — put the whole form inside. `<label for>` can't point across the boundary either.
 - **React `onClick` on elements inside `<parse-ui>` doesn't fire** (React listens outside the shadow root). Native `onclick="…"` and `addEventListener` do work. React content inside *renders and updates* correctly — only its event handlers are affected. An event API is planned.
 - Page CSS doesn't reach inside (by design) — use tokens or an inner `<style>`.
+
+## Releasing
+
+`npm run build` writes two things:
+
+- `dist/cdn/parseui.min.js` (+ `.map`) — the library. Upload to `https://cdn.parseui.com/<version>/`.
+- `dist/npm/parseui.js` + `dist/types/` — what `npm publish` ships.
+
+**Upload to the CDN before publishing to npm.** The npm package loads the CDN file for its own version, so publishing first would point new installs at a file that isn't there yet.

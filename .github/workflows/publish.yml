@@ -30,6 +30,8 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      # The npm package loads https://cdn.parseui.com/<version>/parseui.min.js:
+      # upload packages/parseui/dist/cdn/ to the CDN before this step runs.
       - run: npm publish --access public --workspace=parseui
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

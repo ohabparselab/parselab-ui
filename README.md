@@ -65,7 +65,8 @@ parselab-ui/
 
 ```bash
 npm install
-npm run build            # builds parseui: dist/parseui.js (ESM) + dist/parseui.min.js (IIFE)
+npm run build            # @parseui/icons, then parseui: dist/cdn/parseui.min.js (the library, for the CDN)
+                         # + dist/npm/parseui.js (the npm loader that loads it)
 npm run typecheck
 ```
 

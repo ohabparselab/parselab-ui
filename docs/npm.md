@@ -18,13 +18,29 @@ bun add parseui@latest
 
 ## Import once
 
-Import the package once, in your app's entry file. It registers `<parse-ui>` as a side effect:
+Import the package once, in your app's entry file:
 
 ```js
 import "parseui";
 ```
 
-The import is safe during server-side rendering — it does nothing until it runs in a browser.
+## How it loads
+
+The npm package doesn't contain ParseUI's code. Importing it adds the CDN script for the exact version you installed — `parseui@1.0.0` loads `https://cdn.parseui.com/1.0.0/parseui.min.js` — so npm and plain-HTML sites run the very same file, and your bundle grows by under 1 KB.
+
+- It loads once, in the background. `<parse-ui>` elements already on the page render as soon as it arrives.
+- `registerIcons()`, `setIconBaseUrl()`, and `registerComponent()` work right away — calls made before the script arrives are queued and applied before the first `<parse-ui>` renders.
+- During server-side rendering the import does nothing.
+- If your site sets a Content-Security-Policy, allow `https://cdn.parseui.com` in `script-src`.
+
+To wait for it, or to load from somewhere else, call `load()` yourself — synchronously, at startup:
+
+```js
+import { load } from "parseui";
+
+const ParseUI = await load(); // resolves with window.ParseUI
+// load({ src: "https://…/parseui.min.js" }) picks another URL
+```
 
 ## Use it
 
@@ -59,14 +75,6 @@ export function SaveBar() {
 `parseui/jsx` adds TypeScript types for `<parse-ui>` and the `view`, `size`, `icon-only`, `full-width`, and `loading` attributes. In React, pass presence-only attributes an empty string — `loading=""`, not `loading={true}`.
 
 React renders and updates content inside `<parse-ui>` normally. **React `onClick` handlers on elements inside `<parse-ui>` don't fire yet** (React listens outside the shadow root) — attach listeners with `addEventListener` for now. An event API is planned.
-
-## Use the bundled file directly
-
-The package also ships the CDN build, if you'd rather self-host it:
-
-```js
-import "parseui/parseui.min.js";
-```
 
 ## Add your own component
 

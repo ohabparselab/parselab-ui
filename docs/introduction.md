@@ -22,7 +22,7 @@ Color, radius, and type are CSS custom properties. Rebrand by overriding a few v
 
 ### One file, two ways to install
 
-The same `parseui.min.js` is served from the CDN and shipped in the npm package.
+Everything runs from one `parseui.min.js` on the CDN — the npm package is a tiny loader for that same file.
 
 ## What's inside
 

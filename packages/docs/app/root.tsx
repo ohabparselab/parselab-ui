@@ -1,6 +1,7 @@
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
 
 import styles from "./styles/docs.css?url";
+import "./lib/parseui.client";
 
 export const links = () => [
   { rel: "icon", href: "/favicon.ico", sizes: "any" },

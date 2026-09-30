@@ -1,12 +1,14 @@
 /**
  * Button styles for native buttons inside `<parse-ui>`.
  *
- *   (no view)   white with a thin border — shadcn/ui's outline button
+ *   (no view)   shadcn/ui's default button — near-black (light in dark mode)
+ *   view="outline"  shadcn/ui's outline button — white with a thin border
  *   view="primary | secondary | gray | light | dark | soft | ghost |
- *         success | warning | info | danger | link"
+ *         success | warning | info | danger | link"   ParseUI's palette
  *   outline     any view as an outline button: transparent fill, colored
  *               border and label, a tint of the color on hover
- *   size="xs | sm | md | lg", icon-only, full-width, disabled,
+ *   size="xs | sm | md | lg" (24 / 28 / 32 / 36px — shadcn's scale, so buttons
+ *   line up with inputs), icon-only, full-width, disabled,
  *   loading (spinner replaces the label) | loading="start" | loading="end"
  *   (spinner beside the label)
  *
@@ -30,7 +32,7 @@ const inactive = ':is(:disabled, [disabled], [aria-disabled="true"], [loading])'
 // No-op shadow, so shadow lists stay valid when a layer is "off".
 const none = "0 0 0 0 transparent";
 
-/** Views with a solid fill (elevation, and a divider inside a group). */
+/** Views with a solid fill (elevation, and a divider inside a group). The no-view default is solid too. */
 export const FILLED_VIEWS: string[] = ["primary", "gray", "light", "dark", "success", "warning", "info", "danger"];
 
 const elevated = `
@@ -53,21 +55,23 @@ const colored = (color: string, foreground: string, pressMix = "78%, #000") => `
     --_fg: ${foreground};`;
 
 export const buttonCss: string = `
-  /* --- default (no view): white, thin border --- */
+  /* --- default (no view): shadcn/ui's default button, and the shared frame --- */
   ${b} {
     --_h: 2rem;
     --_px: 0.625rem;
+    --_gap: 0.375rem;
+    --_icon: 1rem;
     --_press: 0.97;
 
     --_bg: var(--p-button-default-bg);
-    --_bg-hover: var(--p-button-default-hover);
-    --_bg-active: var(--p-button-default-active);
+    --_bg-hover: color-mix(in oklab, var(--p-button-default-bg) 80%, transparent);
+    --_bg-active: color-mix(in oklab, var(--p-button-default-bg) 72%, transparent);
     --_fg: var(--p-button-default-fg);
-    --_border: var(--p-button-default-border);
+    --_border: transparent;
     --_accent: var(--p-color-text);
     ${flat}
     --_shadow-now: var(--_shadow);
-    --_focus: 0 0 0 3px color-mix(in oklab, var(--p-button-default-ring) 50%, transparent);
+    --_focus: 0 0 0 3px color-mix(in oklab, var(--p-button-ring) 50%, transparent);
     --_ring-now: ${none};
 
     appearance: none;
@@ -76,13 +80,13 @@ export const buttonCss: string = `
     flex-shrink: 0;
     align-items: center;
     justify-content: center;
-    gap: 0.375rem;
+    gap: var(--_gap);
     box-sizing: border-box;
     height: var(--_h);
     margin: 0;
     padding: 0 var(--_px);
     border: 1px solid var(--_border);
-    border-radius: var(--p-button-default-radius);
+    border-radius: var(--p-radius);
     background-color: var(--_bg);
     color: var(--_fg);
     box-shadow: var(--_shadow-now), var(--_ring-now);
@@ -102,32 +106,36 @@ export const buttonCss: string = `
       color var(--p-transition-fast), box-shadow var(--p-transition-fast),
       transform 120ms cubic-bezier(0.2, 0, 0, 1);
   }
+  /* Focus (every view): the border turns ring-gray, plus a 3px ring. */
   ${b}:focus-visible {
-    border-color: var(--p-button-default-ring);
+    border-color: var(--p-button-ring);
   }
 
   ${b} svg:not([width]) {
-    width: 1rem;
-    height: 1rem;
+    width: var(--_icon);
+    height: var(--_icon);
   }
   ${b} svg {
     flex-shrink: 0;
     pointer-events: none;
   }
 
-  /* --- views --- */
+  /* --- views (same frame and sizes; their own colors and elevation) --- */
   ${b}[view] {
-    --_h: 2.25rem;
-    --_px: 0.875rem;
     --_border: transparent;
-    --_focus: 0 0 0 2px var(--p-color-bg), 0 0 0 4px var(--p-color-primary);
     ${elevated}
-    border-radius: var(--p-radius);
-    line-height: 1;
-    letter-spacing: -0.005em;
   }
-  ${b}[view]:focus-visible {
-    border-color: var(--_border);
+
+  /* shadcn/ui's outline button. */
+  ${b}[view="outline"] {
+    ${flat}
+    --_bg: var(--p-button-outline-bg);
+    --_bg-hover: var(--p-button-outline-hover);
+    --_bg-active: var(--p-button-outline-active);
+    --_fg: var(--p-button-outline-fg);
+    --_border: var(--p-button-outline-border);
+    --_accent: var(--p-color-text);
+    --_outline-border: var(--p-button-outline-border);
   }
 
   ${b}[view="primary"] {
@@ -214,27 +222,28 @@ export const buttonCss: string = `
     --_border-hover: var(--_outline-border, var(--_accent));
   }
 
-  /* --- sizes (any view, including the default) --- */
+  /* --- sizes (any view, including the default): shadcn/ui's scale --- */
   ${b}[size="xs"] {
-    --_h: 1.75rem;
-    --_px: 0.625rem;
-    border-radius: var(--p-radius-sm);
-    font-size: 0.8125rem;
+    --_h: 1.5rem;
+    --_px: 0.5rem;
+    --_gap: 0.25rem;
+    --_icon: 0.75rem;
+    border-radius: min(var(--p-radius-md), 10px);
+    font-size: 0.75rem;
   }
   ${b}[size="sm"] {
-    --_h: 2rem;
-    --_px: 0.75rem;
-    font-size: 0.84375rem;
+    --_h: 1.75rem;
+    --_px: 0.625rem;
+    --_gap: 0.25rem;
+    --_icon: 0.875rem;
+    border-radius: min(var(--p-radius-md), 12px);
+    font-size: 0.8rem;
   }
   ${b}[size="md"] {
-    --_h: 2.25rem;
-    --_px: 0.875rem;
-    font-size: 0.875rem;
+    --_h: 2rem;
   }
   ${b}[size="lg"] {
-    --_h: 2.75rem;
-    --_px: 1.125rem;
-    font-size: 0.9375rem;
+    --_h: 2.25rem;
   }
 
   ${b}[icon-only] {
@@ -306,8 +315,8 @@ export const buttonCss: string = `
     content: "";
     box-sizing: border-box;
     flex-shrink: 0;
-    width: 1rem;
-    height: 1rem;
+    width: var(--_icon);
+    height: var(--_icon);
     border: 2px solid var(--_fg);
     border-right-color: transparent;
     border-radius: 50%;

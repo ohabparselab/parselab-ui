@@ -20,7 +20,8 @@ const g = "[group]";
 const child = `${g} > :is(${BUTTON_SELECTOR})`;
 // Everything that joins: buttons, plus inputs and selects.
 const member = `:is(${BUTTON_SELECTOR}, ${TEXT_CONTROL})`;
-const filled = `:is(${FILLED_VIEWS.map((view) => `[view="${view}"]`).join(", ")}):not([outline])`;
+// Solid fills: the no-view default and the filled views (not their outline versions).
+const filled = `:is(:not([view]), ${FILLED_VIEWS.map((view) => `[view="${view}"]`).join(", ")}):not([outline])`;
 const selected = ':is([aria-pressed="true"], [aria-current]:not([aria-current="false"]))';
 const none = "0 0 0 0 transparent";
 

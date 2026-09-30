@@ -47,7 +47,7 @@ export const inputDoc: ComponentDoc = {
 <!-- A whole form: keep the form inside <parse-ui> -->
 <form field-group>
   <div field><label for="name">Name</label><input id="name" required></div>
-  <div field="horizontal"><button type="submit" view="primary">Submit</button></div>
+  <div field="horizontal"><button type="submit">Submit</button></div>
 </form>`,
 
   examples: [
@@ -93,8 +93,8 @@ export const inputDoc: ComponentDoc = {
     <small>We'll send updates to this address.</small>
   </div>
   <div field="horizontal">
-    <button type="reset">Reset</button>
-    <button type="submit" view="primary">Submit</button>
+    <button type="reset" view="outline">Reset</button>
+    <button type="submit">Submit</button>
   </div>
 </div>`,
     },
@@ -171,7 +171,7 @@ export const inputDoc: ComponentDoc = {
   <label for="search">Search</label>
   <div group>
     <input id="search" type="search" placeholder="Type to search...">
-    <button><i icon="search"></i> Search</button>
+    <button view="outline"><i icon="search"></i> Search</button>
   </div>
 </div>`,
     },
@@ -228,8 +228,8 @@ export const inputDoc: ComponentDoc = {
     <input id="form-address" placeholder="123 Main St">
   </div>
   <div field="horizontal">
-    <button type="button">Cancel</button>
-    <button type="submit" view="primary">Submit</button>
+    <button type="button" view="outline">Cancel</button>
+    <button type="submit">Submit</button>
   </div>
 </form>`,
     },

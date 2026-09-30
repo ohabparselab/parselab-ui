@@ -34,8 +34,9 @@ const css = `
     height: var(--p-icon-size, 1.25em);
     stroke-width: var(--p-icon-stroke-width, 1.8);
   }
+  /* Inside a button: the button's icon size (16px; 12px / 14px in xs / sm). */
   :is(button, input, a[view]) ${SELECTOR} {
-    --p-icon-size: 1rem;
+    --p-icon-size: var(--_icon, 1rem);
   }
 `;
 

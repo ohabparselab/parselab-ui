@@ -18,8 +18,9 @@ import type { ComponentDefinition } from "../core/registry";
  * mean the host page is dark); `mode="dark"` forces dark, `mode="auto"`
  * follows `prefers-color-scheme`.
  *
- * `button-default-*` / `input-*` are shadcn/ui's neutral outline-button and
- * input colors; the rest is ParseUI's palette. See design/DESIGN.md.
+ * `button-default-*` (a button with no view), `button-outline-*`, `button-ring`
+ * and `input-*` are shadcn/ui's default button, outline button, focus ring and
+ * input (neutral theme); the rest is ParseUI's palette. See design/DESIGN.md.
  */
 export const lightTokens = {
   "color-bg": "#ffffff",
@@ -53,13 +54,14 @@ export const lightTokens = {
   "color-light-foreground": "#14141b",
   "shadow-xs": "0 1px 2px rgba(20, 20, 27, 0.05)",
   "shadow-sm": "0 2px 4px rgba(20, 20, 27, 0.08), 0 1px 2px rgba(20, 20, 27, 0.05)",
-  "button-default-bg": "#ffffff",
-  "button-default-hover": "oklch(0.97 0 0)",
-  "button-default-active": "oklch(0.94 0 0)",
-  "button-default-fg": "oklch(0.145 0 0)",
-  "button-default-border": "oklch(0.922 0 0)",
-  "button-default-ring": "oklch(0.708 0 0)",
-  "button-default-radius": "0.625rem",
+  "button-default-bg": "oklch(0.205 0 0)",
+  "button-default-fg": "oklch(0.985 0 0)",
+  "button-outline-bg": "#ffffff",
+  "button-outline-hover": "oklch(0.97 0 0)",
+  "button-outline-active": "oklch(0.94 0 0)",
+  "button-outline-fg": "oklch(0.145 0 0)",
+  "button-outline-border": "oklch(0.922 0 0)",
+  "button-ring": "oklch(0.708 0 0)",
   "input-bg": "transparent",
   "input-border": "oklch(0.922 0 0)",
   "input-disabled-bg": "color-mix(in oklab, oklch(0.922 0 0) 50%, transparent)",
@@ -68,7 +70,7 @@ export const lightTokens = {
   "input-invalid-border": "var(--p-color-danger)",
   "input-invalid-ring": "color-mix(in oklab, var(--p-color-danger) 20%, transparent)",
   "input-radius": "0.625rem",
-  "radius": "0.5rem",
+  "radius": "0.625rem",
   "font-family": "\"Geist\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", Roboto, sans-serif",
   "font-family-mono": "\"Geist Mono\", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
   "font-size-body": "0.875rem",
@@ -106,12 +108,14 @@ export const darkTokens = {
   "color-info-foreground": "#04161b",
   "shadow-xs": "0 1px 2px rgba(0, 0, 0, 0.4)",
   "shadow-sm": "0 2px 4px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.3)",
-  "button-default-bg": "rgba(255, 255, 255, 0.045)",
-  "button-default-hover": "rgba(255, 255, 255, 0.075)",
-  "button-default-active": "rgba(255, 255, 255, 0.11)",
-  "button-default-fg": "oklch(0.985 0 0)",
-  "button-default-border": "rgba(255, 255, 255, 0.15)",
-  "button-default-ring": "oklch(0.556 0 0)",
+  "button-default-bg": "oklch(0.922 0 0)",
+  "button-default-fg": "oklch(0.205 0 0)",
+  "button-outline-bg": "rgba(255, 255, 255, 0.045)",
+  "button-outline-hover": "rgba(255, 255, 255, 0.075)",
+  "button-outline-active": "rgba(255, 255, 255, 0.11)",
+  "button-outline-fg": "oklch(0.985 0 0)",
+  "button-outline-border": "rgba(255, 255, 255, 0.15)",
+  "button-ring": "oklch(0.556 0 0)",
   "input-bg": "rgba(255, 255, 255, 0.045)",
   "input-border": "rgba(255, 255, 255, 0.15)",
   "input-disabled-bg": "rgba(255, 255, 255, 0.12)",
@@ -132,8 +136,9 @@ export const derivedTokens = {
   "color-info-hover": "color-mix(in oklab, var(--p-color-info) 88%, #000)",
   "color-light-hover": "color-mix(in oklab, var(--p-color-light) 94%, #14141b)",
   "color-ring": "color-mix(in oklab, var(--p-color-primary) 40%, transparent)",
-  "radius-sm": "calc(var(--p-radius) * 0.75)",
-  "radius-lg": "calc(var(--p-radius) * 1.5)",
+  "radius-sm": "calc(var(--p-radius) * 0.6)",
+  "radius-md": "calc(var(--p-radius) * 0.8)",
+  "radius-lg": "calc(var(--p-radius) * 1.4)",
 } as const;
 
 /** Every token a theme can set (names without the `--p-` prefix). */

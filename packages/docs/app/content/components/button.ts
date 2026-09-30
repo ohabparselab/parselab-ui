@@ -7,10 +7,11 @@ export const buttonDoc: ComponentDoc = {
     "Triggers an action or event, such as submitting a form, opening a dialog, or saving changes. ParseUI styles any native `<button>`, `<input type=\"submit\">`, or `<a view>` inside `<parse-ui>` — no custom tag needed.",
   badges: ["Stable", "Native <button>", "Shadow DOM"],
 
-  usage: `<!-- Default: white with a thin border -->
+  usage: `<!-- Default: shadcn/ui's default button (near-black; light in dark mode) -->
 <button>Button</button>
 
 <!-- Views -->
+<button view="outline">Outline</button>
 <button view="primary">Primary</button>
 <button view="secondary">Secondary</button>
 <button view="gray">Gray</button>
@@ -27,14 +28,14 @@ export const buttonDoc: ComponentDoc = {
 <!-- Outline version of any view -->
 <button view="primary" outline>Primary</button>
 
-<!-- Sizes: xs · sm · md (default) · lg -->
+<!-- Sizes: xs 24px · sm 28px · md 32px (default) · lg 36px -->
 <button view="primary" size="sm">Small</button>
 <button view="primary" size="lg">Large</button>
 
 <!-- Icons: before or after the label, or icon only (needs an aria-label) -->
 <button view="primary"><i icon="plus"></i> New product</button>
 <button view="secondary">Continue <i icon="arrow-right"></i></button>
-<button icon-only aria-label="Settings"><i icon="settings"></i></button>
+<button view="outline" icon-only aria-label="Settings"><i icon="settings"></i></button>
 
 <!-- Loading: spinner replaces the label, or sits before / after it -->
 <button view="primary" loading>Saving</button>
@@ -49,15 +50,17 @@ export const buttonDoc: ComponentDoc = {
 <a view="primary" href="/orders">View orders</a>
 
 <!-- Form buttons keep their native behavior -->
-<button type="submit" view="primary">Submit</button>`,
+<button type="button" view="outline">Cancel</button>
+<button type="submit">Submit</button>`,
 
   examples: [
     {
       id: "default",
       title: "Default",
       description:
-        "A `<button>` with no attributes is white with a thin border — a quiet, neutral action. In the dark theme it becomes a subtle dark surface.",
+        "A `<button>` with no attributes is shadcn/ui's default button: near-black with a light label (light with a dark label in dark mode), 32px tall — the same height as an input. `view=\"outline\"` is the white, bordered version.",
       markup: `<button>Button</button>
+<button view="outline">Outline</button>
 <button icon-only aria-label="Next"><i icon="arrow-right"></i></button>`,
     },
     {
@@ -65,7 +68,8 @@ export const buttonDoc: ComponentDoc = {
       title: "Views",
       description:
         "Use `primary` for the main action on a screen, `secondary` for everything else. Keep one primary button per view. `light` stays light in both themes — use it on dark or colored surfaces; `dark` is near-black, and turns white in the dark theme.",
-      markup: `<button view="primary">Primary</button>
+      markup: `<button view="outline">Outline</button>
+<button view="primary">Primary</button>
 <button view="secondary">Secondary</button>
 <button view="gray">Gray</button>
 <button view="light">Light</button>
@@ -97,7 +101,7 @@ export const buttonDoc: ComponentDoc = {
       title: "Status colors",
       description:
         "`success` (styled after GitHub's green button) confirms a positive action, `warning` asks for care, `info` points to something neutral, and `danger` marks a destructive action. Pair them with a neutral button so the risky or final action is never the only choice.",
-      markup: `<button>Cancel</button>
+      markup: `<button view="outline">Cancel</button>
 <button view="success">Approve order</button>
 <button view="warning">Review changes</button>
 <button view="info">Learn more</button>
@@ -106,7 +110,7 @@ export const buttonDoc: ComponentDoc = {
     {
       id: "sizes",
       title: "Sizes",
-      description: "Four sizes share the same 4px grid. `md` is the default for any `view`, and fits forms and page actions.",
+      description: "Four sizes — 24, 28, 32 and 36px, shadcn/ui's scale — so buttons line up with inputs. `md` (32px) is the default.",
       markup: `<button view="primary" size="xs">Extra small</button>
 <button view="primary" size="sm">Small</button>
 <button view="primary" size="md">Medium</button>
@@ -192,12 +196,12 @@ export const buttonDoc: ComponentDoc = {
       rows: [
         [
           "view",
-          '"primary" | "secondary" | "gray" | "light" | "dark" | "soft" | "ghost" | "success" | "warning" | "info" | "danger" | "link"',
+          '"outline" | "primary" | "secondary" | "gray" | "light" | "dark" | "soft" | "ghost" | "success" | "warning" | "info" | "danger" | "link"',
           "—",
-          "Visual style. Without it, the button is white with a thin border.",
+          "Visual style. Without it, the button is shadcn/ui's default (near-black). outline is the white, bordered version.",
         ],
         ["outline", "boolean", "—", "Outline version of the view: transparent fill, colored border and label."],
-        ["size", '"xs" | "sm" | "md" | "lg"', '"md"', "Height, padding, and font size."],
+        ["size", '"xs" | "sm" | "md" | "lg"', '"md"', "24, 28, 32 or 36px tall — matching inputs at md."],
         ["icon-only", "boolean", "—", "Square button for a single icon. Needs an aria-label."],
         ["full-width", "boolean", "—", "Stretches to the width of its container."],
         ["loading", '"" | "start" | "end"', "—", "Shows a spinner, blocks clicks, sets aria-busy. Empty: spinner replaces the label (width kept). start / end: spinner before / after the visible label."],
@@ -223,18 +227,19 @@ export const buttonDoc: ComponentDoc = {
         ["--p-color-border-strong", "#d6d6dd", "Secondary border."],
         ["--p-shadow-xs", "0 1px 2px rgba(20, 20, 27, 0.05)", "Resting shadow of filled buttons."],
         ["--p-shadow-sm", "0 2px 4px rgba(20, 20, 27, 0.08), …", "Hover shadow of filled buttons."],
-        ["--p-button-default-bg", "#ffffff", "Default (no view) background."],
-        ["--p-button-default-border", "oklch(0.922 0 0)", "Default (no view) border."],
-        ["--p-button-default-fg", "oklch(0.145 0 0)", "Default (no view) label."],
-        ["--p-radius", "0.5rem", "Corner radius of views."],
-        ["--p-button-default-radius", "0.625rem", "Corner radius of the default button."],
+        ["--p-button-default-bg", "oklch(0.205 0 0)", "Default (no view) background (oklch(0.922 0 0) in dark mode)."],
+        ["--p-button-default-fg", "oklch(0.985 0 0)", "Default (no view) label."],
+        ["--p-button-outline-bg", "#ffffff", "Outline background."],
+        ["--p-button-outline-border", "oklch(0.922 0 0)", "Outline border."],
+        ["--p-button-ring", "oklch(0.708 0 0)", "Focus border and ring, every button."],
+        ["--p-radius", "0.625rem", "Corner radius of every button (xs / sm use 8px)."],
       ],
     },
   ],
 
   accessibility: [
     "Styles your own native element, so role, keyboard behavior, and form participation are the browser's.",
-    "Focus shows a 2px ring offset from the button in `--p-color-primary` on every view, and a soft gray ring on the default button.",
+    "Focus turns the border gray and adds a 3px ring — shadcn/ui's focus style — on every button.",
     "`loading` sets `aria-busy=\"true\"` and blocks activation while keeping the accessible name.",
     "`<a view>` stays a link: screen readers announce it as a link, and it can open in a new tab.",
   ],

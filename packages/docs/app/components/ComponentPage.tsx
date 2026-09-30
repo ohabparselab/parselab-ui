@@ -5,7 +5,6 @@ import { DocPage } from "./DocPage";
 import { PageHeader } from "./PageHeader";
 import { PreviewCard } from "./PreviewCard";
 import { PrevNext } from "./PrevNext";
-import { CodeTabs } from "./CodeTabs";
 import { Inline } from "./Inline";
 
 import { slugify } from "~/lib/slugify";
@@ -58,7 +57,7 @@ export function ComponentPage({
 
       <h2 id="usage">Usage</h2>
       <p>Every way to use {doc.title.toLowerCase()}, in one place — copy the lines you need.</p>
-      <CodeTabs items={code.usage} />
+      <PreviewCard markup={doc.usage} code={code.usage} />
 
       <h2 id="examples">Examples</h2>
       {rest.map((example, index) => (

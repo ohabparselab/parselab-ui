@@ -6,8 +6,9 @@
 export type { ParseUIMode, Theme, ThemeTokens } from "./core/themes";
 export type { ThemeToken } from "./tokens/tokens";
 
-/** `<button view>` / `<a view>`. No view = the white outline default. */
+/** `<button view>` / `<a view>`. No view = shadcn's default (near-black) button; `outline` = shadcn's outline button. */
 export type ParseUIView =
+  | "outline"
   | "primary"
   | "secondary"
   | "gray"
@@ -21,7 +22,7 @@ export type ParseUIView =
   | "danger"
   | "link";
 
-/** `<button size>`. `md` is the default for any `view`. */
+/** `<button size>`: 24 / 28 / 32 / 36px. `md` (32px) is the default. */
 export type ParseUISize = "xs" | "sm" | "md" | "lg";
 
 /** `<button loading>`: `""` hides the label behind a spinner; `start` / `end` keep it, spinner before / after. */

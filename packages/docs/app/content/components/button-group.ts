@@ -9,9 +9,9 @@ export const buttonGroupDoc: ComponentDoc = {
 
   usage: `<!-- Joined buttons -->
 <div group role="group" aria-label="Actions">
-  <button>Cut</button>
-  <button>Copy</button>
-  <button>Paste</button>
+  <button view="outline">Cut</button>
+  <button view="outline">Copy</button>
+  <button view="outline">Paste</button>
 </div>
 
 <!-- Segmented control: mark the selected option -->
@@ -28,8 +28,8 @@ export const buttonGroupDoc: ComponentDoc = {
 
 <!-- Toolbar of icon-only buttons -->
 <div group role="toolbar" aria-label="Formatting">
-  <button icon-only aria-label="Bold"><i icon="bold"></i></button>
-  <button icon-only aria-label="Italic"><i icon="italic"></i></button>
+  <button view="outline" icon-only aria-label="Bold"><i icon="bold"></i></button>
+  <button view="outline" icon-only aria-label="Italic"><i icon="italic"></i></button>
 </div>
 
 <!-- Stacked -->
@@ -41,7 +41,7 @@ export const buttonGroupDoc: ComponentDoc = {
 <!-- An input and a button, joined -->
 <div group>
   <input type="search" placeholder="Search..." aria-label="Search">
-  <button>Search</button>
+  <button view="outline">Search</button>
 </div>`,
 
   examples: [
@@ -51,11 +51,11 @@ export const buttonGroupDoc: ComponentDoc = {
       description:
         "Buttons inside a `group` share their borders, and only the outer corners stay rounded. Give the group `role=\"group\"` and an `aria-label` so screen readers announce it as one control.",
       markup: `<div group role="group" aria-label="Pagination">
-  <button>Previous</button>
-  <button>1</button>
-  <button>2</button>
-  <button>3</button>
-  <button>Next</button>
+  <button view="outline">Previous</button>
+  <button view="outline">1</button>
+  <button view="outline">2</button>
+  <button view="outline">3</button>
+  <button view="outline">Next</button>
 </div>`,
     },
     {
@@ -94,10 +94,10 @@ export const buttonGroupDoc: ComponentDoc = {
       title: "Toolbar",
       description: "Icon-only buttons make a compact toolbar. Each needs its own `aria-label`.",
       markup: `<div group role="toolbar" aria-label="Formatting">
-  <button icon-only aria-label="Copy"><i icon="copy"></i></button>
-  <button icon-only aria-label="Link"><i icon="link"></i></button>
-  <button icon-only aria-label="Image"><i icon="image"></i></button>
-  <button icon-only aria-label="Delete"><i icon="trash"></i></button>
+  <button view="outline" icon-only aria-label="Copy"><i icon="copy"></i></button>
+  <button view="outline" icon-only aria-label="Link"><i icon="link"></i></button>
+  <button view="outline" icon-only aria-label="Image"><i icon="image"></i></button>
+  <button view="outline" icon-only aria-label="Delete"><i icon="trash"></i></button>
 </div>`,
     },
     {

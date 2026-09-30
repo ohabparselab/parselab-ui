@@ -24,7 +24,7 @@ This project uses ParseUI ({{site}}). Full docs for agents: {{site}}/llms-full.t
 
 - Wrap UI in `<parse-ui>`; everything inside renders in a shadow root with ParseUI's design. Page CSS doesn't reach inside — put layout CSS in a `<style>` inside `<parse-ui>`, or use tokens.
 - Write plain HTML. There are no custom component tags: style comes from native elements and attributes.
-  - Buttons: `<button>` (white outline default), `view="primary|secondary|gray|light|dark|soft|ghost|success|warning|info|danger|link"`, `outline`, `size="xs|sm|md|lg"`, `icon-only` (+ `aria-label`), `loading` / `loading="start|end"`, `full-width`, `disabled`. `<a view>` is a link styled as a button.
+  - Buttons: `<button>` (shadcn default: near-black), `view="outline|primary|secondary|gray|light|dark|soft|ghost|success|warning|info|danger|link"` (`outline` = shadcn outline, for secondary actions like Cancel), `outline`, `size="xs|sm|md|lg"`, `icon-only` (+ `aria-label`), `loading` / `loading="start|end"`, `full-width`, `disabled`. `<a view>` is a link styled as a button.
   - Groups: `<div group role="group" aria-label>` joins buttons and inputs; `group="vertical"`; `aria-pressed="true"` marks the selected one.
   - Forms: `<div field>` = `<label for>` + control + `<small>` description; `field="horizontal"`; `<div field-group>` stacks fields (`field-group="horizontal"` side by side). Use native `aria-invalid="true"`, `disabled`, `required` — the label follows automatically. Keep the whole `<form>` inside `<parse-ui>`.
   - Icons: `<i icon="name">` with Lucide icon names (e.g. `search`, `arrow-right`); `size`, `stroke-width`, color from CSS `color`. In React, `import { Search } from "@parseui/icons"`.

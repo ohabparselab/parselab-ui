@@ -74,8 +74,9 @@ Tokens are `--p-*` custom properties on `:host`, defined as typed data in `packa
 
 ### Where ParseUI intentionally differs (product decisions)
 
-- **Default `<button>`** (no `view`) = shadcn's **outline** button (white, thin `border`), not shadcn's filled default.
-- **`view` variants** are ParseUI's own palette (primary `#2488ff`, secondary, gray, light, dark, soft, ghost, success = GitHub green `#1f883d`, warning, info, danger, link) at 36px / `rounded-md`-ish 8px, with soft drop shadows, hover lift, and a 0.97 press scale.
+- **Buttons follow shadcn's frame exactly** — default (no `view`) = shadcn's `default` variant, `view="outline"` = shadcn's `outline`, sizes 24/28/32/36px, `rounded-lg` 10px, shadcn focus ring — so buttons line up with inputs. Forms use `<button>` for the primary action and `view="outline"` for secondary ones (Cancel, Reset), as shadcn's examples do.
+- **Extra `view` colors** are ParseUI's own: primary `#2488ff`, secondary, gray, light, dark, soft, ghost, success (GitHub green `#1f883d`), warning, info, danger, link — with soft drop shadows and hover lift on the filled ones.
+- **Press** shrinks buttons to 0.97 (shadcn moves them down 1px).
 - Icons render at a 1.8px stroke (Lucide's is 2px).
 - The page palette tokens (`--p-color-bg` `#fff`, `--p-color-text` `#14141b`, …) predate this decision. New components should use shadcn's neutral values; before building card/popover/dialog/menu components, add shadcn-equivalent tokens (`card`, `popover`, `muted`, `muted-foreground`, `accent`, `border`, `input`, `ring`, `destructive`) to `tokens.ts` rather than reusing the page palette.
 

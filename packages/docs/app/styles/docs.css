@@ -12,8 +12,6 @@
   --on-accent: #ffffff;
   --success: #15803d;
   --success-bg: #f0fdf4;
-  --preview-bg: #ffffff;
-  --preview-dot: #e4e4e7;
   --radius: 10px;
 }
 
@@ -32,8 +30,6 @@
     --on-accent: #0b1220;
     --success: #4ade80;
     --success-bg: rgba(74, 222, 128, 0.1);
-    --preview-bg: #0c0c0f;
-    --preview-dot: #27272a;
   }
 }
 :root[data-theme="dark"] {
@@ -49,8 +45,6 @@
   --on-accent: #0b1220;
   --success: #4ade80;
   --success-bg: rgba(74, 222, 128, 0.1);
-  --preview-bg: #0c0c0f;
-  --preview-dot: #27272a;
 }
 
 * {
@@ -393,7 +387,7 @@ kbd {
 .preview-card {
   margin: 16px 0 28px;
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-radius: 18px; /* shadcn: rounded-2xl */
   overflow: hidden;
   background: var(--bg);
 }
@@ -455,23 +449,21 @@ kbd {
   color: var(--fg);
 }
 
+/* shadcn's preview: plain background, h-72 (at least), p-10, centered. The
+   per-card light/dark toggle picks shadcn's background for that mode. */
 .preview-surface {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 200px;
-  padding: 40px 24px;
+  min-height: 288px;
+  padding: 40px;
   background-color: var(--preview-bg);
-  background-image: radial-gradient(var(--preview-dot) 1px, transparent 1px);
-  background-size: 16px 16px;
 }
 .preview-surface.light {
-  --preview-bg: #ffffff;
-  --preview-dot: #e4e4e7;
+  --preview-bg: oklch(1 0 0);
 }
 .preview-surface.dark {
-  --preview-bg: #111113;
-  --preview-dot: #27272a;
+  --preview-bg: oklch(0.145 0 0);
 }
 .preview-surface > parse-ui {
   width: 100%;
@@ -1113,6 +1105,7 @@ kbd {
     font-size: 26px;
   }
   .preview-surface {
-    padding: 28px 12px;
+    min-height: 220px;
+    padding: 32px 16px;
   }
 }

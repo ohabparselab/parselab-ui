@@ -39,13 +39,13 @@ The npm package contains no library code — it's a ~1 KB loader for the CDN fil
 
 Works on `<button>`, `<input type="button|submit|reset">`, and `<a view="…">`.
 
-A `<button>` with no attributes is white with a thin border (a subtle dark surface in the dark theme). Add `view` for ParseUI's styles:
+A `<button>` with no attributes is shadcn/ui's default button — near-black (light in dark mode), 32px tall like inputs. `view="outline"` is shadcn's white outline button; other views are ParseUI's colors:
 
 | Attribute | Values | Default |
 |---|---|---|
-| `view` | `primary` · `secondary` · `gray` · `light` · `dark` · `soft` · `ghost` · `success` · `warning` · `info` · `danger` · `link` | — (white default) |
+| `view` | `outline` · `primary` · `secondary` · `gray` · `light` · `dark` · `soft` · `ghost` · `success` · `warning` · `info` · `danger` · `link` | — (shadcn default, near-black) |
 | `outline` | boolean — outline version of the view | — |
-| `size` | `xs` · `sm` · `md` · `lg` | `md` |
+| `size` | `xs` · `sm` · `md` · `lg` (24 / 28 / 32 / 36px) | `md` |
 | `icon-only` | boolean — square button; add an `aria-label` | — |
 | `full-width` | boolean — stretches to its container | — |
 | `disabled` | boolean | — |

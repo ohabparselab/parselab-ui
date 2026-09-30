@@ -67,4 +67,4 @@ Source of truth is `packages/icons/svg/<kebab-name>.svg` (24×24 viewBox; the cu
 
 ## Publishing
 
-`.github/workflows/publish.yml` builds, typechecks, then publishes `@parseui/icons` and `parseui` (`--access public`, `NPM_TOKEN`). `@parseui/icons` requires an npm organization named `parseui`. CI (`ci.yml`) runs `npm ci`, `npm run build`, `npm run typecheck`.
+Releases run on the server, not in CI: code is pushed to GitHub, the server pulls it and runs `CDN_ROOT=/var/www/cdn.parseui.com npm run release` (`scripts/release.sh`: pull → `npm ci` → build/typecheck → copy `dist/cdn` and icon SVGs to `$CDN_ROOT/<version>/` and `$CDN_ROOT/icons/<version>/` → verify the CDN URLs → `npm publish` @parseui/icons then parseui). CDN and npm versions are immutable, so every release bumps `package.json` versions first. The icon CDN version compiled into parseui comes from `packages/icons/package.json` (`__PARSEUI_ICONS_VERSION__`). Full procedure and server setup: `RELEASING.md`. CI (`ci.yml`) only runs `npm ci`, `npm run build`, `npm run typecheck`.

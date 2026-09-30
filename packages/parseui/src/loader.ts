@@ -102,7 +102,7 @@ export function registerIcons(icons: Record<string, string>): void {
   call("registerIcons", [icons]);
 }
 
-/** Where `<i icon>` loads SVGs from. Default `https://cdn.parseui.com/icons/1.0.0/`. */
+/** Where `<i icon>` loads SVGs from. Default `https://cdn.parseui.com/icons/<@parseui/icons version>/`. */
 export function setIconBaseUrl(url: string): void {
   call("setIconBaseUrl", [url]);
 }

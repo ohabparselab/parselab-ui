@@ -14,7 +14,7 @@
     "docs:version": "node scripts/snapshot-docs.mjs",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "release": "npm run build && changeset publish",
+    "release": "bash scripts/release.sh",
     "build:icons": "npm run build --workspace=@parseui/icons"
   },
   "devDependencies": {

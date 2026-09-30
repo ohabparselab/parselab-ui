@@ -156,4 +156,4 @@ Everything inside `<parse-ui>` lives in its shadow root, so:
 - `dist/cdn/parseui.min.js` (+ `.map`) — the library. Upload to `https://cdn.parseui.com/<version>/`.
 - `dist/npm/parseui.js` + `dist/types/` — what `npm publish` ships.
 
-**Upload to the CDN before publishing to npm.** The npm package loads the CDN file for its own version, so publishing first would point new installs at a file that isn't there yet.
+**Upload to the CDN before publishing to npm.** The npm package loads the CDN file for its own version, so publishing first would point new installs at a file that isn't there yet. `npm run release` (see [RELEASING.md](../../RELEASING.md)) does both, in that order.

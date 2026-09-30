@@ -2,6 +2,8 @@ import { defineConfig } from "vite";
 import { readFileSync } from "node:fs";
 
 const pkg = JSON.parse(readFileSync(new URL("./package.json", import.meta.url), "utf-8"));
+// <i icon> loads SVGs from the CDN folder of the @parseui/icons version in this repo.
+const iconsPkg = JSON.parse(readFileSync(new URL("../icons/package.json", import.meta.url), "utf-8"));
 
 /**
  * Two builds (see package.json "build"):
@@ -18,6 +20,7 @@ export default defineConfig(({ mode }) => {
   return {
     define: {
       __PARSEUI_VERSION__: JSON.stringify(pkg.version),
+      __PARSEUI_ICONS_VERSION__: JSON.stringify(iconsPkg.version),
     },
     build: {
       outDir: npm ? "dist/npm" : "dist/cdn",

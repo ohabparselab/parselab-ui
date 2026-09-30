@@ -1,6 +1,7 @@
+import { version as ICONS_VERSION } from "@parseui/icons";
 import { CDN_URL, type CodeVariant } from "./code";
 
-export const ICONS_VERSION = "1.0.0";
+export { ICONS_VERSION };
 export const ICON_CDN_BASE = `https://cdn.parseui.com/icons/${ICONS_VERSION}/`;
 
 /** The Icons page's copy and code, as plain data (code is highlighted on the server). */

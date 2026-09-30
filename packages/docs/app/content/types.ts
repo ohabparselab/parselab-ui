@@ -23,6 +23,12 @@ export interface ComponentDoc {
   badges: string[];
   /** The first example is the component's default use — shown right under the page header. */
   examples: ComponentExample[];
+  /**
+   * Every way to use the component, as one annotated HTML snippet (HTML
+   * comments become JSX comments in the npm tab). Shown as "Usage" after
+   * the default example.
+   */
+  usage: string;
   api: ApiTable[];
   accessibility: string[];
   keyboard: [string, string][];

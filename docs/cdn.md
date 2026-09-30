@@ -54,10 +54,10 @@ button.addEventListener("click", save);
 
 ## Theme
 
-Light by default. Set `theme="dark"` to force dark, or `theme="auto"` to follow the visitor's OS setting:
+Light by default. Set `mode="dark"` to force dark, or `mode="auto"` to follow the visitor's OS setting:
 
 ```html
-<parse-ui theme="auto">…</parse-ui>
+<parse-ui mode="auto">…</parse-ui>
 ```
 
 ## Customize

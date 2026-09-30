@@ -2,6 +2,7 @@ import type { MouseEvent, ReactNode } from "react";
 import type { Heading } from "~/lib/markdown.server";
 import { copyText } from "~/lib/copy";
 import { TableOfContents } from "./TableOfContents";
+import { PageActions } from "./PageActions";
 
 // Markdown code blocks are server-rendered HTML (see highlight.server.ts)
 // with a `data-code` copy button React doesn't manage — catch its clicks by
@@ -37,6 +38,7 @@ export function DocPage({ headings, children }: { headings: Heading[]; children:
   return (
     <div className="doc-page">
       <article className="content" onClick={handleContentClick}>
+        <PageActions />
         {children}
       </article>
       {headings.length > 0 && <TableOfContents headings={headings} />}

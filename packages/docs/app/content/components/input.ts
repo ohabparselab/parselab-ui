@@ -7,6 +7,49 @@ export const inputDoc: ComponentDoc = {
     "A text input for forms and user data entry. ParseUI styles any native `<input>`, `<select>`, and `<textarea>` inside `<parse-ui>`; wrap one in `field` to add a label and a description.",
   badges: ["Stable", "Native <input>", "Shadow DOM"],
 
+  usage: `<!-- An input on its own -->
+<input type="email" placeholder="Email">
+
+<!-- Field: label, input and description -->
+<div field>
+  <label for="email">Email</label>
+  <input id="email" type="email" placeholder="name@example.com">
+  <small>We'll never share your email.</small>
+</div>
+
+<!-- States: invalid, disabled, required (the label follows) -->
+<input aria-invalid="true" placeholder="Invalid">
+<input disabled placeholder="Disabled">
+<input required placeholder="Required">
+
+<!-- Other controls share the design -->
+<input type="password" placeholder="Password">
+<input type="file">
+<select>
+  <option>Option</option>
+</select>
+<textarea placeholder="Message"></textarea>
+
+<!-- Input and button in a row -->
+<div field="horizontal">
+  <input type="search" placeholder="Search..." aria-label="Search">
+  <button>Search</button>
+</div>
+
+<!-- Fields stacked, or side by side -->
+<div field-group>
+  <div field-group="horizontal">
+    <div field><label for="first">First name</label><input id="first"></div>
+    <div field><label for="last">Last name</label><input id="last"></div>
+  </div>
+</div>
+
+<!-- A whole form: keep the form inside <parse-ui> -->
+<form field-group>
+  <div field><label for="name">Name</label><input id="name" required></div>
+  <div field="horizontal"><button type="submit" view="primary">Submit</button></div>
+</form>`,
+
   examples: [
     {
       id: "default",

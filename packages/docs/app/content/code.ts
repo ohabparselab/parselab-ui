@@ -25,10 +25,19 @@ const indent = (text: string, spaces: number) =>
  * `for` is `htmlFor`, and SVG presentation attributes are camelCase.
  */
 function toJsx(markup: string): string {
+  // Split out HTML comments first, so words inside them ("loading", "field"…)
+  // aren't rewritten; comments become JSX comments.
   return markup
-    .replace(/ (loading|icon-only|full-width|outline|group|field|field-group)(?=[\s>/])/g, ' $1=""')
-    .replace(/ for="/g, ' htmlFor="')
-    .replace(/ stroke-(width|linecap|linejoin)=/g, (_, name: string) => ` stroke${name[0].toUpperCase()}${name.slice(1)}=`);
+    .split(/(<!--[\s\S]*?-->)/)
+    .map((part) =>
+      part.startsWith("<!--")
+        ? `{/* ${part.slice(4, -3).trim()} */}`
+        : part
+            .replace(/ (loading|icon-only|full-width|outline|group|field|field-group)(?=[\s>/])/g, ' $1=""')
+            .replace(/ for="/g, ' htmlFor="')
+            .replace(/ stroke-(width|linecap|linejoin)=/g, (_, name: string) => ` stroke${name[0].toUpperCase()}${name.slice(1)}=`),
+    )
+    .join("");
 }
 
 export function cdnCode(markup: string): string {

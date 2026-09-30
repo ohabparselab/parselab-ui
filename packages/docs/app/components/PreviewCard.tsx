@@ -22,7 +22,7 @@ function PreviewSurface({ markup, theme }: { markup: string; theme: "light" | "d
 
   return (
     <div className={`preview-surface ${theme}`}>
-      <parse-ui ref={ref} theme={theme} />
+      <parse-ui ref={ref} mode={theme} />
     </div>
   );
 }

@@ -70,7 +70,7 @@ ParseUI styles **native HTML** inside `<parse-ui>` — no custom tags. So shadcn
 | `aria-invalid`, `disabled`, `required` | the same native attributes |
 | lucide-react icons | `<i icon="name">` / `@parseui/icons` (Lucide names) |
 
-Tokens are `--p-*` custom properties on `:host` (`packages/parseui/src/tokens/tokens.ts`). Components set private `--_*` variables and share state rules (see `button.css.ts`).
+Tokens are `--p-*` custom properties on `:host`, defined as typed data in `packages/parseui/src/tokens/tokens.ts` (light, dark, derived). Themes (`registerTheme`, `core/themes.ts`) override base tokens per mode; light/dark is the `mode` attribute. Components set private `--_*` variables and share state rules (see `button.css.ts`).
 
 ### Where ParseUI intentionally differs (product decisions)
 

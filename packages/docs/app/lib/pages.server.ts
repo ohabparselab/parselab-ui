@@ -35,6 +35,7 @@ export async function loadComponentCode(slug: string) {
   if (!doc) return null;
   return {
     slug,
+    usage: await highlight(exampleVariants(doc.usage)),
     examples: await Promise.all(doc.examples.map((example) => highlight(exampleVariants(example.markup)))),
   };
 }

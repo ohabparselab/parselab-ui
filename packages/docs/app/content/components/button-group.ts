@@ -7,6 +7,43 @@ export const buttonGroupDoc: ComponentDoc = {
     "Joins related buttons into one control — a toolbar, a split of actions, or a segmented control that switches a view. Add `group` to any element around your buttons.",
   badges: ["Stable", "Native <button>", "Shadow DOM"],
 
+  usage: `<!-- Joined buttons -->
+<div group role="group" aria-label="Actions">
+  <button>Cut</button>
+  <button>Copy</button>
+  <button>Paste</button>
+</div>
+
+<!-- Segmented control: mark the selected option -->
+<div group role="group" aria-label="View">
+  <button view="secondary" aria-pressed="true">List</button>
+  <button view="secondary" aria-pressed="false">Board</button>
+</div>
+
+<!-- Any view, including outline -->
+<div group role="group" aria-label="Save">
+  <button view="primary">Save</button>
+  <button view="primary">Save as</button>
+</div>
+
+<!-- Toolbar of icon-only buttons -->
+<div group role="toolbar" aria-label="Formatting">
+  <button icon-only aria-label="Bold"><i icon="bold"></i></button>
+  <button icon-only aria-label="Italic"><i icon="italic"></i></button>
+</div>
+
+<!-- Stacked -->
+<div group="vertical" role="group" aria-label="Settings">
+  <button view="secondary">Profile</button>
+  <button view="secondary">Billing</button>
+</div>
+
+<!-- An input and a button, joined -->
+<div group>
+  <input type="search" placeholder="Search..." aria-label="Search">
+  <button>Search</button>
+</div>`,
+
   examples: [
     {
       id: "default",

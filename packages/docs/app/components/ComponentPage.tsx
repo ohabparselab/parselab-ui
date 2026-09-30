@@ -5,11 +5,13 @@ import { DocPage } from "./DocPage";
 import { PageHeader } from "./PageHeader";
 import { PreviewCard } from "./PreviewCard";
 import { PrevNext } from "./PrevNext";
+import { CodeTabs } from "./CodeTabs";
 import { Inline } from "./Inline";
 
 import { slugify } from "~/lib/slugify";
 
 export interface ComponentCode {
+  usage: HighlightedCode[];
   examples: HighlightedCode[][];
 }
 
@@ -17,6 +19,7 @@ function headingsFor(doc: ComponentDoc): Heading[] {
   const [top, ...rest] = doc.examples;
   return [
     { id: top.id, text: top.title, depth: 2 },
+    { id: "usage", text: "Usage", depth: 2 },
     { id: "examples", text: "Examples", depth: 2 },
     ...rest.map((example) => ({ id: example.id, text: example.title, depth: 3 })),
     { id: "api-reference", text: "API reference", depth: 2 },
@@ -52,6 +55,10 @@ export function ComponentPage({
         </p>
         <PreviewCard markup={top.markup} code={code.examples[0]} />
       </section>
+
+      <h2 id="usage">Usage</h2>
+      <p>Every way to use {doc.title.toLowerCase()}, in one place — copy the lines you need.</p>
+      <CodeTabs items={code.usage} />
 
       <h2 id="examples">Examples</h2>
       {rest.map((example, index) => (

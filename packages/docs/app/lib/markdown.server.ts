@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 import { Marked } from "marked";
 import { highlightCode } from "./highlight.server";
 import { slugify } from "./slugify";
+import { withSite } from "~/site";
 
 export interface Heading {
   id: string;
@@ -12,7 +13,7 @@ export interface Heading {
 
 /** Reads a Markdown file and renders it to HTML, collecting `##`/`###` headings (with slug ids matching the rendered anchors) for a page's table of contents. */
 export async function renderMarkdownFile(path: string): Promise<{ html: string; headings: Heading[] }> {
-  const markdown = await readFile(path, "utf-8");
+  const markdown = withSite(await readFile(path, "utf-8"));
   const headings: Heading[] = [];
   const slugCounts = new Map<string, number>();
 

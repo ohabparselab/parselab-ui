@@ -5,44 +5,26 @@
  */
 import "react";
 
-export type ParseUIView =
-  | "primary"
-  | "secondary"
-  | "gray"
-  | "light"
-  | "dark"
-  | "soft"
-  | "ghost"
-  | "success"
-  | "warning"
-  | "info"
-  | "danger"
-  | "link";
-export type ParseUISize = "xs" | "sm" | "md" | "lg";
-export type ParseUITheme = "light" | "dark" | "auto";
+import type {
+  ParseUIButtonAttributes,
+  ParseUIField,
+  ParseUIFieldGroup,
+  ParseUIGroup,
+  ParseUIHostAttributes,
+} from "./types";
 
-// Presence-only attributes take `""` — React warns on `attr={true}` for an
-// unknown boolean attribute.
-interface ParseUIButtonAttributes {
-  view?: ParseUIView;
-  size?: ParseUISize;
-  outline?: "";
-  "icon-only"?: "";
-  "full-width"?: "";
-  /** `""`: spinner replaces the label. `"start"` / `"end"`: spinner before / after the label, which stays visible. */
-  loading?: "" | "start" | "end";
-}
+export type * from "./types";
 
 declare module "react" {
   // <i icon="search" /> — the icon's name (other elements ignore it).
   interface HTMLAttributes<T> {
     icon?: string;
     /** Joins the buttons inside into a button group. */
-    group?: "" | "vertical";
+    group?: ParseUIGroup;
     /** Lays out a label, a control and a <small> description. */
-    field?: "" | "horizontal";
+    field?: ParseUIField;
     /** Stacks fields (or puts them side by side). */
-    "field-group"?: "" | "horizontal";
+    "field-group"?: ParseUIFieldGroup;
   }
   interface ButtonHTMLAttributes<T> extends ParseUIButtonAttributes {}
   interface AnchorHTMLAttributes<T> extends ParseUIButtonAttributes {}
@@ -52,7 +34,7 @@ declare module "react" {
   namespace JSX {
     interface IntrinsicElements {
       "parse-ui": import("react").DetailedHTMLProps<
-        import("react").HTMLAttributes<HTMLElement> & { theme?: ParseUITheme },
+        import("react").HTMLAttributes<HTMLElement> & ParseUIHostAttributes,
         HTMLElement
       >;
     }

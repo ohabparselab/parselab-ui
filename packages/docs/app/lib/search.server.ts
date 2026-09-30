@@ -7,6 +7,7 @@ import { iconsPage } from "~/content/icons-page";
 import { iconNames } from "@parseui/icons";
 import { docPath } from "./versions.server";
 import { slugify } from "./slugify";
+import { withSite } from "~/site";
 import type { SearchEntry } from "./search";
 
 /** Markdown → searchable plain text: drops link targets and formatting marks, keeps code (people search for `npm install`). */
@@ -25,7 +26,7 @@ function plain(markdown: string): string {
 
 /** One entry for the page itself, plus one per `##`/`###` section of a docs/<slug>.md guide. */
 async function guideEntries(version: string, section: string, title: string, path: string): Promise<SearchEntry[]> {
-  const markdown = await readFile(docPath(version, `${path.slice(1)}.md`), "utf-8");
+  const markdown = withSite(await readFile(docPath(version, `${path.slice(1)}.md`), "utf-8"));
   const entries: SearchEntry[] = [{ page: title, section, path, text: "" }];
   // Same duplicate numbering as the renderer (it counts every heading level).
   const slugCounts = new Map<string, number>();
@@ -59,6 +60,7 @@ function componentEntries(section: string, slug: string, path: string): SearchEn
 
   return [
     { page: doc.title, section, path, text: plain(doc.description) },
+    { page: doc.title, section, heading: "Usage", path: at("usage"), text: doc.usage.replace(/<svg[\s\S]*?<\/svg>/g, " ").replace(/\s+/g, " ") },
     ...doc.examples.map((example) => ({
       page: doc.title,
       section,

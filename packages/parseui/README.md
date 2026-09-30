@@ -62,7 +62,24 @@ A `<button>` with no attributes is white with a thin border (a subtle dark surfa
 
 ### Theme
 
-Light by default. `<parse-ui theme="dark">` forces dark; `theme="auto"` follows the OS setting.
+Light by default. `<parse-ui mode="dark">` forces dark; `mode="auto"` follows the OS setting.
+
+Named themes override tokens per mode, then apply with `theme`:
+
+```js
+ParseUI.registerTheme({            // npm: import { registerTheme } from "parseui"
+  name: "ocean",
+  tokens: { radius: "4px" },                   // both modes
+  light: { "color-primary": "#0f766e" },
+  dark: { "color-primary": "#2dd4bf" },
+});
+```
+
+```html
+<parse-ui theme="ocean" mode="auto">…</parse-ui>
+```
+
+Only the listed tokens change; hover/soft/ring colors are derived from them. `Theme`, `ThemeToken` (every token name, for autocomplete), `ParseUIMode` and the attribute value types (`ParseUIView`, `ParseUISize`…) are exported from `parseui`.
 
 ### Customizing
 

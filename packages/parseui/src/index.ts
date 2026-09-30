@@ -7,6 +7,7 @@ import { registerComponent } from "./core/registry";
 import { defineParseUIElement } from "./core/parse-ui";
 import { startLegacyTagCompat } from "./core/compat";
 import { registerIcons, setIconBaseUrl } from "./core/icons";
+import { registerTheme } from "./core/themes";
 import type { ParseUIApi, ParseUIStub } from "./core/api";
 import { tokens } from "./tokens/tokens";
 import { base } from "./base/base";
@@ -18,6 +19,8 @@ import { icon } from "./components/icon/icon";
 export { registerComponent } from "./core/registry";
 export type { ComponentDefinition } from "./core/registry";
 export { registerIcons, setIconBaseUrl } from "./core/icons";
+export { registerTheme } from "./core/themes";
+export type * from "./types";
 
 export const version: string = __PARSEUI_VERSION__;
 
@@ -32,7 +35,7 @@ if (typeof window !== "undefined" && typeof customElements !== "undefined") {
 
   // Calls the npm loader queued while this script was downloading. Still
   // the loader's stub here — the IIFE assigns window.ParseUI after it runs.
-  const api: ParseUIApi = { registerComponent, registerIcons, setIconBaseUrl };
+  const api: ParseUIApi = { registerComponent, registerIcons, setIconBaseUrl, registerTheme };
   const stub = (window as { ParseUI?: Partial<ParseUIStub> }).ParseUI;
   for (const [method, args] of stub?.q ?? []) {
     (api[method] as (...a: typeof args) => void)(...args);

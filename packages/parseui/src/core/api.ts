@@ -1,10 +1,12 @@
 import type { ComponentDefinition } from "./registry";
+import type { Theme } from "./themes";
 
 /** The calls the npm loader can make before the CDN script has loaded. */
 export interface ParseUIApi {
   registerComponent(definition: ComponentDefinition): void;
   registerIcons(icons: Record<string, string>): void;
   setIconBaseUrl(url: string): void;
+  registerTheme(theme: Theme): void;
 }
 
 export type QueuedCall = {

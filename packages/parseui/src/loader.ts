@@ -12,8 +12,10 @@
  */
 import type { ComponentDefinition } from "./core/registry";
 import type { ParseUIApi, ParseUIStub, QueuedCall } from "./core/api";
+import type { Theme } from "./core/themes";
 
 export type { ComponentDefinition } from "./core/registry";
+export type * from "./types";
 
 export const version: string = __PARSEUI_VERSION__;
 
@@ -105,6 +107,14 @@ export function registerIcons(icons: Record<string, string>): void {
 /** Where `<i icon>` loads SVGs from. Default `https://cdn.parseui.com/icons/<@parseui/icons version>/`. */
 export function setIconBaseUrl(url: string): void {
   call("setIconBaseUrl", [url]);
+}
+
+/**
+ * Adds a named theme — select it with `<parse-ui theme="<name>">`. Only the
+ * tokens you set change; derived colors (hover, ring…) follow.
+ */
+export function registerTheme(theme: Theme): void {
+  call("registerTheme", [theme]);
 }
 
 // Load automatically — but on a microtask, so a load({ src }) or any

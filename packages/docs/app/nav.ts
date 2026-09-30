@@ -22,6 +22,8 @@ export const NAV: NavSection[] = [
       { title: "Installation", path: "/installation" },
       { title: "CDN (JS)", path: "/cdn" },
       { title: "npm", path: "/npm" },
+      { title: "Theming", path: "/theming" },
+      { title: "AI agents", path: "/ai" },
     ],
   },
   {

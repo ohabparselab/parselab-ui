@@ -831,6 +831,32 @@ kbd {
   font-size: 12px;
 }
 
+/* ---------- Page actions (Copy page / Markdown) ---------- */
+.page-actions {
+  float: right;
+  display: flex;
+  gap: 6px;
+  margin: 0 0 8px 16px;
+}
+.page-action {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--fg-muted);
+  font: inherit;
+  font-size: 12.5px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.page-action:hover {
+  color: var(--fg);
+  border-color: color-mix(in srgb, var(--fg) 20%, var(--border));
+}
+
 /* ---------- Components overview ---------- */
 .component-index {
   display: grid;

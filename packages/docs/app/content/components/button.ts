@@ -7,6 +7,50 @@ export const buttonDoc: ComponentDoc = {
     "Triggers an action or event, such as submitting a form, opening a dialog, or saving changes. ParseUI styles any native `<button>`, `<input type=\"submit\">`, or `<a view>` inside `<parse-ui>` — no custom tag needed.",
   badges: ["Stable", "Native <button>", "Shadow DOM"],
 
+  usage: `<!-- Default: white with a thin border -->
+<button>Button</button>
+
+<!-- Views -->
+<button view="primary">Primary</button>
+<button view="secondary">Secondary</button>
+<button view="gray">Gray</button>
+<button view="light">Light</button>
+<button view="dark">Dark</button>
+<button view="soft">Soft</button>
+<button view="ghost">Ghost</button>
+<button view="success">Success</button>
+<button view="warning">Warning</button>
+<button view="info">Info</button>
+<button view="danger">Danger</button>
+<button view="link">Link</button>
+
+<!-- Outline version of any view -->
+<button view="primary" outline>Primary</button>
+
+<!-- Sizes: xs · sm · md (default) · lg -->
+<button view="primary" size="sm">Small</button>
+<button view="primary" size="lg">Large</button>
+
+<!-- Icons: before or after the label, or icon only (needs an aria-label) -->
+<button view="primary"><i icon="plus"></i> New product</button>
+<button view="secondary">Continue <i icon="arrow-right"></i></button>
+<button icon-only aria-label="Settings"><i icon="settings"></i></button>
+
+<!-- Loading: spinner replaces the label, or sits before / after it -->
+<button view="primary" loading>Saving</button>
+<button view="primary" loading="start">Saving</button>
+<button view="primary" loading="end">Saving</button>
+
+<!-- Disabled and full width -->
+<button view="primary" disabled>Disabled</button>
+<button view="primary" full-width>Continue</button>
+
+<!-- A link that looks like a button -->
+<a view="primary" href="/orders">View orders</a>
+
+<!-- Form buttons keep their native behavior -->
+<button type="submit" view="primary">Submit</button>`,
+
   examples: [
     {
       id: "default",

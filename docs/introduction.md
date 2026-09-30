@@ -31,7 +31,9 @@ Everything runs from one `parseui.min.js` on the CDN — the npm package is a ti
 - **Button group** — joined buttons, toolbars, and segmented controls with `group`.
 - **Input** — text inputs, select, textarea and file inputs, with `field` for labels, descriptions, and error states.
 - **Icons** — `<i icon="search">` by name from the CDN, or `@parseui/icons` React components from npm.
-- **Light and dark themes** via the `theme` attribute.
+- **Light and dark mode** with the `mode` attribute, and **themes** — named token sets you register with `registerTheme()`.
+- **TypeScript types** for every attribute, theme and token.
+- **Docs for AI agents** — `llms.txt`, one Markdown file per page, and rules to drop into your project.
 - **A component registry** so new components (and add-on packages) plug in without touching the core.
 
 ## How it works

@@ -5,6 +5,7 @@ import { NAV } from "~/nav";
 import { listVersions } from "~/lib/versions.server";
 import { VersionSwitcher } from "~/components/VersionSwitcher";
 import { ThemeToggle } from "~/components/ThemeToggle";
+import { Search } from "~/components/Search";
 
 export async function loader() {
   return json({ versions: await listVersions() });
@@ -62,6 +63,7 @@ export default function DocsLayout() {
             </Link>
           </nav>
           <div className="topbar-actions">
+            <Search version={version} versionPrefix={versionPrefix} />
             <ThemeToggle />
             <a
               className="icon-button"

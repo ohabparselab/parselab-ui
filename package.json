@@ -1,20 +1,21 @@
 {
   "name": "parselab-ui",
   "private": true,
-  "description": "Monorepo root for parseui — drop-in shadow-DOM UI kit (CDN script + npm package) and its docs site.",
+  "description": "Monorepo root for parseui \u2014 drop-in shadow-DOM UI kit (CDN script + npm package), @parseui/icons, and the docs site.",
   "type": "module",
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
-    "build": "npm run build --workspace=parseui",
+    "build": "npm run build --workspace=@parseui/icons && npm run build --workspace=parseui",
     "dev": "npm run dev --workspace=parseui",
     "typecheck": "npm run typecheck --workspace=parseui && npm run typecheck --workspace=@parselabllc/docs",
     "docs": "npm run dev --workspace=@parselabllc/docs",
     "docs:version": "node scripts/snapshot-docs.mjs",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "release": "npm run build && changeset publish"
+    "release": "npm run build && changeset publish",
+    "build:icons": "npm run build --workspace=@parseui/icons"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.10"

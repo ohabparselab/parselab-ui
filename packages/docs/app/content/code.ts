@@ -20,9 +20,14 @@ const indent = (text: string, spaces: number) =>
     .map((line) => (line ? " ".repeat(spaces) + line : line))
     .join("\n");
 
-/** HTML → JSX: presence-only `loading` needs a value in React. */
+/**
+ * HTML → JSX: ParseUI's presence-only attributes need a value in React, and
+ * SVG presentation attributes are camelCase.
+ */
 function toJsx(markup: string): string {
-  return markup.replace(/ loading(?=[\s>/])/g, ' loading=""');
+  return markup
+    .replace(/ (loading|icon-only|full-width)(?=[\s>/])/g, ' $1=""')
+    .replace(/ stroke-(width|linecap|linejoin)=/g, (_, name: string) => ` stroke${name[0].toUpperCase()}${name.slice(1)}=`);
 }
 
 export function cdnCode(markup: string): string {

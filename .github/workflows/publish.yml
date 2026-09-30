@@ -21,9 +21,14 @@ jobs:
 
       - run: npm ci
 
-      - run: npm run build --workspace=parseui
+      - run: npm run build
 
       - run: npm run typecheck --workspace=parseui
+
+      # Needs the "parseui" npm organization for the @parseui scope.
+      - run: npm publish --access public --workspace=@parseui/icons
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - run: npm publish --access public --workspace=parseui
         env:

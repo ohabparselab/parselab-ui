@@ -6,7 +6,7 @@ const textInput =
   'input:not([type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"], [type="button"], [type="submit"], [type="reset"], [type="image"], [type="hidden"])';
 
 const chevron =
-  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 6.5 8 10l3.5-3.5' fill='none' stroke='%238a8a8a' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")";
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 6.5 8 10l3.5-3.5' fill='none' stroke='%238b8b98' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")";
 
 /**
  * ParseUI's default design for plain HTML inside `<parse-ui>` — the page's
@@ -43,12 +43,12 @@ const css = `
   }
 
   a:not([view]) {
-    color: var(--p-color-link);
+    color: var(--p-color-primary-text);
     text-decoration: underline;
     text-underline-offset: 0.125rem;
   }
   a:not([view]):hover {
-    color: var(--p-color-link-hover);
+    color: var(--p-color-primary-hover);
   }
 
   ul, ol {
@@ -61,19 +61,19 @@ const css = `
 
   code, kbd, samp {
     font-family: var(--p-font-family-mono);
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
   }
   :not(pre) > code, kbd {
     padding: 0.0625rem 0.25rem;
     border-radius: var(--p-radius-sm);
-    background: var(--p-color-surface-secondary);
+    background: var(--p-color-bg-muted);
   }
   pre {
     margin: 0 0 0.75rem;
     padding: 0.75rem;
     overflow: auto;
-    border-radius: var(--p-radius-md);
-    background: var(--p-color-surface-secondary);
+    border-radius: var(--p-radius);
+    background: var(--p-color-bg-muted);
   }
 
   blockquote {
@@ -106,43 +106,45 @@ const css = `
   }
   th {
     font-weight: var(--p-font-weight-semibold);
-    background: var(--p-color-surface-secondary);
+    background: var(--p-color-bg-muted);
   }
 
   /* Forms */
   label {
     display: inline-block;
     margin-bottom: 0.25rem;
+    font-weight: var(--p-font-weight-medium);
   }
 
   ${textInput}, select, textarea {
     display: block;
     width: 100%;
-    min-height: 2rem;
+    min-height: 2.25rem;
     margin: 0;
-    padding: 0.375rem 0.75rem;
+    padding: 0.4375rem 0.75rem;
     font: inherit;
+    line-height: 1.25rem;
     color: var(--p-color-text);
-    background-color: var(--p-color-surface);
-    border: 0.0625rem solid var(--p-color-input-border);
-    border-radius: var(--p-radius-md);
-    transition: border-color var(--p-transition-fast);
+    background-color: var(--p-color-bg);
+    border: 0.0625rem solid var(--p-color-border-strong);
+    border-radius: var(--p-radius);
+    box-shadow: var(--p-shadow-xs);
+    transition: border-color var(--p-transition-fast), box-shadow var(--p-transition-fast);
   }
   :is(${textInput}, select, textarea):hover:not(:disabled) {
-    border-color: var(--p-color-input-border-hover);
+    border-color: var(--p-color-text-tertiary);
   }
   :is(${textInput}, select, textarea):focus-visible {
-    outline: 0.125rem solid var(--p-color-focus-ring);
-    outline-offset: 0.0625rem;
+    outline: none;
+    border-color: var(--p-color-primary);
+    box-shadow: 0 0 0 3px var(--p-color-ring);
   }
   :is(${textInput}, select, textarea):disabled {
     cursor: not-allowed;
-    color: var(--p-color-text-disabled);
-    background-color: var(--p-color-neutral-disabled);
-    border-color: transparent;
+    opacity: 0.5;
   }
   ::placeholder {
-    color: var(--p-color-text-secondary);
+    color: var(--p-color-text-tertiary);
     opacity: 1;
   }
 

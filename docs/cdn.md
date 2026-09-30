@@ -68,7 +68,7 @@ Override design tokens on the element:
 <style>
   parse-ui {
     --p-color-primary: #16a34a;
-    --p-radius-md: 4px;
+    --p-radius: 4px;
   }
 </style>
 ```
@@ -95,3 +95,5 @@ The CDN build exposes `window.ParseUI`:
 |---|---|
 | `ParseUI.version` | The loaded version, e.g. `"1.0.0"`. |
 | `ParseUI.registerComponent(definition)` | Adds a component's CSS (and optional setup) to every `<parse-ui>`. |
+| `ParseUI.registerIcons(icons)` | Makes icons available by name without a network request: `{ name: innerSvgMarkup }`. |
+| `ParseUI.setIconBaseUrl(url)` | Where `<i icon>` loads SVGs from. Default `https://cdn.parseui.com/icons/1.0.0/`. |

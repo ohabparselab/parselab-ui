@@ -19,7 +19,7 @@ See the full [CDN setup guide](/docs/cdn).
 For projects with a bundler (Vite, Next.js, Remix, webpack).
 
 ```bash
-npm install parseui
+npm install parseui@latest
 ```
 
 ```js
@@ -35,7 +35,7 @@ Wrap any markup in `<parse-ui>`:
 ```html
 <parse-ui>
   <button view="primary">Save changes</button>
-  <button>Cancel</button>
+  <button view="secondary">Cancel</button>
 </parse-ui>
 ```
 

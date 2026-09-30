@@ -5,7 +5,15 @@ Install ParseUI from npm to use it in a project with a bundler — Vite, Next.js
 ## Install
 
 ```bash
-npm install parseui
+npm install parseui@latest
+```
+
+Using another package manager:
+
+```bash
+pnpm add parseui@latest
+yarn add parseui@latest
+bun add parseui@latest
 ```
 
 ## Import once
@@ -42,13 +50,13 @@ export function SaveBar() {
   return (
     <parse-ui>
       <button view="primary">Save changes</button>
-      <button>Cancel</button>
+      <button view="secondary">Cancel</button>
     </parse-ui>
   );
 }
 ```
 
-`parseui/jsx` adds TypeScript types for `<parse-ui>` and the `view`, `tone`, and `loading` attributes. In React, pass `loading=""` rather than `loading={true}`.
+`parseui/jsx` adds TypeScript types for `<parse-ui>` and the `view`, `size`, `icon-only`, `full-width`, and `loading` attributes. In React, pass presence-only attributes an empty string — `loading=""`, not `loading={true}`.
 
 React renders and updates content inside `<parse-ui>` normally. **React `onClick` handlers on elements inside `<parse-ui>` don't fire yet** (React listens outside the shadow root) — attach listeners with `addEventListener` for now. An event API is planned.
 
@@ -67,7 +75,7 @@ import { registerComponent } from "parseui";
 
 registerComponent({
   name: "badge",
-  css: `.badge { padding: 2px 8px; border-radius: 999px; background: var(--p-color-surface-secondary); }`,
+  css: `.badge { padding: 2px 8px; border-radius: 999px; background: var(--p-color-bg-muted); }`,
 });
 ```
 

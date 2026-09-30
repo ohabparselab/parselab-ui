@@ -15,7 +15,7 @@ export interface ComponentCode {
   examples: HighlightedCode[][];
 }
 
-const slugify = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+import { slugify } from "~/lib/slugify";
 
 function headingsFor(doc: ComponentDoc): Heading[] {
   return [

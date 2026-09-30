@@ -4,9 +4,11 @@ import { startLegacyTagCompat } from "./core/compat";
 import { tokens } from "./tokens/tokens";
 import { base } from "./base/base";
 import { button } from "./components/button/button";
+import { icon } from "./components/icon/icon";
 
 export { registerComponent } from "./core/registry";
 export type { ComponentDefinition } from "./core/registry";
+export { registerIcons, setIconBaseUrl } from "./core/icons";
 
 export const version: string = __PARSEUI_VERSION__;
 
@@ -17,6 +19,7 @@ if (typeof window !== "undefined" && typeof customElements !== "undefined") {
   registerComponent(tokens);
   registerComponent(base);
   registerComponent(button);
+  registerComponent(icon);
 
   defineParseUIElement();
   startLegacyTagCompat();

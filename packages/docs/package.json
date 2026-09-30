@@ -2,7 +2,7 @@
   "name": "@parselabllc/docs",
   "private": true,
   "type": "module",
-  "description": "Local docs site for @parselabllc/ui, built with Remix.",
+  "description": "Docs site for parseui and @parseui/icons, built with Remix.",
   "scripts": {
     "dev": "remix vite:dev",
     "build": "remix vite:build",
@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "parseui": "*",
+    "@parseui/icons": "*",
     "@remix-run/node": "^2.17.5",
     "@remix-run/react": "^2.17.5",
     "@remix-run/serve": "^2.17.5",

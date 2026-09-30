@@ -20,6 +20,10 @@ export const NAV: NavSection[] = [
     ],
   },
   {
+    title: "Foundations",
+    items: [{ title: "Icons", path: "/icons" }],
+  },
+  {
     title: "Components",
     items: [{ title: "Button", path: "/components/button" }],
   },

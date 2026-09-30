@@ -1,0 +1,49 @@
+{
+  "name": "@parseui/icons",
+  "version": "1.0.0",
+  "description": "ParseUI's icon set — 24px grid, 1.8px stroke. React components, raw SVGs, and the name → SVG map ParseUI's <i icon> uses.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Parselab",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/parselab/parselab-ui.git",
+    "directory": "packages/icons"
+  },
+  "keywords": [
+    "icons",
+    "svg",
+    "react",
+    "parseui"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./icons.json": "./dist/icons.json",
+    "./svg/*": "./dist/svg/*",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  },
+  "peerDependencies": {
+    "react": ">=17"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  }
+}

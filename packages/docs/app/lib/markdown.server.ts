@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { Marked } from "marked";
 import { highlightCode } from "./highlight.server";
+import { slugify } from "./slugify";
 
 export interface Heading {
   id: string;
@@ -8,13 +9,6 @@ export interface Heading {
   depth: number;
 }
 
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-}
 
 /** Reads a Markdown file and renders it to HTML, collecting `##`/`###` headings (with slug ids matching the rendered anchors) for a page's table of contents. */
 export async function renderMarkdownFile(path: string): Promise<{ html: string; headings: Heading[] }> {

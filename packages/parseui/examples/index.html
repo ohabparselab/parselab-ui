@@ -6,6 +6,9 @@
     <title>ParseUI — examples</title>
     <!-- Same as the CDN usage: https://cdn.parseui.com/1.0.0/parseui.min.js -->
     <script src="../dist/parseui.min.js"></script>
+    <!-- Real sites use the default (https://cdn.parseui.com/icons/1.0.0/);
+         locally, fetch the built SVGs the same way. -->
+    <script>ParseUI.setIconBaseUrl("/icons/dist/svg/");</script>
     <style>
       /* Hostile page CSS: none of this should reach inside <parse-ui>. */
       button { background: red !important; color: yellow !important; font-size: 30px !important; }
@@ -30,26 +33,52 @@
         <h1>ParseUI <span class="late-marker">(late-registered style target)</span></h1>
         <p>Everything in here renders inside a shadow root, with ParseUI's default design.</p>
 
+        <h2>Default (no attributes)</h2>
+        <div class="row">
+          <button id="default-btn">Button</button>
+          <button icon-only aria-label="Next"><i icon="arrow-right"></i></button>
+        </div>
+
+        <h2>Icons</h2>
+        <div class="row" id="icon-row">
+          <i icon="search"></i>
+          <i icon="star" size="24" style="color: #f59e0b"></i>
+          <i icon="heart" size="32" stroke-width="1.2"></i>
+          <i icon="info" aria-label="Information"></i>
+          <i icon="does-not-exist" id="missing-icon"></i>
+          <span>Text with <i icon="check-circle"></i> inline icon</span>
+          <button view="primary"><i icon="plus"></i> New product</button>
+          <button view="secondary">Export <i icon="download"></i></button>
+          <button view="danger" icon-only aria-label="Delete"><i icon="trash"></i></button>
+        </div>
+
         <h2>Views</h2>
         <div class="row">
           <button view="primary">Primary</button>
-          <button>Secondary (default)</button>
-          <button view="tertiary">Tertiary</button>
-          <button view="plain">Plain</button>
+          <button view="secondary">Secondary</button>
+          <button view="gray">Gray</button>
+          <button view="soft">Soft</button>
+          <button view="ghost">Ghost</button>
+          <button view="success">Success</button>
+          <button view="danger">Danger</button>
+          <button view="link">Link</button>
           <a view="primary" href="#">Link as button</a>
         </div>
 
-        <h2>Tones</h2>
+        <h2>Sizes</h2>
         <div class="row">
-          <button view="primary" tone="critical">Delete</button>
-          <button tone="critical">Delete (secondary)</button>
-          <button view="tertiary" tone="critical">Delete (tertiary)</button>
-          <button view="plain" tone="critical">Delete (plain)</button>
+          <button view="primary" size="xs">Extra small</button>
+          <button view="primary" size="sm">Small</button>
+          <button view="primary" size="md">Medium</button>
+          <button view="primary" size="lg">Large</button>
+          <button view="secondary" size="lg" icon-only aria-label="Add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></button>
         </div>
+        <div class="row"><button view="primary" full-width>Full width</button></div>
 
         <h2>States</h2>
         <div class="row">
           <button id="loading-btn" view="primary" loading onclick="window.loadingClicks = (window.loadingClicks || 0) + 1">Saving…</button>
+          <button view="secondary" loading>Loading</button>
           <button loading>Loading</button>
           <button view="primary" disabled>Disabled</button>
           <button disabled>Disabled</button>
@@ -94,12 +123,15 @@
         </style>
         <h2>theme="dark"</h2>
         <div class="row">
+          <button>Default</button>
           <button view="primary">Primary</button>
-          <button>Secondary</button>
-          <button view="tertiary">Tertiary</button>
-          <button view="plain">Plain</button>
-          <button view="primary" tone="critical">Delete</button>
-          <button tone="critical">Delete</button>
+          <button view="secondary">Secondary</button>
+          <button view="gray">Gray</button>
+          <button view="soft">Soft</button>
+          <button view="ghost">Ghost</button>
+          <button view="success">Success</button>
+          <button view="danger">Danger</button>
+          <button view="link">Link</button>
           <button loading>Loading</button>
           <button disabled>Disabled</button>
         </div>

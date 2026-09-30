@@ -10,7 +10,7 @@
     {
       "name": "parseui-examples",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "4330", "--directory", "packages/parseui"],
+      "runtimeArgs": ["-m", "http.server", "4330", "--directory", "packages"],
       "port": 4330
     },
     {

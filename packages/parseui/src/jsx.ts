@@ -5,21 +5,29 @@
  */
 import "react";
 
-export type ParseUIView = "primary" | "secondary" | "tertiary" | "plain" | "auto";
-export type ParseUITone = "critical" | "neutral" | "auto";
+export type ParseUIView = "primary" | "secondary" | "gray" | "soft" | "ghost" | "success" | "danger" | "link";
+export type ParseUISize = "xs" | "sm" | "md" | "lg";
 export type ParseUITheme = "light" | "dark" | "auto";
 
+// Presence-only attributes take `""` — React warns on `attr={true}` for an
+// unknown boolean attribute.
 interface ParseUIButtonAttributes {
   view?: ParseUIView;
-  tone?: ParseUITone;
-  /** Presence-only: pass `loading=""` (React warns on `loading={true}` for an unknown boolean). */
+  size?: ParseUISize;
+  "icon-only"?: "";
+  "full-width"?: "";
   loading?: "";
 }
 
 declare module "react" {
+  // <i icon="search" /> — the icon's name (other elements ignore it).
+  interface HTMLAttributes<T> {
+    icon?: string;
+  }
   interface ButtonHTMLAttributes<T> extends ParseUIButtonAttributes {}
   interface AnchorHTMLAttributes<T> extends ParseUIButtonAttributes {}
-  interface InputHTMLAttributes<T> extends Omit<ParseUIButtonAttributes, "loading"> {}
+  // <input> already has a numeric `size` (and `loading` makes no sense there).
+  interface InputHTMLAttributes<T> extends Omit<ParseUIButtonAttributes, "size" | "loading"> {}
 
   namespace JSX {
     interface IntrinsicElements {

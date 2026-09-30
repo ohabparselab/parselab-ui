@@ -1,6 +1,6 @@
 # parseui
 
-Wrap any HTML in `<parse-ui>` and every tag inside renders in a **shadow root** with ParseUI's default design (Shopify Polaris-style). Page CSS can't leak in, so it looks the same on any site.
+Wrap any HTML in `<parse-ui>` and every tag inside renders in a **shadow root** with ParseUI's default design. Page CSS can't leak in, so it looks the same on any site.
 
 ## Install
 
@@ -13,7 +13,7 @@ Wrap any HTML in `<parse-ui>` and every tag inside renders in a **shadow root** 
 **npm**:
 
 ```bash
-npm install parseui
+npm install parseui@latest
 ```
 
 ```js
@@ -27,7 +27,7 @@ import "parseui"; // registers <parse-ui>; safe to import during SSR (no-op on t
   <h2>Checkout</h2>
   <p>Plain tags get ParseUI's design automatically.</p>
   <button view="primary">Pay now</button>
-  <button>Cancel</button>
+  <button view="secondary">Cancel</button>
 </parse-ui>
 ```
 
@@ -37,17 +37,23 @@ import "parseui"; // registers <parse-ui>; safe to import during SSR (no-op on t
 
 Works on `<button>`, `<input type="button|submit|reset">`, and `<a view="…">`.
 
+A `<button>` with no attributes gets a neutral default design (dark in light mode, light in dark mode). Add `view` for ParseUI's styles:
+
 | Attribute | Values | Default |
 |---|---|---|
-| `view` | `primary` · `secondary` · `tertiary` · `plain` | `secondary` |
-| `tone` | `critical` · `neutral` | — |
+| `view` | `primary` · `secondary` · `gray` · `soft` · `ghost` · `success` · `danger` · `link` | — (neutral default) |
+| `size` | `xs` · `sm` · `md` · `lg` | `md` |
+| `icon-only` | boolean — square button; add an `aria-label` | — |
+| `full-width` | boolean — stretches to its container | — |
 | `disabled` | boolean | — |
 | `loading` | boolean — spinner, label hidden (width unchanged), clicks blocked, `aria-busy="true"` | — |
 
 ```html
-<button view="primary" tone="critical">Delete</button>
-<button view="tertiary">More</button>
-<button loading>Saving…</button>
+<button>Default</button>
+<button view="success">Approve</button>
+<button view="danger">Delete</button>
+<button view="ghost" size="sm">More</button>
+<button view="primary" loading>Saving…</button>
 <a view="primary" href="/orders">View orders</a>
 ```
 
@@ -62,7 +68,7 @@ Override design tokens on the element — page rules beat ParseUI's defaults:
 ```css
 parse-ui {
   --p-color-primary: #16a34a;
-  --p-radius-md: 4px;
+  --p-radius: 4px;
 }
 ```
 
@@ -71,17 +77,35 @@ Your own layout CSS goes in a `<style>` *inside* `<parse-ui>` (it moves into the
 ```html
 <parse-ui>
   <style>.actions { display: flex; gap: 8px; }</style>
-  <div class="actions"><button view="primary">Save</button><button>Cancel</button></div>
+  <div class="actions"><button view="primary">Save</button><button view="secondary">Cancel</button></div>
 </parse-ui>
 ```
+
+### Icons
+
+```html
+<i icon="search"></i>
+<button view="primary"><i icon="plus"></i> New product</button>
+<i icon="star" size="24" stroke-width="1.2" style="color: #f59e0b"></i>
+```
+
+Each `<i icon>` loads its SVG from `https://cdn.parseui.com/icons/1.0.0/<name>.svg` once, then reuses it. To skip the network, register the set from [`@parseui/icons`](../icons):
+
+```js
+import { registerIcons } from "parseui";
+import { icons } from "@parseui/icons";
+registerIcons(icons);
+```
+
+…or serve the SVGs yourself with `setIconBaseUrl("/icons/")`.
 
 ### TypeScript / React
 
 ```ts
-import type {} from "parseui/jsx"; // types <parse-ui> and view/tone/loading on <button>/<a>
+import type {} from "parseui/jsx"; // types <parse-ui> and view/size/icon-only/full-width/loading on <button>/<a>
 ```
 
-In React, pass `loading=""` (React warns on `loading={true}` for this attribute).
+In React, pass presence-only attributes an empty string — `loading=""`, `icon-only=""` (React warns on `={true}` for unknown attributes).
 
 ## Adding a component
 
@@ -90,7 +114,7 @@ Every component — including Button — is one `ComponentDefinition`: CSS plus 
 ```js
 ParseUI.registerComponent({            // CDN build: window.ParseUI
   name: "badge",
-  css: `.badge { padding: 2px 8px; border-radius: 999px; background: var(--p-color-surface-secondary); }`,
+  css: `.badge { padding: 2px 8px; border-radius: 999px; background: var(--p-color-bg-muted); }`,
   setup(shadowRoot) {                   // optional, runs once per <parse-ui>
   },
 });

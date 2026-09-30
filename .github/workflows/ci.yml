@@ -14,6 +14,6 @@ jobs:
         with:
           node-version: 20
       - run: npm ci
-      # parseui first: the docs app type-checks against its built dist/types.
-      - run: npm run build --workspace=parseui
+      # Packages first: the docs app type-checks against their built dist types.
+      - run: npm run build
       - run: npm run typecheck

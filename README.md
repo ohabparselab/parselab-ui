@@ -19,7 +19,7 @@ A drop-in UI library: add one script, wrap your markup in `<parse-ui>`, and plai
 ### npm
 
 ```bash
-npm install parseui
+npm install parseui@latest
 ```
 
 ```tsx

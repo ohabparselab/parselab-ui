@@ -27,7 +27,8 @@ The same `parseui.min.js` is served from the CDN and shipped in the npm package.
 ## What's inside
 
 - **Base design** for every plain tag — headings, paragraphs, lists, links, code, tables, and form controls.
-- **Button** — four views, a critical tone, loading and disabled states.
+- **Button** — a neutral default plus eight views (primary, secondary, gray, soft, ghost, success, danger, link), four sizes, icons, loading and disabled states.
+- **Icons** — `<i icon="search">` by name from the CDN, or `@parseui/icons` React components from npm.
 - **Light and dark themes** via the `theme` attribute.
 - **A component registry** so new components (and add-on packages) plug in without touching the core.
 

@@ -1,12 +1,11 @@
+import { useState } from "react";
 import type { HighlightedCode } from "~/lib/pages.server";
-import { useInstallMethod } from "~/lib/use-install-method";
 import { CopyButton } from "./CopyButton";
 
+/** A code block with one tab per variant (e.g. CDN (JS) / npm). Each block switches on its own. */
 export function CodeTabs({ items, embedded = false }: { items: HighlightedCode[]; embedded?: boolean }) {
-  const [method, chooseMethod] = useInstallMethod();
-  const matched = items.findIndex((item) => item.label === method);
-  const activeIndex = matched === -1 ? 0 : matched;
-  const active = items[activeIndex];
+  const [activeIndex, setActiveIndex] = useState(0);
+  const active = items[activeIndex] ?? items[0];
 
   return (
     <div className={embedded ? "code-tabs embedded" : "code-tabs"}>
@@ -19,7 +18,7 @@ export function CodeTabs({ items, embedded = false }: { items: HighlightedCode[]
               role="tab"
               aria-selected={index === activeIndex}
               className={index === activeIndex ? "active" : undefined}
-              onClick={() => chooseMethod(item.label)}
+              onClick={() => setActiveIndex(index)}
             >
               {item.label}
             </button>

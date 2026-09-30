@@ -4,6 +4,7 @@ import { docPath } from "./versions.server";
 import { GUIDE_SLUGS } from "~/nav";
 import { COMPONENT_DOCS } from "~/content/components";
 import { exampleVariants, type CodeVariant } from "~/content/code";
+import { iconsPage } from "~/content/icons-page";
 
 /** A getting-started page rendered from docs/<slug>.md, or null if there's no such page. */
 export async function loadGuidePage(version: string, slug: string) {
@@ -38,5 +39,15 @@ export async function loadComponentCode(slug: string) {
     installation: await highlight(doc.installation),
     usage: await highlight(exampleVariants(doc.usage)),
     examples: await Promise.all(doc.examples.map((example) => highlight(exampleVariants(example.markup)))),
+  };
+}
+
+/** Pre-highlighted code for the Icons page. */
+export async function loadIconsCode() {
+  return {
+    installation: await highlight(iconsPage.installation),
+    usage: await highlight(iconsPage.usage),
+    customize: await highlight(exampleVariants(iconsPage.customizeMarkup)),
+    offline: await highlight(iconsPage.offline),
   };
 }

@@ -26,7 +26,7 @@ const indent = (text: string, spaces: number) =>
  */
 function toJsx(markup: string): string {
   return markup
-    .replace(/ (loading|icon-only|full-width)(?=[\s>/])/g, ' $1=""')
+    .replace(/ (loading|icon-only|full-width|outline|group)(?=[\s>/])/g, ' $1=""')
     .replace(/ stroke-(width|linecap|linejoin)=/g, (_, name: string) => ` stroke${name[0].toUpperCase()}${name.slice(1)}=`);
 }
 

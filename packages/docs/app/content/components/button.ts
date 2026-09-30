@@ -11,9 +11,12 @@ export const buttonDoc: ComponentDoc = {
   hero: `<button view="primary">Primary</button>
 <button view="secondary">Secondary</button>
 <button view="gray">Gray</button>
+<button view="light">Light</button>
 <button view="soft">Soft</button>
 <button view="ghost">Ghost</button>
 <button view="success">Success</button>
+<button view="warning">Warning</button>
+<button view="info">Info</button>
 <button view="danger">Danger</button>
 <button view="link">Link</button>`,
 
@@ -29,7 +32,7 @@ export const buttonDoc: ComponentDoc = {
       id: "default",
       title: "Default",
       description:
-        "A `<button>` with no attributes gets the neutral default design — dark in light mode, light in dark mode. Use it when an action doesn't need the brand color.",
+        "A `<button>` with no attributes is white with a thin border — a quiet, neutral action. In the dark theme it becomes a subtle dark surface.",
       markup: `<button>Button</button>
 <button icon-only aria-label="Next"><i icon="arrow-right"></i></button>`,
     },
@@ -37,23 +40,41 @@ export const buttonDoc: ComponentDoc = {
       id: "views",
       title: "Views",
       description:
-        "Use `primary` for the main action on a screen, `secondary` for everything else. Keep one primary button per view.",
+        "Use `primary` for the main action on a screen, `secondary` for everything else. Keep one primary button per view. `light` stays light in both themes — use it on dark or colored surfaces.",
       markup: `<button view="primary">Primary</button>
 <button view="secondary">Secondary</button>
 <button view="gray">Gray</button>
+<button view="light">Light</button>
 <button view="soft">Soft</button>
 <button view="ghost">Ghost</button>
 <button view="success">Success</button>
+<button view="warning">Warning</button>
+<button view="info">Info</button>
 <button view="danger">Danger</button>
 <button view="link">Link</button>`,
     },
     {
-      id: "status",
-      title: "Success and danger",
+      id: "outline",
+      title: "Outline",
       description:
-        "`success` confirms a positive action — approve, publish, complete. `danger` marks a destructive one. Pair either with a neutral button so the risky or final action is never the only choice.",
-      markup: `<button view="gray">Cancel</button>
+        "Add `outline` to any view for a transparent button with a colored border and label. Hovering tints it with the view's color.",
+      markup: `<button view="primary" outline>Primary</button>
+<button view="secondary" outline>Secondary</button>
+<button view="gray" outline>Gray</button>
+<button view="success" outline>Success</button>
+<button view="warning" outline>Warning</button>
+<button view="info" outline>Info</button>
+<button view="danger" outline>Danger</button>`,
+    },
+    {
+      id: "status",
+      title: "Status colors",
+      description:
+        "`success` confirms a positive action, `warning` asks for care, `info` points to something neutral, and `danger` marks a destructive action. Pair them with a neutral button so the risky or final action is never the only choice.",
+      markup: `<button>Cancel</button>
 <button view="success">Approve order</button>
+<button view="warning">Review changes</button>
+<button view="info">Learn more</button>
 <button view="danger">Delete order</button>`,
     },
     {
@@ -134,10 +155,11 @@ export const buttonDoc: ComponentDoc = {
       rows: [
         [
           "view",
-          '"primary" | "secondary" | "gray" | "soft" | "ghost" | "success" | "danger" | "link"',
+          '"primary" | "secondary" | "gray" | "light" | "soft" | "ghost" | "success" | "warning" | "info" | "danger" | "link"',
           "—",
-          "Visual style. Without it, the button uses the neutral default design.",
+          "Visual style. Without it, the button is white with a thin border.",
         ],
+        ["outline", "boolean", "—", "Outline version of the view: transparent fill, colored border and label."],
         ["size", '"xs" | "sm" | "md" | "lg"', '"md"', "Height, padding, and font size."],
         ["icon-only", "boolean", "—", "Square button for a single icon. Needs an aria-label."],
         ["full-width", "boolean", "—", "Stretches to the width of its container."],
@@ -154,13 +176,17 @@ export const buttonDoc: ComponentDoc = {
         ["--p-color-primary", "#2488ff", "Primary background, soft and link label, focus ring."],
         ["--p-color-primary-foreground", "#ffffff", "Primary label."],
         ["--p-color-gray", "#e8e8ed", "Gray background."],
+        ["--p-color-light", "#f4f4f6", "Light background (same in both themes)."],
         ["--p-color-success", "#12915a", "Success background."],
+        ["--p-color-warning", "#f5a524", "Warning background."],
+        ["--p-color-info", "#0891b2", "Info background."],
         ["--p-color-danger", "#dc3e42", "Danger background."],
         ["--p-color-border-strong", "#d6d6dd", "Secondary border."],
         ["--p-shadow-xs", "0 1px 2px rgba(20, 20, 27, 0.05)", "Resting shadow of filled buttons."],
         ["--p-shadow-sm", "0 2px 4px rgba(20, 20, 27, 0.08), …", "Hover shadow of filled buttons."],
-        ["--p-button-default-bg", "oklch(0.205 0 0)", "Default (no view) background."],
-        ["--p-button-default-fg", "oklch(0.985 0 0)", "Default (no view) label."],
+        ["--p-button-default-bg", "#ffffff", "Default (no view) background."],
+        ["--p-button-default-border", "oklch(0.922 0 0)", "Default (no view) border."],
+        ["--p-button-default-fg", "oklch(0.145 0 0)", "Default (no view) label."],
         ["--p-radius", "0.5rem", "Corner radius of views."],
         ["--p-button-default-radius", "0.625rem", "Corner radius of the default button."],
       ],

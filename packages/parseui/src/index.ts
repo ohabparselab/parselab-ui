@@ -11,6 +11,7 @@ import type { ParseUIApi, ParseUIStub } from "./core/api";
 import { tokens } from "./tokens/tokens";
 import { base } from "./base/base";
 import { button } from "./components/button/button";
+import { buttonGroup } from "./components/button-group/button-group";
 import { icon } from "./components/icon/icon";
 
 export { registerComponent } from "./core/registry";
@@ -24,6 +25,7 @@ if (typeof window !== "undefined" && typeof customElements !== "undefined") {
   registerComponent(tokens);
   registerComponent(base);
   registerComponent(button);
+  registerComponent(buttonGroup);
   registerComponent(icon);
 
   // Calls the npm loader queued while this script was downloading. Still

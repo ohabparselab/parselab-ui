@@ -7,8 +7,9 @@ import type { ComponentDefinition } from "../core/registry";
  * soft, ring) are `color-mix()`es of the base ones, so overriding
  * `--p-color-primary` alone recolors every primary state.
  *
- * `--p-button-default-*` are the neutral colors of a button with no `view`
- * (shadcn/ui's default button); everything else is ParseUI's own palette.
+ * `--p-button-default-*` are the colors of a button with no `view` (shadcn/ui's
+ * outline button: white with a thin border); everything else is ParseUI's
+ * own palette.
  *
  * Light is the default regardless of OS preference (a dark-mode OS doesn't
  * mean the host page is dark); `theme="dark"` forces dark, `theme="auto"`
@@ -25,14 +26,30 @@ const dark = `
   --p-color-text-secondary: #a6a6b3;
   --p-color-text-tertiary: #6e6e7c;
   --p-color-danger: #f26b6e;
-  --p-color-success: #3dc98a;
-  --p-color-success-foreground: #07140e;
+  /* success = GitHub's green button (Primer "primary"), dark theme values */
+  --p-color-success: #238636;
+  --p-color-success-hover: #29903b;
+  --p-color-success-active: #2e9a40;
+  --p-color-success-border: rgba(255, 255, 255, 0.15);
+  --p-button-success-shadow: 0 1px 1px 0 rgba(1, 4, 9, 0.6), 0 1px 3px 0 rgba(1, 4, 9, 0.6);
+  --p-button-success-shadow-active: 0 0 0 0 transparent;
+  /* dark turns white in the dark theme */
+  --p-color-dark: #ededf2;
+  --p-color-dark-foreground: #14141b;
+  --p-color-dark-hover: color-mix(in oklab, var(--p-color-dark) 90%, #000);
+  --p-color-dark-active: color-mix(in oklab, var(--p-color-dark) 82%, #000);
   --p-color-gray: #2a2a33;
+  --p-color-warning: #f0b34a;
+  --p-color-info: #22d3ee;
+  --p-color-info-foreground: #04161b;
   --p-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
   --p-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.3);
 
-  --p-button-default-bg: oklch(0.922 0 0);
-  --p-button-default-fg: oklch(0.205 0 0);
+  --p-button-default-bg: rgba(255, 255, 255, 0.045);
+  --p-button-default-hover: rgba(255, 255, 255, 0.075);
+  --p-button-default-active: rgba(255, 255, 255, 0.11);
+  --p-button-default-fg: oklch(0.985 0 0);
+  --p-button-default-border: rgba(255, 255, 255, 0.15);
   --p-button-default-ring: oklch(0.556 0 0);
 `;
 
@@ -52,9 +69,26 @@ const css = `
     --p-color-primary: #2488ff;
     --p-color-primary-foreground: #ffffff;
     --p-color-danger: #dc3e42;
-    --p-color-success: #12915a;
+    /* success = GitHub's green button (Primer "primary") */
+    --p-color-success: #1f883d;
+    --p-color-success-hover: #1c8139;
+    --p-color-success-active: #197935;
     --p-color-success-foreground: #ffffff;
+    --p-color-success-border: rgba(31, 35, 40, 0.15);
+    --p-button-success-shadow: 0 1px 1px 0 rgba(31, 35, 40, 0.04), 0 1px 2px 0 rgba(31, 35, 40, 0.03);
+    --p-button-success-shadow-active: inset 0 1px 0 0 rgba(0, 45, 17, 0.3);
+    --p-color-dark: #14141b;
+    --p-color-dark-foreground: #ffffff;
+    --p-color-dark-hover: color-mix(in oklab, var(--p-color-dark) 88%, #fff);
+    --p-color-dark-active: color-mix(in oklab, var(--p-color-dark) 80%, #fff);
     --p-color-gray: #e8e8ed;
+    --p-color-warning: #f5a524;
+    --p-color-warning-foreground: #1f1300;
+    --p-color-info: #0891b2;
+    --p-color-info-foreground: #ffffff;
+    /* "light" stays light in both themes — for dark surfaces. */
+    --p-color-light: #f4f4f6;
+    --p-color-light-foreground: #14141b;
     --p-shadow-xs: 0 1px 2px rgba(20, 20, 27, 0.05);
     --p-shadow-sm: 0 2px 4px rgba(20, 20, 27, 0.08), 0 1px 2px rgba(20, 20, 27, 0.05);
 
@@ -63,15 +97,19 @@ const css = `
     --p-color-primary-soft-hover: color-mix(in oklab, var(--p-color-primary) 20%, var(--p-color-bg));
     --p-color-primary-text: color-mix(in oklab, var(--p-color-primary) 82%, var(--p-color-text));
     --p-color-danger-hover: color-mix(in oklab, var(--p-color-danger) 88%, #000);
-    --p-color-success-hover: color-mix(in oklab, var(--p-color-success) 88%, #000);
     --p-color-gray-hover: color-mix(in oklab, var(--p-color-gray) 94%, var(--p-color-text));
+    --p-color-warning-hover: color-mix(in oklab, var(--p-color-warning) 90%, #000);
+    --p-color-info-hover: color-mix(in oklab, var(--p-color-info) 88%, #000);
+    --p-color-light-hover: color-mix(in oklab, var(--p-color-light) 94%, #14141b);
     --p-color-ring: color-mix(in oklab, var(--p-color-primary) 40%, transparent);
 
-    --p-button-default-bg: oklch(0.205 0 0);
-    --p-button-default-fg: oklch(0.985 0 0);
+    --p-button-default-bg: #ffffff;
+    --p-button-default-hover: oklch(0.97 0 0);
+    --p-button-default-active: oklch(0.94 0 0);
+    --p-button-default-fg: oklch(0.145 0 0);
+    --p-button-default-border: oklch(0.922 0 0);
     --p-button-default-ring: oklch(0.708 0 0);
     --p-button-default-radius: 0.625rem;
-
 
     --p-radius: 0.5rem;
     --p-radius-sm: calc(var(--p-radius) * 0.75);

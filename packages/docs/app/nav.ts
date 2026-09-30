@@ -25,7 +25,10 @@ export const NAV: NavSection[] = [
   },
   {
     title: "Components",
-    items: [{ title: "Button", path: "/components/button" }],
+    items: [
+      { title: "Button", path: "/components/button" },
+      { title: "Button group", path: "/components/button-group" },
+    ],
   },
 ];
 

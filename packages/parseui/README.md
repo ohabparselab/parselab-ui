@@ -39,11 +39,12 @@ The npm package contains no library code — it's a ~1 KB loader for the CDN fil
 
 Works on `<button>`, `<input type="button|submit|reset">`, and `<a view="…">`.
 
-A `<button>` with no attributes gets a neutral default design (dark in light mode, light in dark mode). Add `view` for ParseUI's styles:
+A `<button>` with no attributes is white with a thin border (a subtle dark surface in the dark theme). Add `view` for ParseUI's styles:
 
 | Attribute | Values | Default |
 |---|---|---|
-| `view` | `primary` · `secondary` · `gray` · `soft` · `ghost` · `success` · `danger` · `link` | — (neutral default) |
+| `view` | `primary` · `secondary` · `gray` · `light` · `soft` · `ghost` · `success` · `warning` · `info` · `danger` · `link` | — (white default) |
+| `outline` | boolean — outline version of the view | — |
 | `size` | `xs` · `sm` · `md` · `lg` | `md` |
 | `icon-only` | boolean — square button; add an `aria-label` | — |
 | `full-width` | boolean — stretches to its container | — |
@@ -82,6 +83,17 @@ Your own layout CSS goes in a `<style>` *inside* `<parse-ui>` (it moves into the
   <div class="actions"><button view="primary">Save</button><button view="secondary">Cancel</button></div>
 </parse-ui>
 ```
+
+### Button group
+
+```html
+<div group role="group" aria-label="View">
+  <button view="secondary" aria-pressed="true">List</button>
+  <button view="secondary" aria-pressed="false">Board</button>
+</div>
+```
+
+`group` joins the buttons inside (`group="vertical"` stacks them). `aria-pressed="true"` or `aria-current` marks the selected one.
 
 ### Icons
 

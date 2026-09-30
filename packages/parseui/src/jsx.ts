@@ -5,7 +5,19 @@
  */
 import "react";
 
-export type ParseUIView = "primary" | "secondary" | "gray" | "soft" | "ghost" | "success" | "danger" | "link";
+export type ParseUIView =
+  | "primary"
+  | "secondary"
+  | "gray"
+  | "light"
+  | "dark"
+  | "soft"
+  | "ghost"
+  | "success"
+  | "warning"
+  | "info"
+  | "danger"
+  | "link";
 export type ParseUISize = "xs" | "sm" | "md" | "lg";
 export type ParseUITheme = "light" | "dark" | "auto";
 
@@ -14,6 +26,7 @@ export type ParseUITheme = "light" | "dark" | "auto";
 interface ParseUIButtonAttributes {
   view?: ParseUIView;
   size?: ParseUISize;
+  outline?: "";
   "icon-only"?: "";
   "full-width"?: "";
   loading?: "";
@@ -23,6 +36,8 @@ declare module "react" {
   // <i icon="search" /> — the icon's name (other elements ignore it).
   interface HTMLAttributes<T> {
     icon?: string;
+    /** Joins the buttons inside into a button group. */
+    group?: "" | "vertical";
   }
   interface ButtonHTMLAttributes<T> extends ParseUIButtonAttributes {}
   interface AnchorHTMLAttributes<T> extends ParseUIButtonAttributes {}

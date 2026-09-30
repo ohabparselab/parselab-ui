@@ -1,9 +1,9 @@
 {
   "name": "@parseui/icons",
   "version": "1.0.0",
-  "description": "ParseUI's icon set — 24px grid, 1.8px stroke. React components, raw SVGs, and the name → SVG map ParseUI's <i icon> uses.",
+  "description": "ParseUI's icon set \u2014 1,800+ icons on a 24px grid with a 1.8px stroke, based on Lucide. React components, raw SVGs, and the name \u2192 SVG map ParseUI's <i icon> uses.",
   "type": "module",
-  "license": "MIT",
+  "license": "MIT AND ISC",
   "author": "Parselab",
   "repository": {
     "type": "git",
@@ -12,15 +12,18 @@
   },
   "keywords": [
     "icons",
-    "svg",
+    "lucide",
+    "parseui",
     "react",
-    "parseui"
+    "svg"
   ],
   "publishConfig": {
     "access": "public"
   },
   "files": [
-    "dist"
+    "dist",
+    "LICENSE",
+    "LICENSE-lucide"
   ],
   "sideEffects": false,
   "main": "./dist/index.js",
@@ -32,11 +35,13 @@
       "import": "./dist/index.js"
     },
     "./icons.json": "./dist/icons.json",
+    "./tags.json": "./dist/tags.json",
     "./svg/*": "./dist/svg/*",
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "node scripts/build.mjs"
+    "build": "node scripts/build.mjs",
+    "import:lucide": "node scripts/import-lucide.mjs"
   },
   "peerDependencies": {
     "react": ">=17"

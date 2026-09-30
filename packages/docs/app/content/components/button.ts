@@ -82,7 +82,7 @@ export const buttonDoc: ComponentDoc = {
       title: "Icon only",
       description: "`icon-only` makes the button square. Icon-only buttons need an `aria-label` so screen readers can name them.",
       markup: `<button view="secondary" icon-only aria-label="Edit"><i icon="pen"></i></button>
-<button view="ghost" icon-only aria-label="More actions"><i icon="more-horizontal"></i></button>
+<button view="ghost" icon-only aria-label="More actions"><i icon="ellipsis"></i></button>
 <button view="danger" icon-only aria-label="Delete"><i icon="trash"></i></button>`,
     },
     {

@@ -1006,6 +1006,21 @@ kbd {
     visibility: hidden;
   }
 }
+.icon-more {
+  display: block;
+  margin: 16px auto 0;
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--fg-muted);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.icon-more:hover {
+  color: var(--fg);
+}
 .icon-empty {
   padding: 32px 0;
   color: var(--fg-muted);

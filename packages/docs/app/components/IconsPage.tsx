@@ -1,5 +1,6 @@
-import { useMemo, useState } from "react";
-import { iconNames, toSvg, type IconName } from "@parseui/icons";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { aliases, iconNames, toSvg, type IconName } from "@parseui/icons";
+import iconTags from "@parseui/icons/tags.json";
 import type { Heading } from "~/lib/markdown.server";
 import type { HighlightedCode } from "~/lib/pages.server";
 import { copyText } from "~/lib/copy";
@@ -28,13 +29,39 @@ const HEADINGS: Heading[] = [
 ];
 
 const pascal = (name: string) => name.replace(/(^|-)([a-z0-9])/g, (_, __, c: string) => c.toUpperCase());
+// Same rule as the package build: an export can't start with a digit.
+const exportName = (name: string) => (/^[0-9]/.test(pascal(name)) ? `Icon${pascal(name)}` : pascal(name));
+
+/** Cards rendered per batch; more load as you scroll (the set has 1,800+). */
+const BATCH = 240;
+
+const tags = iconTags as Record<string, string[]>;
+// Old names, grouped by the icon they point to — "alert-circle" finds circle-alert.
+const oldNames = new Map<string, string[]>();
+for (const [alias, target] of Object.entries(aliases)) oldNames.set(target, [...(oldNames.get(target) ?? []), alias]);
+
+/** Icons matching every word, best first: exact name, name prefix, name, old name, then tags. */
+function searchIcons(query: string): IconName[] {
+  const words = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  if (!words.length) return iconNames;
+  const joined = words.join("-");
+  const scored: { name: IconName; score: number }[] = [];
+  iconNames.forEach((name, index) => {
+    const haystack = [name, ...(oldNames.get(name) ?? []), ...(tags[name] ?? [])].join(" ");
+    if (!words.every((word) => haystack.includes(word))) return;
+    const score =
+      name === joined ? 5 : name.startsWith(joined) ? 4 : name.includes(joined) ? 3 : (oldNames.get(name) ?? []).some((a) => a.includes(joined)) ? 2 : 1;
+    scored.push({ name, score: score * 10000 - index });
+  });
+  return scored.sort((a, b) => b.score - a.score).map((entry) => entry.name);
+}
 
 type CopyFormat = "HTML" | "SVG" | "JSX";
 
 function snippet(name: IconName, format: CopyFormat): string {
   if (format === "HTML") return `<i icon="${name}"></i>`;
   if (format === "SVG") return toSvg(name);
-  return `<${pascal(name)} />`;
+  return `<${exportName(name)} />`;
 }
 
 function IconCard({ name }: { name: IconName }) {
@@ -69,10 +96,23 @@ function IconCard({ name }: { name: IconName }) {
 
 function IconGrid() {
   const [query, setQuery] = useState("");
-  const matches = useMemo(() => {
-    const q = query.trim().toLowerCase().replace(/\s+/g, "-");
-    return q ? iconNames.filter((name) => name.includes(q)) : iconNames;
-  }, [query]);
+  const [limit, setLimit] = useState(BATCH);
+  const matches = useMemo(() => searchIcons(query), [query]);
+  const more = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => setLimit(BATCH), [query]);
+
+  // Load the next batch when the "Show more" button scrolls into view.
+  useEffect(() => {
+    const button = more.current;
+    if (!button || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(
+      (entries) => entries.some((entry) => entry.isIntersecting) && setLimit((n) => n + BATCH),
+      { rootMargin: "400px" },
+    );
+    observer.observe(button);
+    return () => observer.disconnect();
+  }, [matches, limit]);
 
   return (
     <>
@@ -84,7 +124,7 @@ function IconGrid() {
           </svg>
           <input
             type="search"
-            placeholder="Search icons"
+            placeholder={`Search ${iconNames.length} icons — try "delete" or "arrow"`}
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             aria-label="Search icons"
@@ -96,12 +136,17 @@ function IconGrid() {
       </div>
       {matches.length ? (
         <ul className="icon-grid">
-          {matches.map((name) => (
+          {matches.slice(0, limit).map((name) => (
             <IconCard key={name} name={name} />
           ))}
         </ul>
       ) : (
         <p className="icon-empty">No icons match “{query.trim()}”.</p>
+      )}
+      {matches.length > limit && (
+        <button ref={more} type="button" className="icon-more" onClick={() => setLimit((n) => n + BATCH)}>
+          Show more icons ({matches.length - limit} left)
+        </button>
       )}
     </>
   );

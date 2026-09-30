@@ -8,7 +8,7 @@ export const ICON_CDN_BASE = `https://cdn.parseui.com/icons/${ICONS_VERSION}/`;
 export const iconsPage = {
   title: "Icons",
   description:
-    "`@parseui/icons` is ParseUI's icon set — a 24px grid and a 1.8px stroke that match the rest of the kit. Use icons by name from the CDN, or import them from npm. Click any icon below to copy it.",
+    "`@parseui/icons` is ParseUI's icon set — 1,800+ icons on a 24px grid with a 1.8px stroke, based on Lucide. Use them by name from the CDN, or import React components from npm, the same way as lucide-react. Hover any icon below to copy it.",
 
   installation: [
     {

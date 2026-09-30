@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { marked, type Token } from "marked";
-import { NAV } from "~/nav";
+import { COMPONENTS_OVERVIEW, COMPONENT_NAV, NAV } from "~/nav";
+import { componentsOverview } from "~/content/components-overview";
 import { COMPONENT_DOCS } from "~/content/components";
 import { iconsPage } from "~/content/icons-page";
 import { iconNames } from "@parseui/icons";
@@ -113,6 +114,16 @@ export async function buildSearchIndex(version: string): Promise<SearchEntry[]> 
           return componentEntries(section.title, item.path.slice("/components/".length), item.path);
         }
         if (item.path === "/icons") return iconEntries(section.title, item.path);
+        if (item.path === COMPONENTS_OVERVIEW) {
+          return [
+            {
+              page: componentsOverview.title,
+              section: section.title,
+              path: item.path,
+              text: `${plain(componentsOverview.description)} ${COMPONENT_NAV.map((c) => c.title).join(" ")}`,
+            },
+          ];
+        }
         return guideEntries(version, section.title, item.title, item.path);
       }),
     ),

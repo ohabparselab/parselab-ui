@@ -831,6 +831,54 @@ kbd {
   font-size: 12px;
 }
 
+/* ---------- Components overview ---------- */
+.component-index {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px 64px;
+  margin: 16px 0 8px;
+  padding: 0;
+  list-style: none;
+}
+.component-index a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--fg);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  text-decoration: none;
+  text-underline-offset: 4px;
+}
+.component-index a:hover {
+  text-decoration: underline;
+}
+.component-index-note {
+  margin-top: 32px;
+  color: var(--fg-muted);
+}
+
+/* "New" etc. next to a nav title (sidebar and overview). */
+.nav-badge {
+  display: inline-flex;
+  align-items: center;
+  height: 18px;
+  margin-left: 6px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--accent-bg);
+  color: var(--accent);
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  vertical-align: 1px;
+}
+.component-index .nav-badge {
+  margin-left: 0;
+}
+
 /* ---------- Icons page ---------- */
 .icon-toolbar {
   display: flex;
@@ -993,6 +1041,10 @@ kbd {
   }
   .search-overlay {
     padding-top: 64px;
+  }
+  .component-index {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 24px;
   }
   .sidebar {
     position: fixed;

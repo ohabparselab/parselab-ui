@@ -2,7 +2,12 @@ export interface NavItem {
   title: string;
   /** Path within a version prefix, e.g. "/introduction". Joined as `${versionPrefix}${path}`. */
   path: string;
+  /** Small label next to the title, e.g. "New" (sidebar and the components overview). */
+  badge?: string;
 }
+
+/** The components overview page (lists every component). */
+export const COMPONENTS_OVERVIEW = "/components";
 
 export interface NavSection {
   title: string;
@@ -26,8 +31,9 @@ export const NAV: NavSection[] = [
   {
     title: "Components",
     items: [
+      { title: "Overview", path: COMPONENTS_OVERVIEW },
       { title: "Button", path: "/components/button" },
-      { title: "Button group", path: "/components/button-group" },
+      { title: "Button group", path: "/components/button-group", badge: "New" },
     ],
   },
 ];
@@ -43,3 +49,6 @@ export const GUIDE_SLUGS: string[] = NAV[0].items.map((item) => item.path.slice(
 export function sectionOf(path: string): string | undefined {
   return FLAT_NAV.find((item) => item.path === path)?.section;
 }
+
+/** Every component page (the Components section minus its overview), in nav order. */
+export const COMPONENT_NAV: NavItem[] = FLAT_NAV.filter((item) => item.path.startsWith(`${COMPONENTS_OVERVIEW}/`));

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { json } from "@remix-run/node";
 import { Link, NavLink, Outlet, useLoaderData, useLocation, useParams } from "@remix-run/react";
-import { NAV } from "~/nav";
+import { COMPONENTS_OVERVIEW, COMPONENT_NAV, NAV } from "~/nav";
 import { listVersions } from "~/lib/versions.server";
 import { VersionSwitcher } from "~/components/VersionSwitcher";
 import { ThemeToggle } from "~/components/ThemeToggle";
@@ -31,7 +31,7 @@ export default function DocsLayout() {
   // Browsing latest (no :version in the URL) keeps links unversioned too;
   // an explicit version in the URL carries through every nav link.
   const versionPrefix = version ? `/docs/${version}` : "/docs";
-  const inComponents = pathname.includes("/components/");
+  const inComponents = /\/components(\/|$)/.test(pathname);
   const [navOpen, setNavOpen] = useState(false);
 
   return (
@@ -58,7 +58,7 @@ export default function DocsLayout() {
             <Link to={`${versionPrefix}/introduction`} className={inComponents ? undefined : "active"}>
               Docs
             </Link>
-            <Link to={`${versionPrefix}/components/button`} className={inComponents ? "active" : undefined}>
+            <Link to={`${versionPrefix}${COMPONENTS_OVERVIEW}`} className={inComponents ? "active" : undefined}>
               Components
             </Link>
           </nav>
@@ -85,7 +85,7 @@ export default function DocsLayout() {
             <div className="sidebar-section" key={section.title}>
               <span className="sidebar-heading">
                 {section.title}
-                {section.title === "Components" && <span className="count">{section.items.length}</span>}
+                {section.title === "Components" && <span className="count">{COMPONENT_NAV.length}</span>}
               </span>
               {section.items.map((item) => (
                 <NavLink
@@ -96,6 +96,7 @@ export default function DocsLayout() {
                   className={({ isActive }) => (isActive ? "active" : undefined)}
                 >
                   {item.title}
+                  {item.badge && <span className="nav-badge">{item.badge}</span>}
                 </NavLink>
               ))}
             </div>

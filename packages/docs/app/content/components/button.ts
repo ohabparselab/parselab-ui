@@ -12,6 +12,7 @@ export const buttonDoc: ComponentDoc = {
 <button view="secondary">Secondary</button>
 <button view="gray">Gray</button>
 <button view="light">Light</button>
+<button view="dark">Dark</button>
 <button view="soft">Soft</button>
 <button view="ghost">Ghost</button>
 <button view="success">Success</button>
@@ -40,11 +41,12 @@ export const buttonDoc: ComponentDoc = {
       id: "views",
       title: "Views",
       description:
-        "Use `primary` for the main action on a screen, `secondary` for everything else. Keep one primary button per view. `light` stays light in both themes — use it on dark or colored surfaces.",
+        "Use `primary` for the main action on a screen, `secondary` for everything else. Keep one primary button per view. `light` stays light in both themes — use it on dark or colored surfaces; `dark` is near-black, and turns white in the dark theme.",
       markup: `<button view="primary">Primary</button>
 <button view="secondary">Secondary</button>
 <button view="gray">Gray</button>
 <button view="light">Light</button>
+<button view="dark">Dark</button>
 <button view="soft">Soft</button>
 <button view="ghost">Ghost</button>
 <button view="success">Success</button>
@@ -61,6 +63,7 @@ export const buttonDoc: ComponentDoc = {
       markup: `<button view="primary" outline>Primary</button>
 <button view="secondary" outline>Secondary</button>
 <button view="gray" outline>Gray</button>
+<button view="dark" outline>Dark</button>
 <button view="success" outline>Success</button>
 <button view="warning" outline>Warning</button>
 <button view="info" outline>Info</button>
@@ -70,7 +73,7 @@ export const buttonDoc: ComponentDoc = {
       id: "status",
       title: "Status colors",
       description:
-        "`success` confirms a positive action, `warning` asks for care, `info` points to something neutral, and `danger` marks a destructive action. Pair them with a neutral button so the risky or final action is never the only choice.",
+        "`success` (styled after GitHub's green button) confirms a positive action, `warning` asks for care, `info` points to something neutral, and `danger` marks a destructive action. Pair them with a neutral button so the risky or final action is never the only choice.",
       markup: `<button>Cancel</button>
 <button view="success">Approve order</button>
 <button view="warning">Review changes</button>
@@ -155,7 +158,7 @@ export const buttonDoc: ComponentDoc = {
       rows: [
         [
           "view",
-          '"primary" | "secondary" | "gray" | "light" | "soft" | "ghost" | "success" | "warning" | "info" | "danger" | "link"',
+          '"primary" | "secondary" | "gray" | "light" | "dark" | "soft" | "ghost" | "success" | "warning" | "info" | "danger" | "link"',
           "—",
           "Visual style. Without it, the button is white with a thin border.",
         ],
@@ -177,7 +180,9 @@ export const buttonDoc: ComponentDoc = {
         ["--p-color-primary-foreground", "#ffffff", "Primary label."],
         ["--p-color-gray", "#e8e8ed", "Gray background."],
         ["--p-color-light", "#f4f4f6", "Light background (same in both themes)."],
-        ["--p-color-success", "#12915a", "Success background."],
+        ["--p-color-dark", "#14141b", "Dark background (#ededf2 in the dark theme)."],
+        ["--p-color-success", "#1f883d", "Success background (GitHub green; #238636 in the dark theme)."],
+        ["--p-color-success-border", "rgba(31, 35, 40, 0.15)", "Success border."],
         ["--p-color-warning", "#f5a524", "Warning background."],
         ["--p-color-info", "#0891b2", "Info background."],
         ["--p-color-danger", "#dc3e42", "Danger background."],

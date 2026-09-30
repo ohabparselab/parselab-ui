@@ -43,7 +43,7 @@ A `<button>` with no attributes is white with a thin border (a subtle dark surfa
 
 | Attribute | Values | Default |
 |---|---|---|
-| `view` | `primary` · `secondary` · `gray` · `light` · `soft` · `ghost` · `success` · `warning` · `info` · `danger` · `link` | — (white default) |
+| `view` | `primary` · `secondary` · `gray` · `light` · `dark` · `soft` · `ghost` · `success` · `warning` · `info` · `danger` · `link` | — (white default) |
 | `outline` | boolean — outline version of the view | — |
 | `size` | `xs` · `sm` · `md` · `lg` | `md` |
 | `icon-only` | boolean — square button; add an `aria-label` | — |

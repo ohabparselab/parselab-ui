@@ -1,0 +1,54 @@
+{
+  "name": "parseui",
+  "version": "1.0.0",
+  "description": "Drop-in UI kit: wrap any HTML in <parse-ui> and every tag inside renders in a shadow root with ParseUI's default design. One script tag or one npm install.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Parselab",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/parselab/parselab-ui.git",
+    "directory": "packages/parseui"
+  },
+  "keywords": [
+    "web-components",
+    "shadow-dom",
+    "custom-elements",
+    "ui-kit",
+    "design-system",
+    "cdn"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": true,
+  "main": "./dist/parseui.js",
+  "module": "./dist/parseui.js",
+  "types": "./dist/types/index.d.ts",
+  "unpkg": "./dist/parseui.min.js",
+  "jsdelivr": "./dist/parseui.min.js",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/parseui.js"
+    },
+    "./parseui.min.js": "./dist/parseui.min.js",
+    "./jsx": {
+      "types": "./dist/types/jsx.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "vite build && tsc -p tsconfig.build.json",
+    "dev": "vite build --watch",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "typescript": "^5.9.3",
+    "vite": "^6.3.6"
+  }
+}

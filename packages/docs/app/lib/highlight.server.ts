@@ -8,12 +8,18 @@ import { codeToHtml } from "shiki";
  * documented pattern for switching themes via `prefers-color-scheme`
  * without a client-side toggle, matching how the rest of this site themes.
  */
-export async function highlightCode(code: string, lang: string): Promise<string> {
-  const html = await codeToHtml(code, {
+/** Just the Shiki `<pre>` — for code UI built in React (tabs, own copy button). */
+export async function highlightRaw(code: string, lang: string): Promise<string> {
+  return codeToHtml(code, {
     lang: isSupportedLang(lang) ? lang : "text",
     themes: { light: "light-plus", dark: "dark-plus" },
     defaultColor: false,
   });
+}
+
+/** A full Markdown code block: Shiki `<pre>` plus a header with the language and a copy button. */
+export async function highlightCode(code: string, lang: string): Promise<string> {
+  const html = await highlightRaw(code, lang);
 
   const encodedCode = Buffer.from(code, "utf-8").toString("base64");
 

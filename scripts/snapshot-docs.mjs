@@ -6,7 +6,7 @@
  * unchanged as `docs/` moves on for the next release.
  *
  * Usage:
- *   node scripts/snapshot-docs.mjs            # uses packages/ui/package.json's version
+ *   node scripts/snapshot-docs.mjs            # uses packages/parseui/package.json's version
  *   node scripts/snapshot-docs.mjs 0.2.0       # explicit version
  *   node scripts/snapshot-docs.mjs --force     # overwrite an existing snapshot
  */
@@ -24,7 +24,7 @@ const positional = args.find((a) => !a.startsWith("--"));
 
 async function resolveVersion() {
   if (positional) return positional;
-  const pkg = JSON.parse(await readFile(path.join(repoRoot, "packages/ui/package.json"), "utf-8"));
+  const pkg = JSON.parse(await readFile(path.join(repoRoot, "packages/parseui/package.json"), "utf-8"));
   return pkg.version;
 }
 

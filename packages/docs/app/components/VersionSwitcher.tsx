@@ -1,6 +1,7 @@
 import type { ChangeEvent } from "react";
 import { useLocation, useNavigate, useParams } from "@remix-run/react";
 import { NEXT_VERSION } from "~/lib/version-constants";
+import { PARSEUI_VERSION } from "~/content/code";
 
 export function VersionSwitcher({ versions }: { versions: string[] }) {
   const { version } = useParams();
@@ -24,7 +25,7 @@ export function VersionSwitcher({ versions }: { versions: string[] }) {
 
   return (
     <select className="version-switcher" value={current} onChange={onChange} aria-label="Docs version">
-      <option value={NEXT_VERSION}>Next (unreleased)</option>
+      <option value={NEXT_VERSION}>v{PARSEUI_VERSION} (next)</option>
       {versions.map((v) => (
         <option key={v} value={v}>
           v{v}

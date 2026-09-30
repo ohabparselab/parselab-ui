@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ParseUI — examples</title>
+    <!-- Same as the CDN usage: https://cdn.parseui.com/1.0.0/parseui.min.js -->
+    <script src="../dist/parseui.min.js"></script>
+    <style>
+      /* Hostile page CSS: none of this should reach inside <parse-ui>. */
+      button { background: red !important; color: yellow !important; font-size: 30px !important; }
+      h1, p { color: magenta !important; font-family: "Comic Sans MS", cursive !important; }
+
+      body { margin: 0; padding: 24px; background: #f1f1f1; font-family: system-ui, sans-serif; }
+      .dark-page { background: #111; padding: 16px; border-radius: 12px; }
+      section { margin-bottom: 32px; }
+    </style>
+  </head>
+  <body>
+    <h1>Outside &lt;parse-ui&gt; — page CSS applies here</h1>
+    <button>Outside button (red)</button>
+
+    <section>
+      <parse-ui id="main">
+        <!-- Page CSS can't reach inside, so your own layout CSS goes in a
+             <style> inside <parse-ui> — it moves into the shadow root too. -->
+        <style>
+          .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }
+        </style>
+        <h1>ParseUI <span class="late-marker">(late-registered style target)</span></h1>
+        <p>Everything in here renders inside a shadow root, with ParseUI's default design.</p>
+
+        <h2>Views</h2>
+        <div class="row">
+          <button view="primary">Primary</button>
+          <button>Secondary (default)</button>
+          <button view="tertiary">Tertiary</button>
+          <button view="plain">Plain</button>
+          <a view="primary" href="#">Link as button</a>
+        </div>
+
+        <h2>Tones</h2>
+        <div class="row">
+          <button view="primary" tone="critical">Delete</button>
+          <button tone="critical">Delete (secondary)</button>
+          <button view="tertiary" tone="critical">Delete (tertiary)</button>
+          <button view="plain" tone="critical">Delete (plain)</button>
+        </div>
+
+        <h2>States</h2>
+        <div class="row">
+          <button id="loading-btn" view="primary" loading onclick="window.loadingClicks = (window.loadingClicks || 0) + 1">Saving…</button>
+          <button loading>Loading</button>
+          <button view="primary" disabled>Disabled</button>
+          <button disabled>Disabled</button>
+          <button id="click-btn" onclick="window.clicks = (window.clicks || 0) + 1">Native onclick</button>
+        </div>
+
+        <h2>Base tags</h2>
+        <h3>Heading 3</h3>
+        <h4>Heading 4</h4>
+        <p>Paragraph with <a href="#">a link</a>, <strong>bold</strong>, <code>inline code</code> and <small>small text</small>.</p>
+        <ul><li>List item one</li><li>List item two</li></ul>
+        <blockquote>A blockquote.</blockquote>
+        <pre><code>const x = 1;</code></pre>
+        <table>
+          <thead><tr><th>Name</th><th>Status</th></tr></thead>
+          <tbody><tr><td>Order #1001</td><td>Paid</td></tr><tr><td>Order #1002</td><td>Pending</td></tr></tbody>
+        </table>
+        <fieldset>
+          <legend>Form</legend>
+          <label for="name">Name</label>
+          <input id="name" placeholder="Jane Doe" />
+          <br />
+          <label for="plan">Plan</label>
+          <select id="plan"><option>Basic</option><option>Pro</option></select>
+          <br />
+          <label for="notes">Notes</label>
+          <textarea id="notes" placeholder="Anything else?"></textarea>
+          <br />
+          <label><input type="checkbox" checked /> Subscribe</label>
+          <label><input type="radio" name="r" checked /> Monthly</label>
+          <label><input type="radio" name="r" /> Yearly</label>
+          <br />
+          <input value="Disabled input" disabled />
+        </fieldset>
+      </parse-ui>
+    </section>
+
+    <section class="dark-page">
+      <parse-ui theme="dark">
+        <style>
+          .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }
+        </style>
+        <h2>theme="dark"</h2>
+        <div class="row">
+          <button view="primary">Primary</button>
+          <button>Secondary</button>
+          <button view="tertiary">Tertiary</button>
+          <button view="plain">Plain</button>
+          <button view="primary" tone="critical">Delete</button>
+          <button tone="critical">Delete</button>
+          <button loading>Loading</button>
+          <button disabled>Disabled</button>
+        </div>
+        <input placeholder="Dark input" />
+      </parse-ui>
+    </section>
+
+    <section>
+      <!-- The user's original tag name — converted to <parse-ui> automatically. -->
+      <parseui id="legacy">
+        <button view="primary">From a &lt;parseui&gt; tag</button>
+      </parseui>
+    </section>
+
+    <section>
+      <parse-ui id="dynamic">
+        <p>Dynamic content:</p>
+      </parse-ui>
+    </section>
+
+    <script>
+      // Added after load via the host element — should still land in the shadow root.
+      const dynamic = document.getElementById("dynamic");
+      const added = document.createElement("button");
+      added.setAttribute("view", "primary");
+      added.textContent = "Appended with JS";
+      dynamic.appendChild(added);
+
+      // A component registered after <parse-ui> elements already exist (how a
+      // separate add-on/pro package would plug in) applies to them live.
+      ParseUI.registerComponent({
+        name: "example-late",
+        css: ".late-marker { outline: 2px dashed rgb(0, 128, 0); font-size: 0.75rem; }",
+      });
+    </script>
+  </body>
+</html>

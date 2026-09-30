@@ -18,14 +18,13 @@ jobs:
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org
-          scope: "@parselabllc"
 
       - run: npm ci
 
-      - run: npm run typecheck --workspace=@parselabllc/ui
+      - run: npm run build --workspace=parseui
 
-      - run: npm run build --workspace=@parselabllc/ui
+      - run: npm run typecheck --workspace=parseui
 
-      - run: npm publish --access public --workspace=@parselabllc/ui
+      - run: npm publish --access public --workspace=parseui
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

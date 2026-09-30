@@ -1,15 +1,9 @@
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
 
 import styles from "./styles/docs.css?url";
-// The published package's default token sheet — without this, every
-// `<p-button>` falls back to the hardcoded light-mode defaults baked into
-// its own styles (its shadow DOM never sees `--p-*` overrides that were
-// never actually defined anywhere in the page).
-import tokens from "@parselabllc/ui/tokens.css?url";
 
 export const links = () => [
   { rel: "icon", href: "/favicon.ico", sizes: "any" },
-  { rel: "stylesheet", href: tokens },
   { rel: "stylesheet", href: styles },
 ];
 
@@ -22,7 +16,6 @@ export default function App() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>@parselabllc/ui docs</title>
         {/* Runs before paint, before hydration: applies a stored theme
             override immediately so there's no flash of the wrong theme.
             React doesn't manage `data-theme` (it's not in this element's

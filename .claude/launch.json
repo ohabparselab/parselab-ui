@@ -6,6 +6,18 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev", "--workspace=@parselabllc/docs"],
       "port": 4326
+    },
+    {
+      "name": "parseui-examples",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4330", "--directory", "packages/parseui"],
+      "port": 4330
+    },
+    {
+      "name": "parseui-react-example",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["vite", "--config", "packages/parseui/examples/react/vite.config.ts"],
+      "port": 4331
     }
   ]
 }

@@ -1,0 +1,112 @@
+# parseui
+
+Wrap any HTML in `<parse-ui>` and every tag inside renders in a **shadow root** with ParseUI's default design (Shopify Polaris-style). Page CSS can't leak in, so it looks the same on any site.
+
+## Install
+
+**CDN** — one script tag in `<head>`:
+
+```html
+<script src="https://cdn.parseui.com/1.0.0/parseui.min.js"></script>
+```
+
+**npm**:
+
+```bash
+npm install parseui
+```
+
+```js
+import "parseui"; // registers <parse-ui>; safe to import during SSR (no-op on the server)
+```
+
+## Usage
+
+```html
+<parse-ui>
+  <h2>Checkout</h2>
+  <p>Plain tags get ParseUI's design automatically.</p>
+  <button view="primary">Pay now</button>
+  <button>Cancel</button>
+</parse-ui>
+```
+
+`<parseui>` (no hyphen) also works in plain HTML — it's converted to `<parse-ui>` automatically. Custom element names must contain a hyphen, so inside React/Vue write `<parse-ui>`.
+
+### Button
+
+Works on `<button>`, `<input type="button|submit|reset">`, and `<a view="…">`.
+
+| Attribute | Values | Default |
+|---|---|---|
+| `view` | `primary` · `secondary` · `tertiary` · `plain` | `secondary` |
+| `tone` | `critical` · `neutral` | — |
+| `disabled` | boolean | — |
+| `loading` | boolean — spinner, label hidden (width unchanged), clicks blocked, `aria-busy="true"` | — |
+
+```html
+<button view="primary" tone="critical">Delete</button>
+<button view="tertiary">More</button>
+<button loading>Saving…</button>
+<a view="primary" href="/orders">View orders</a>
+```
+
+### Theme
+
+Light by default. `<parse-ui theme="dark">` forces dark; `theme="auto"` follows the OS setting.
+
+### Customizing
+
+Override design tokens on the element — page rules beat ParseUI's defaults:
+
+```css
+parse-ui {
+  --p-color-primary: #16a34a;
+  --p-radius-md: 4px;
+}
+```
+
+Your own layout CSS goes in a `<style>` *inside* `<parse-ui>` (it moves into the shadow root with everything else):
+
+```html
+<parse-ui>
+  <style>.actions { display: flex; gap: 8px; }</style>
+  <div class="actions"><button view="primary">Save</button><button>Cancel</button></div>
+</parse-ui>
+```
+
+### TypeScript / React
+
+```ts
+import type {} from "parseui/jsx"; // types <parse-ui> and view/tone/loading on <button>/<a>
+```
+
+In React, pass `loading=""` (React warns on `loading={true}` for this attribute).
+
+## Adding a component
+
+Every component — including Button — is one `ComponentDefinition`: CSS plus an optional `setup` hook, registered once. See `src/components/button/` for the reference.
+
+```js
+ParseUI.registerComponent({            // CDN build: window.ParseUI
+  name: "badge",
+  css: `.badge { padding: 2px 8px; border-radius: 999px; background: var(--p-color-surface-secondary); }`,
+  setup(shadowRoot) {                   // optional, runs once per <parse-ui>
+  },
+});
+```
+
+```js
+import { registerComponent } from "parseui"; // npm build
+```
+
+Components registered later (e.g. from a separate add-on script) apply to `<parse-ui>` elements already on the page.
+
+## Caveats
+
+Everything inside `<parse-ui>` lives in its shadow root, so:
+
+- `document.querySelector()` / `getElementById()` can't see inside — use `document.querySelector("parse-ui").shadowRoot.querySelector(…)`.
+- A `<form>` outside `<parse-ui>` won't submit inputs inside it — put the whole form inside. `<label for>` can't point across the boundary either.
+- **React `onClick` on elements inside `<parse-ui>` doesn't fire** (React listens outside the shadow root). Native `onclick="…"` and `addEventListener` do work. React content inside *renders and updates* correctly — only its event handlers are affected. An event API is planned.
+- Page CSS doesn't reach inside (by design) — use tokens or an inner `<style>`.
